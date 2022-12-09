@@ -53,7 +53,7 @@ export default function Index() {
       <h1 className="mt-16 font-semibold">Where are you collecting logs from?</h1>
       <div className="flex flex-wrap flex-row [&>button]:mt-8 [&>button]:mr-9">
         {sources.map(ele => (
-          <SourceButton {...ele} />
+          <SourceButton {...ele} key={ele.title} />
         ))}
       </div>
     </Root>

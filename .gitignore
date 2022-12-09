@@ -43,5 +43,3 @@ pnpm-lock.yaml
 .env
 
 target
-
-Cargo.lock

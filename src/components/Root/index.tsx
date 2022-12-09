@@ -20,7 +20,7 @@ export default function Root({ children, className, showBack }: IRoot) {
 
 
             <div className={clsx(
-                "w-screen h-screen tracking-tighter overflow-auto pl-20 pr-6 py-4 pt-[calc(30px+16px)] text-gray-200 bg-primary-color",
+                "w-screen h-screen tracking-tighter overflow-auto pl-20 pr-6 py-4 pt-[calc(30px+16px)] text-gray-200 bg-true-gray-900",
                 className
             )}>
                 {showBack && (
@@ -37,6 +37,21 @@ export default function Root({ children, className, showBack }: IRoot) {
                 {children}
             </div>
         </>
+    )
+}
 
+export function HeadlessRoot({ children, className }: Omit<IRoot, "showBack">) {
+    return (
+        <>
+            <div data-tauri-drag-region className={"titlebar"} style={{ height: 30 }} />
+
+
+            <div className={clsx(
+                "w-screen h-screen tracking-tighter overflow-auto pt-[30px] text-gray-200 bg-[#171717]",
+                className
+            )}>
+                {children}
+            </div>
+        </>
     )
 }

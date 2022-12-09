@@ -13,8 +13,8 @@ export default function SourceButton({ title, icon, isDetected, imgWidthClassNam
     return (
         <button
             className={clsx(
-                "h-[125px] px-4 py-5 w-[240px] ring-1 ring-primary-dark-color rounded-md",
-                "transition-all bg-primary-color hover:bg-primary-dark-color cursor-pointer hover:ring-4 hover:ring-indigo-600",
+                "h-[125px] px-4 py-5 w-[240px] ring-1 ring-true-gray-800 rounded-md",
+                "transition-all bg-true-gray-900 hover:bg-true-gray-800 cursor-pointer hover:ring-4 hover:ring-indigo-600",
                 "outline-none text-left flex flex-col justify-between relative"
             )}
             onClick={onClick}

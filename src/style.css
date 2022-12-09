@@ -45,5 +45,5 @@
   left: 0;
   right: 0;
   z-index: 100;
-  @apply bg-primary-color;
+  @apply bg-true-gray-900;
 }
