@@ -3,10 +3,13 @@ import QuickList from '../components/QuickList';
 import useDeviceSize from '../hooks/useDeviceSize';
 import SearchBar from '../components/SearchBar';
 import * as listElements from '../components/CategoryListButton';
+import { useContext } from 'react';
+import { UiContext } from '../context/UiContext';
+import Image from 'next/image';
 
 export default function Analyze() {
   const { height } = useDeviceSize();
-
+  const { selectedCategoryId } = useContext(UiContext);
   return (
     <HeadlessRoot>
       <div className='flex h-full w-full'>
@@ -23,18 +26,18 @@ export default function Analyze() {
               rowRenderer={listElements.CategoryListButton}
             />
           </div>
-          <div className='flex basis-9/12'></div>
+          <div className='flex basis-9/12'>
+            {!selectedCategoryId && (
+              <div className='flex-center flex-col text-center w-full pointer-events-none select-none'>
+                <div className='max-w-[200px] brightness-[0.25]'>
+                  <Image src={require('../assets/ring.png')} />
+                </div>
+                <span className="text-g-primary-600 font-semibold text-sm mt-6">Select a request log group on the left to begin</span>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-      {/* <ListWrapper
-        hasNextPage={false}
-        height={400}
-        isNextPageLoading={false}
-        itemSize={200}
-        loadNextPage={() => {}}
-        width="100%"
-        items={data}
-      /> */}
     </HeadlessRoot>
   );
 }

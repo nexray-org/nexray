@@ -21,7 +21,7 @@ export default function QuickList({
       <div
         style={style}
         {...props}
-        className={clsx(props.className, "rounded-md bg-g-primary-600")}
+        className={clsx(props.className, "rounded-md bg-g-primary-600 active:bg-g-primary-500")}
       />
     );
   }
