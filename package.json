@@ -8,8 +8,8 @@
     "tauri": "tauri"
   },
   "dependencies": {
+    "@geist-ui/core": "^2.3.8",
     "@headlessui/react": "^1.7.4",
-    "@primer/react": "^35.15.1",
     "@tauri-apps/api": "^1.2.0",
     "clsx": "^1.2.1",
     "dayjs": "^1.11.7",

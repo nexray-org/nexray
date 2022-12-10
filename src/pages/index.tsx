@@ -48,9 +48,8 @@ export default function Index() {
 
   return (
     <Root>
-      <h1 className="text-4xl font-semibold">Welcome to Tauri!</h1>
-      <h1 className="mt-1">Let's get started</h1>
-      <h1 className="mt-16 font-semibold">Where are you collecting logs from?</h1>
+      <h1 className="text-4xl font-semibold">Welcome to Tauri</h1>
+      <h1 className="text-[1rem] mt-16 font-semibold">Where are you collecting logs from?</h1>
       <div className="flex flex-wrap flex-row [&>button]:mt-8 [&>button]:mr-9">
         {sources.map(ele => (
           <SourceButton {...ele} key={ele.title} />

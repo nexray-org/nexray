@@ -20,6 +20,12 @@
   -webkit-text-size-adjust: 100%;
 }
 
+::selection {
+  background-color: var(--geist-selection);
+  color: var(--geist-foreground);
+  @apply text-g-primary-50 bg-g-highlight-50;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -38,12 +44,11 @@
 }
 
 .titlebar {
-  height: 30px;
   user-select: none;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 100;
-  @apply bg-true-gray-900;
+  @apply bg-g-primary-800;
 }

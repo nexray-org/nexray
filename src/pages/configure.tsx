@@ -1,6 +1,6 @@
 import Root from '../components/Root';
 import { BsArrowRight } from 'react-icons/bs';
-import { Button } from "@primer/react";
+import { Button } from "@geist-ui/core";
 import FlexibleLink from '../components/FlexibleLink';
 
 export default function Configure() {
@@ -10,7 +10,7 @@ export default function Configure() {
       <h1 className="mt-1">Let's get started</h1>
       <FlexibleLink href="/analyze">
         <Button
-          trailingIcon={() => <BsArrowRight size={18} className="mt-[1px]" />}
+          icon={<BsArrowRight size={18} className="mt-[1px]" />}
           className="!mt-8"
         >
           Continue

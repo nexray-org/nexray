@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import Image from 'next/image';
+import { Dot } from '@geist-ui/core';
 
 export interface ISourceButton {
     icon: string;
@@ -13,8 +14,8 @@ export default function SourceButton({ title, icon, isDetected, imgWidthClassNam
     return (
         <button
             className={clsx(
-                "h-[125px] px-4 py-5 w-[240px] ring-1 ring-true-gray-800 rounded-md",
-                "transition-all bg-true-gray-900 hover:bg-true-gray-800 cursor-pointer hover:ring-4 hover:ring-indigo-600",
+                "h-[128px] px-4 py-5 w-[240px] ring-1 ring-g-primary-700 rounded-md",
+                "transition-all bg-g-primary-900 hover:bg-g-primary-800 cursor-pointer hover:ring-4 hover:ring-indigo-600",
                 "outline-none text-left flex flex-col justify-between relative"
             )}
             onClick={onClick}
@@ -28,7 +29,7 @@ export default function SourceButton({ title, icon, isDetected, imgWidthClassNam
             </div>
             <span
                 className={clsx(
-                    "text-xs tracking-tight leading-snug",
+                    "text-xs tracking-tight font-semibold leading-snug",
                     isDetected ?
                         "text-green-400"
                         :
