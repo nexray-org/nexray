@@ -63,7 +63,7 @@
         "resizable": true,
         "title": "basis",
         "hiddenTitle": true,
-        "width": 1000,
+        "width": 1020,
         "titleBarStyle": "Overlay"
       }
     ]

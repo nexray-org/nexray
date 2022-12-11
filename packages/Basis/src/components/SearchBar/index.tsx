@@ -11,7 +11,7 @@ const EndAdornment = ({ children }: { children: React.ReactNode }) => (
             </div>
         </div>
 
-        <BsFillCaretDownFill />
+        <BsFillCaretDownFill className='text-g-primary-300' />
     </div>
 );
 

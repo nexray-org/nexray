@@ -21,7 +21,7 @@ class MyDocument extends Document {
         return (
             <Html>
                 <Head />
-                <body className='box-border'>
+                <body className='box-border bg-g-primary-900'>
                     <Main />
                     <NextScript />
                 </body>
