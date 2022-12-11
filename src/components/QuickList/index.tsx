@@ -8,6 +8,16 @@ interface IQuickList extends Omit<FixedSizeListProps, 'children' | "width"> {
   height: number;
 }
 
+export const thumbRenderer = ({ style, ...props }: any) => {
+  return (
+    <div
+      style={style}
+      {...props}
+      className={clsx(props.className, "rounded-md bg-g-primary-600 active:bg-g-primary-500")}
+    />
+  );
+}
+
 export default function QuickList({
   rowRenderer,
   height,
@@ -15,25 +25,14 @@ export default function QuickList({
 }: IQuickList) {
   const listRef = useRef<FixedSizeList>(null);
 
-  const renderThumb = ({ style, ...props }: any) => {
-
-    return (
-      <div
-        style={style}
-        {...props}
-        className={clsx(props.className, "rounded-md bg-g-primary-600 active:bg-g-primary-500")}
-      />
-    );
-  }
-
   return (
     <Scrollbars
       style={{ height, width: "100%" }}
       onScrollFrame={({ scrollTop }) => {
         listRef.current?.scrollTo(scrollTop);
       }}
-      renderThumbVertical={renderThumb}
-      renderThumbHorizontal={renderThumb}
+      renderThumbVertical={thumbRenderer}
+      renderThumbHorizontal={thumbRenderer}
     >
       <FixedSizeList
         {...props}

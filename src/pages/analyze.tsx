@@ -6,6 +6,7 @@ import * as listElements from '../components/CategoryListButton';
 import { useContext } from 'react';
 import { UiContext } from '../context/UiContext';
 import Image from 'next/image';
+import MainContent from '../components/MainContext';
 
 export default function Analyze() {
   const { height } = useDeviceSize();
@@ -27,13 +28,15 @@ export default function Analyze() {
             />
           </div>
           <div className='flex basis-9/12'>
-            {!selectedCategoryId && (
+            {!selectedCategoryId ? (
               <div className='flex-center flex-col text-center w-full pointer-events-none select-none'>
                 <div className='max-w-[200px] brightness-[0.25]'>
                   <Image src={require('../assets/ring.png')} />
                 </div>
                 <span className="text-g-primary-600 font-semibold text-sm mt-6">Select a request log group on the left to begin</span>
               </div>
+            ) : (
+              <MainContent />
             )}
           </div>
         </div>
