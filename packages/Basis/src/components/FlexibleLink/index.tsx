@@ -1,5 +1,5 @@
-import Link, { LinkProps } from "next/link"
-import React from "react"
+import Link, { LinkProps } from 'next/link';
+import React from 'react';
 
 interface IFlexibleLink extends LinkProps {
     children: React.ReactElement | React.ReactElement[];
@@ -8,10 +8,6 @@ interface IFlexibleLink extends LinkProps {
 
 export default function FlexibleLink({ children, disabled, ...props }: IFlexibleLink) {
     const SafeLink = disabled ? 'div' : Link;
-    
-    return (
-        <SafeLink {...props}>
-            {children}
-        </SafeLink>
-    )
+
+    return <SafeLink {...props}>{children}</SafeLink>;
 }

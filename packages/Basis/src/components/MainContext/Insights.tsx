@@ -1,7 +1,3 @@
 export default function Insights() {
-    return (
-        <div>
-            
-        </div>
-    )
+    return <div></div>;
 }

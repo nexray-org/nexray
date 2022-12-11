@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 // Hook
 // T is a generic type for value parameter, our case this will be string
@@ -18,7 +18,7 @@ export default function useDebounce<T>(value: T, delay: number): T {
                 clearTimeout(handler);
             };
         },
-        [value, delay] // Only re-call effect if value or delay changes
+        [value, delay], // Only re-call effect if value or delay changes
     );
     return debouncedValue;
 }

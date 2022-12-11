@@ -1,8 +1,8 @@
-import clsx from "clsx";
-import dayjs from "dayjs";
-import { useContext } from "react";
-import { FixedSizeListProps } from "react-window"
-import { UiContext } from "../../context/UiContext";
+import clsx from 'clsx';
+import dayjs from 'dayjs';
+import { useContext } from 'react';
+import { FixedSizeListProps } from 'react-window';
+import { UiContext } from '../../context/UiContext';
 import numbro from 'numbro';
 
 export const itemSize = 140;
@@ -16,25 +16,27 @@ export const CategoryListButton: FixedSizeListProps<undefined>['children'] = ({ 
             style={style}
             onClick={() => setSelectedCategoryId(item.id)}
             className={clsx(
-                "pl-2 pr-3.5 py-4 border-b border-b-g-primary-800 transition-colors hover:bg-g-primary-800",
-                "cursor-pointer",
-                selectedCategoryId === item.id && "bg-g-primary-800"
+                'pl-2 pr-3.5 py-4 border-b border-b-g-primary-800 transition-colors hover:bg-g-primary-800',
+                'cursor-pointer',
+                selectedCategoryId === item.id && 'bg-g-primary-800',
             )}
         >
             <div className='flex items-center justify-between tracking-tight'>
                 <span className='text-g-primary-100 text-xs font-semibold'>{item.type}</span>
-                <div className='font-mono ml-2 rounded leading-none font-bold px-1.5 py-1 text-xs bg-green-600 text-g-primary-50'>{item.status.code} {item.status.reason}</div>
+                <div className='font-mono ml-2 rounded leading-none font-bold px-1.5 py-1 text-xs bg-green-600 text-g-primary-50'>
+                    {item.status.code} {item.status.reason}
+                </div>
             </div>
             <span className='text-g-primary-50 font-semibold mt-1'>{item.url}</span>
-            <div className="min-h-[45px] max-h-[45px] mt-1 overflow-hidden">
+            <div className='min-h-[45px] max-h-[45px] mt-1 overflow-hidden'>
                 <span className='text-xs text-g-primary-400 tracking-normal leading-normal line-clamp-2'>{item.contents}</span>
             </div>
-            <div className="flex items-center justify-between tracking-tight">
-                <span className='text-xs font-semibold text-g-primary-200'>{dayjs(item.timestamp).format("MM/DD/YYYY h:mm:ss A")}</span>
-                <span className="flex items-center font-mono text-[10px]">
+            <div className='flex items-center justify-between tracking-tight'>
+                <span className='text-xs font-semibold text-g-primary-200'>{dayjs(item.timestamp).format('MM/DD/YYYY h:mm:ss A')}</span>
+                <span className='flex items-center font-mono text-[10px]'>
                     {numbro(item.durationMs).format({ thousandSeparated: true })} MS {numbro(item.payloadSizeBytes).format({ thousandSeparated: true })} Bytes
                 </span>
             </div>
         </div>
-    )
-}
+    );
+};

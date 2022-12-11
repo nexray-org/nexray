@@ -13,22 +13,22 @@ const middleware = (_req: NextApiRequest, res: NextApiResponse) => {
     res.on('finish', () => {
         const elapsedHrTime = process.hrtime(startHrTime);
         const elapsedTimeInMs = elapsedHrTime[0] * 1000 + elapsedHrTime[1] / 1e6;
-        console.log("%s : %fms", elapsedTimeInMs);
-    })
-}
+        console.log('%s : %fms', elapsedTimeInMs);
+    });
+};
 
 const joinStringArrayValues = (value: string | string[] | number) => {
-    if (typeof value === "string" || typeof value === "number") {
-        return "" + value;
+    if (typeof value === 'string' || typeof value === 'number') {
+        return '' + value;
     } else {
-        return value.join(",")
+        return value.join(',');
     }
-}
+};
 
 function convertHeadersToHar(headers: IncomingHttpHeaders | OutgoingHttpHeaders) {
     return Object.entries(headers).map(([name, value]) => ({
         name,
-        value: joinStringArrayValues(value || "")
+        value: joinStringArrayValues(value || ''),
     }));
 }
 
@@ -36,7 +36,7 @@ const expressResInterceptor = (res: Parameters<ExpressHandler>[1], send: () => a
     (res as any).contentBody = content;
     res.send = send;
     res.send(content);
-}
+};
 
 export const express: ExpressHandler = (req, res, next) => {
     // https://github.com/watson/request-stats/blob/master/lib/request.js
@@ -48,16 +48,16 @@ export const express: ExpressHandler = (req, res, next) => {
             bodySize: req.headers['content-length'] ? +req.headers['content-length'] : -1,
             cookies: req.cookies,
             headers: convertHeadersToHar(req.headers),
-            headersSize: Buffer.byteLength(req.rawHeaders.join("\n"), 'utf-8'),
+            headersSize: Buffer.byteLength(req.rawHeaders.join('\n'), 'utf-8'),
             httpVersion: req.httpVersion,
             method: req.method,
             url: `${req.protocol}://${req.hostname}${req.originalUrl}`,
             queryString: Object.entries(url.parse(req.url, true).query).map(([name, value]) => ({
                 name,
-                value: joinStringArrayValues(value || "")
+                value: joinStringArrayValues(value || ''),
             })),
         },
-        serverIPAddress: req.headers['x-forwarded-for'] ? joinStringArrayValues(req.headers['x-forwarded-for']) : req.connection.remoteAddress
+        serverIPAddress: req.headers['x-forwarded-for'] ? joinStringArrayValues(req.headers['x-forwarded-for']) : req.connection.remoteAddress,
     };
     const startHrTime = process.hrtime();
     // Listen in on body parsing
@@ -67,13 +67,13 @@ export const express: ExpressHandler = (req, res, next) => {
     let requestBodySize = 0;
     const requestBodyParts: Uint8Array[] = [];
     let isRequestBodyParsed = false;
-    let finalRequestBodyParsed = "";
+    let finalRequestBodyParsed = '';
 
     req.on('data', (chunk) => {
         isRequestBodyParsed = true;
         requestBodySize += chunk.length;
         requestBodyParts.push(chunk);
-    })
+    });
 
     req.on('end', (chunk: any) => {
         if (chunk) {
@@ -88,9 +88,8 @@ export const express: ExpressHandler = (req, res, next) => {
 
         if (Buffer.isBuffer(requestBodyParts[0])) {
             finalRequestBodyParsed = Buffer.concat(requestBodyParts).toString('utf8');
-        }
-        else {
-            finalRequestBodyParsed = requestBodyParts.join("");
+        } else {
+            finalRequestBodyParsed = requestBodyParts.join('');
         }
     });
 
@@ -110,11 +109,11 @@ export const express: ExpressHandler = (req, res, next) => {
         if (harEntry.request && isRequestBodyParsed) {
             harEntry.request.bodySize = requestBodySize;
             harEntry.request.postData = {
-                mimeType: req.headers['content-type'] || "",
+                mimeType: req.headers['content-type'] || '',
                 text: finalRequestBodyParsed,
-            }
+            };
         }
-        harEntry.response = { 
+        harEntry.response = {
             status: res.statusCode,
             redirectURL: req.originalUrl,
             httpVersion: req.httpVersion,
@@ -122,23 +121,30 @@ export const express: ExpressHandler = (req, res, next) => {
             content: (res as any).contentBody,
             headers: convertHeadersToHar(res.getHeaders()),
             bodySize: (res as any).contentBody.length,
-            headersSize: Buffer.byteLength(convertHeadersToHar(res.getHeaders()).map(({ name, value }) => `${name}: ${value}\n`).join("\n"), 'utf-8'),
+            headersSize: Buffer.byteLength(
+                convertHeadersToHar(res.getHeaders())
+                    .map(({ name, value }) => `${name}: ${value}\n`)
+                    .join('\n'),
+                'utf-8',
+            ),
             statusText: getReasonPhrase(res.statusCode),
         };
         harEntry.time = elapsedTimeInMs;
-        console.log("%s : %fms", elapsedTimeInMs);
+        console.log('%s : %fms', elapsedTimeInMs);
     });
-    
+
     next();
 };
 
-const _fastifyHandler: FastifyPluginCallback = (fastify, options, next) => { null; }
+const _fastifyHandler: FastifyPluginCallback = (fastify, options, next) => {
+    null;
+};
 
-export const fastify = fp(_fastifyHandler, { name: "basis-capture" })
+export const fastify = fp(_fastifyHandler, { name: 'basis-capture' });
 
 export function nextCapture(handler: NextApiHandler): NextApiHandler {
     return (_req: NextApiRequest, res: NextApiResponse) => {
         middleware(_req, res);
         return handler(_req, res);
-    }
+    };
 }

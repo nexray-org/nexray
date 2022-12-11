@@ -12,38 +12,40 @@ interface IUiContext {
 export const UiContext = createContext<IUiContext>({} as IUiContext);
 
 export function UiProvider({ children }: { children: React.ReactNode | JSX.Element | JSX.Element[] }) {
-    const [selectedCategoryId, setSelectedCategoryId] = useState<string>("");
-    const [data, setData] = useState<SchemaData['request']>(() => [...new Array(1000)].map(_ => ({
-        durationMs: faker.datatype.number({ min: 19, max: 1000000 }),
-        payloadSizeBytes: faker.datatype.number({ min: 19, max: 1000000 }),
-        requestIp: faker.internet.ipv4(),
-        status: {
-            code: faker.internet.httpStatusCode(),
-            // reason: getReasonPhrase(faker.internet.httpStatusCode())
-            reason: "OK"
-        },
-        timestamp: faker.date.recent(100).toISOString(),
-        type: faker.internet.httpMethod(),
-        url: faker.internet.url(),
-        id: faker.datatype.uuid(),
-        contents: logfile
-    })))
+    const [selectedCategoryId, setSelectedCategoryId] = useState<string>('');
+    const [data, setData] = useState<SchemaData['request']>(() =>
+        [...new Array(1000)].map((_) => ({
+            durationMs: faker.datatype.number({ min: 19, max: 1000000 }),
+            payloadSizeBytes: faker.datatype.number({ min: 19, max: 1000000 }),
+            requestIp: faker.internet.ipv4(),
+            status: {
+                code: faker.internet.httpStatusCode(),
+                // reason: getReasonPhrase(faker.internet.httpStatusCode())
+                reason: 'OK',
+            },
+            timestamp: faker.date.recent(100).toISOString(),
+            type: faker.internet.httpMethod(),
+            url: faker.internet.url(),
+            id: faker.datatype.uuid(),
+            contents: logfile,
+        })),
+    );
 
     useEffect(() => {
-        initPrismLog()
-    }, [])
+        initPrismLog();
+    }, []);
 
     return (
-        <UiContext.Provider 
+        <UiContext.Provider
             value={{
-                selectedCategoryId, 
+                selectedCategoryId,
                 setSelectedCategoryId,
-                data
+                data,
             }}
         >
             {children}
         </UiContext.Provider>
-    )
+    );
 }
 
 const logfile = `
@@ -108,4 +110,4 @@ initialized
 03/22 08:51:06 INFO   :....mailbox_register: mailbox allocated for rsvp-udp
 03/22 08:51:06 TRACE  :..entity_initialize: interface 9.67.117.98, entity for rsvp allocated and 
 initialized
-`
+`;

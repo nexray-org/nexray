@@ -13,12 +13,11 @@ const EndAdornment = ({ children }: { children: React.ReactNode }) => (
 
         <BsFillCaretDownFill />
     </div>
-)
-
+);
 
 export default function SearchBar(props: Partial<InputProps>) {
     const inputRef = useRef<HTMLInputElement>(null);
-    const [os, setOS] = useState<"mac" | "win">(() => navigator.platform.toUpperCase().indexOf('MAC') >= 0 ? "mac" : "win");
+    const [os, setOS] = useState<'mac' | 'win'>(() => (navigator.platform.toUpperCase().indexOf('MAC') >= 0 ? 'mac' : 'win'));
 
     useEffect(() => {
         const searchKeys = (e: KeyboardEvent) => {
@@ -26,23 +25,22 @@ export default function SearchBar(props: Partial<InputProps>) {
                 e.preventDefault();
                 inputRef.current?.focus();
             }
-        }
+        };
 
-        document.addEventListener("keydown", searchKeys);
+        document.addEventListener('keydown', searchKeys);
         return () => {
-            document.removeEventListener("keydown", searchKeys);
-        }
+            document.removeEventListener('keydown', searchKeys);
+        };
     }, []);
 
     return (
         <Input
             ref={inputRef}
             placeholder='Search'
-            iconRight={os ? <EndAdornment>{os === "mac" ? "⌘" : "ctrl"} + K</EndAdornment> : <></>}
+            iconRight={os ? <EndAdornment>{os === 'mac' ? '⌘' : 'ctrl'} + K</EndAdornment> : <></>}
             iconClickable
             {...props}
             className={clsx('[&>div]:!rounded-none [&>div]:!border-x-0 [&>div]:!border-t-0 group !w-full', props.className)}
         />
-
-    )
+    );
 }
