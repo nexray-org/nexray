@@ -1,3 +1,5 @@
+/* eslint-disable no-useless-escape */
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Prism from 'prism-react-renderer/prism';
 

@@ -1,7 +1,7 @@
 export type SchemaCategory = 'log group' | 'request';
 
 export interface SchemaData {
-    'log group': {}[];
+    'log group': Record<string, any>[];
     request: {
         id: string;
         url: string;
