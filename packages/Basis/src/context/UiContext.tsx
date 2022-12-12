@@ -48,8 +48,7 @@ export function UiProvider({ children }: { children: React.ReactNode | JSX.Eleme
     );
 }
 
-const logfile = `
-01 
+const logfile = `01 
 03/22 08:51:01 INFO   :.main: *************** RSVP Agent started ***************
  02 
 03/22 08:51:01 INFO   :...locate_configFile: Specified configuration file: /u/user10/rsvpd1.conf

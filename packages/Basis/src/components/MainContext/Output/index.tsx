@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { UiContext } from '../../../context/UiContext';
 import ControlSnippet from './ControlSnippet';
-import Editor, { OnMount, BeforeMount } from "@monaco-editor/react";
+import Editor, { OnMount, BeforeMount, Monaco } from "@monaco-editor/react";
 import type { editor, IDisposable } from 'monaco-editor';
 import { Loading } from '@geist-ui/core';
 import monacoTheme from './monacoTheme';
@@ -14,7 +14,8 @@ export default function Output() {
 
     useEffect(() => {
         // This effect disables the escape key from closing the find bar
-        let dispose: IDisposable;
+        let dispose: IDisposable = { dispose: () => { null; } };
+
         if (monacoEditor) {
             // https://blutorange.github.io/primefaces-monaco/typedoc/interfaces/monaco.editor.istandalonecodeeditor.html
             dispose = monacoEditor.onKeyDown(e => {
@@ -25,11 +26,33 @@ export default function Output() {
                 }
             })
         }
+
         return () => {
-            if (dispose) {
-                dispose.dispose();
-            }
+            dispose.dispose();
         };
+    }, [monacoEditor])
+
+    useEffect(() => {
+        // This effect disables the escape key for the find text box
+        const findTextAreaEle: HTMLTextAreaElement | null = document.querySelector('.monaco-editor .find-widget>.find-part .monaco-inputbox>.ibwrapper>textarea.input ');
+        
+        const eventHandler = (ev: KeyboardEvent) => {
+            const escCharCode = ev.charCode || ev.keyCode || ev.which;
+            if (ev.key === "Escape" || escCharCode === 27) {
+                ev.preventDefault();
+                ev.stopPropagation();
+            }
+        }
+
+        if (findTextAreaEle) {
+            findTextAreaEle.addEventListener('keydown', eventHandler);
+        }
+
+        return () => {
+            if (findTextAreaEle) {
+                findTextAreaEle.removeEventListener('keydown', eventHandler);
+            }   
+        }
     }, [monacoEditor])
 
     const onMonacoMount: OnMount = (editor) => {
@@ -39,6 +62,8 @@ export default function Output() {
         editor.focus();
         editor.getAction('actions.find').run();
         
+        // https://github.com/microsoft/monaco-editor/issues/287
+
         const messageContribution = editor.getContribution(
             "editor.contrib.messageController"
         );
@@ -48,7 +73,7 @@ export default function Output() {
     }
 
     const onBeforeMonacoMount: BeforeMount = (monaco) => {
-        monaco.editor.defineTheme('basistheme', monacoTheme)
+        monaco.editor.defineTheme('basistheme', monacoTheme);
     }
 
     return (
