@@ -9,7 +9,7 @@
     height: 33px !important;
     top: calc(100vh - 88px - 33px) !important;
     bottom:  unset !important;
-    @apply  !bg-g-primary-900 !text-g-primary-300 !shadow-none !border-t !border-t-g-primary-700 focus-within:!border-t-g-primary-400 !duration-[.2s] !transition-all !ease-[ease];
+    @apply  !bg-g-primary-900 !text-g-primary-300 !shadow-none !border-t !border-t-g-primary-700 focus-within:!border-t-g-primary-400 !duration-[.2s] !transition-[border-color] !ease-[ease];
 }
 
 .monaco-editor .find-widget div.codicon.codicon-widget-close {

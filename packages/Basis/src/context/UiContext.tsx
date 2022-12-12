@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import React, { createContext, useEffect, useState } from 'react';
 import { SchemaData } from '../types';
-import initPrismLog from '../components/MainContext/Output/initPrismLog';
+
 
 interface IUiContext {
     selectedCategoryId: string;
@@ -30,10 +30,6 @@ export function UiProvider({ children }: { children: React.ReactNode | JSX.Eleme
             contents: logfile,
         })),
     );
-
-    useEffect(() => {
-        initPrismLog();
-    }, []);
 
     return (
         <UiContext.Provider
