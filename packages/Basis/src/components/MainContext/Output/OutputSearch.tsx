@@ -13,7 +13,7 @@ interface IOutputSearch {
 // Not used as of yet. Keeping for archives, but using native find for now.
 
 export default function OutputSearch({ monacoEditor }: IOutputSearch) {
-    const [searchVal, setSearchVal] = useState<string>("");
+    const [searchVal, setSearchVal] = useState<string>('');
     const [isHelpModalOpen, setIsHelpModalOpen] = useState<boolean>(false);
     const [totalResults, setTotalResults] = useState<number>();
     const [monacoMatches, setMonacoMatches] = useState<editor.FindMatch[]>([]);
@@ -44,19 +44,21 @@ export default function OutputSearch({ monacoEditor }: IOutputSearch) {
             // });
             setTotalResults(0);
             setMonacoMatches([]);
-        }
+        };
         if (debouncedSearch && monacoEditor) {
             const _monacoMatches = monacoEditor.getModel()!.findMatches(debouncedSearch, false, false, false, null, true, undefined);
             if (_monacoMatches.length) {
                 monacoEditor.setScrollTop(0);
                 monacoEditor.setScrollLeft(0);
                 monacoEditor.setSelection(_monacoMatches[0].range);
-                monacoEditor.getAction('editor.action.moveSelectionToNextFindMatch').run()
+                monacoEditor
+                    .getAction('editor.action.moveSelectionToNextFindMatch')
+                    .run()
                     .then(() => monacoEditor.getAction('editor.action.moveSelectionToPreviousFindMatch').run());
                 setTotalResults(monacoMatches.length);
                 _monacoMatches && setMonacoMatches(_monacoMatches);
                 monacoEditor.updateOptions({
-                    selectionHighlight: false
+                    selectionHighlight: false,
                 });
             } else {
                 resetSearch();
@@ -64,13 +66,12 @@ export default function OutputSearch({ monacoEditor }: IOutputSearch) {
         } else {
             resetSearch();
         }
-    }, [debouncedSearch])
+    }, [debouncedSearch]);
 
     // There's two methods to scroll to the part
     // 1 .setSelection followed by manually scrolling to
     // 2 'editor.action.moveSelectionToPreviousFindMatch'-like actions
     // https://github.com/microsoft/monaco-editor/issues/823#issuecomment-470754000
-
 
     function goToNextResult() {
         monacoEditor.getAction('editor.action.moveSelectionToNextFindMatch').run();
@@ -101,9 +102,9 @@ export default function OutputSearch({ monacoEditor }: IOutputSearch) {
             <Input
                 placeholder='Find on page (text or /regex/)'
                 className={clsx('[&>div]:!rounded-none [&>div]:!border-0 group')}
-                width="100%"
+                width='100%'
                 value={searchVal}
-                onChange={e => setSearchVal(e.target.value)}
+                onChange={(e) => setSearchVal(e.target.value)}
             />
             <div className={clsx('max-w-[250px] pr-4')}>
                 {!searchVal ? (
@@ -113,18 +114,11 @@ export default function OutputSearch({ monacoEditor }: IOutputSearch) {
                     />
                 ) : (
                     <div className='flex items-center space-x-2'>
-                        <Button
-                            icon={<BsArrowUpShort className='!w-[16px] !h-[16px]' />}
-                            width={"24px"}
-                            height="24px"
-                            px={0}
-                            py={0}
-                            onClick={goToPrevResult}
-                        />
+                        <Button icon={<BsArrowUpShort className='!w-[16px] !h-[16px]' />} width={'24px'} height='24px' px={0} py={0} onClick={goToPrevResult} />
                         <Button
                             icon={<BsArrowDownShort className='!w-[16px] !h-[16px]' />}
-                            width={"24px"}
-                            height="24px"
+                            width={'24px'}
+                            height='24px'
                             px={0}
                             py={0}
                             onClick={goToNextResult}
@@ -139,13 +133,17 @@ export default function OutputSearch({ monacoEditor }: IOutputSearch) {
                     <p className='text-sm inline-block'>
                         This input allows you to search for text in the current log. There are two types of values that can be searched:
                         <ul className='leading-none list-none'>
-                            <li>Plain text: <code>TIMEOUT_ERROR</code></li>
-                            <li>ECMA regular expression: <code>/^a...s$/g</code></li>
+                            <li>
+                                Plain text: <code>TIMEOUT_ERROR</code>
+                            </li>
+                            <li>
+                                ECMA regular expression: <code>/^a...s$/g</code>
+                            </li>
                         </ul>
                         Please note that <Link color>ECMA regex</Link> is the variant that is used in JavaScript.
                     </p>
                 </Modal.Content>
             </Modal>
         </div>
-    )
+    );
 }

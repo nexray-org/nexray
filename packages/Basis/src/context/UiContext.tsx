@@ -2,7 +2,6 @@ import { faker } from '@faker-js/faker';
 import React, { createContext, useEffect, useState } from 'react';
 import { SchemaData } from '../types';
 
-
 interface IUiContext {
     selectedCategoryId: string;
     setSelectedCategoryId: React.Dispatch<React.SetStateAction<string>>;

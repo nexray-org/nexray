@@ -1,6 +1,6 @@
-import useAsyncEffect from "use-async-effect";
+import useAsyncEffect from 'use-async-effect';
 import { fs, path } from '@tauri-apps/api';
-import { useState } from "react";
+import { useState } from 'react';
 
 export interface Config {
     editorFontSize: number;
@@ -13,15 +13,15 @@ const defaultConfig: Config = {
     editorFontSize: 12,
     editorMinimapScale: 0.75,
     editorMinimapEnabled: false,
-    editorWordWrapEnabled: false
-}
+    editorWordWrapEnabled: false,
+};
 
 let _config: Config;
 
 export default function useConfig() {
     const [isInitialized, setIsInitialized] = useState<boolean>(() => !!_config);
 
-    useAsyncEffect(async isActive => {
+    useAsyncEffect(async (isActive) => {
         if (!_config) {
             const configRootDir = await path.appConfigDir();
             const configPath = await path.join(configRootDir, 'config.json');
@@ -34,9 +34,9 @@ export default function useConfig() {
             }
             setIsInitialized(true);
         }
-    }, [])
+    }, []);
 
     return {
-        initialized: isInitialized
-    }
+        initialized: isInitialized,
+    };
 }

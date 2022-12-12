@@ -1,5 +1,9 @@
-import OverflowHandler from "./OverflowHandler";
+import OverflowHandler from './OverflowHandler';
 
 export default function Insights() {
-    return <OverflowHandler marginY={90}><div></div></OverflowHandler>;
+    return (
+        <OverflowHandler marginY={90}>
+            <div></div>
+        </OverflowHandler>
+    );
 }

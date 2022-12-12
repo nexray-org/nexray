@@ -16,8 +16,14 @@ export default function ControlSnippet() {
     };
 
     const permaHandler = () => {
-        setToast({ text: <span className='text-sm'>Generated and copied shareable permalink: <Link color>{"https://asdf.com"}</Link></span> });
-    }
+        setToast({
+            text: (
+                <span className='text-sm'>
+                    Generated and copied shareable permalink: <Link color>{'https://asdf.com'}</Link>
+                </span>
+            ),
+        });
+    };
     return (
         <div className='absolute top-1 right-4 opacity-0 transition-opacity group-hover:opacity-100 z-20 flex space-x-2'>
             <Button icon={<AiOutlineLink />} width={0.25} px={0} scale={0.8} onClick={permaHandler} />
