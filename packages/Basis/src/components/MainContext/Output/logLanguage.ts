@@ -1,6 +1,7 @@
 /* eslint-disable no-useless-escape */
 import type { Monaco } from '@monaco-editor/react';
 import type { editor } from 'monaco-editor';
+import { Themes } from '@geist-ui/core'
 
 export default function logLanguage(monaco: Monaco) {
     function extendDefaults(...args: Record<string, any>[]): editor.ITokenThemeRule {
@@ -449,6 +450,11 @@ export default function logLanguage(monaco: Monaco) {
             'editor.lineHighlightBackground': '#2463B41F',
             'editorCursor.foreground': '#333',
             'editorWhitespace.foreground': '#4B4B7E80',
+
+            'scrollbarSlider.shadow': '#00000000',
+            'scrollbarSlider.hoverBackground': "#EAEAEA7A",
+            'scrollbarSlider.background': '#9999997A',
+            'scrollbarSlider.activeBackground': "#8888887A",
         },
     });
 }

@@ -20,7 +20,6 @@ export default function NumberInput({ fallback, value, onChange, ...props }: INu
     const [isShowDot, setIsShowDot] = useState<boolean>(false);
 
     function onChangeWrapper(text: string) {
-        console.log("RAW TEXT", text)
         const cleanedText = text.replace(/[^0-9.]+/g, '');
 
         if (cleanedText.endsWith('.')) {

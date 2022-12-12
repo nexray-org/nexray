@@ -4,14 +4,12 @@ import { useRef, useState } from 'react';
 
 export interface Config {
     editorFontSize: number;
-    editorMinimapScale: number;
     editorMinimapEnabled: boolean;
     editorWordWrapEnabled: boolean;
 }
 
 const defaultConfig: Config = {
     editorFontSize: 12,
-    editorMinimapScale: 0.75,
     editorMinimapEnabled: false,
     editorWordWrapEnabled: true,
 };

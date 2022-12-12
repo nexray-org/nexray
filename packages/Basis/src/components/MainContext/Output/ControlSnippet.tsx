@@ -14,21 +14,16 @@ export default function ControlSnippet() {
     const { data, selectedCategoryId, config } = useContext(UiContext);
     const item = data.find((ele) => ele.id === selectedCategoryId)!;
     const isMounted = useIsMounted();
-    
-    const [fontSizeVal, setFontSizeVal] = useState<number>(config.get('editorFontSize')!);
-    const [t, setT] = useState<number>(21354.2);
-    const debouncedFontSize = useDebounce(fontSizeVal, 200)
 
-    useEffect(() => {
-        console.log("t", t)
-    }, [t])
+    const [fontSizeVal, setFontSizeVal] = useState<number>(config.get('editorFontSize')!);
+    const debouncedFontSize = useDebounce(fontSizeVal, 600)
 
     useEffect(() => {
         if (!isMounted) {
             return;
         }
 
-        config.set('editorFontSize', +debouncedFontSize)
+        config.set('editorFontSize', Math.round(debouncedFontSize))
     }, [debouncedFontSize])
 
     const copyHandler = () => {
@@ -48,34 +43,36 @@ export default function ControlSnippet() {
 
 
     return (
-        <div className='absolute top-1 right-6 opacity-0 transition-opacity group-hover:opacity-100 z-20 flex space-x-2'>
+        <div className='absolute top-3 right-6 opacity-0 transition-opacity group-hover:opacity-100 z-20 flex space-x-2'>
             <Button icon={<AiOutlineSetting />} width={0.25} px={0} scale={0.8} onClick={() => setIsSettingsDialogOpen(true)} />
             <Button icon={<AiOutlineLink />} width={0.25} px={0} scale={0.8} onClick={permaHandler} />
             <Button icon={<SnippetIcon />} width={0.25} px={0} scale={0.8} onClick={copyHandler} />
             <Modal
                 visible={isSettingsDialogOpen}
                 onClose={() => setIsSettingsDialogOpen(false)}
-                width="400px"
+                width="300px"
                 pt={0}
             >
                 <Modal.Content>
-                    <span className='font-semibold'>Settings</span>
-                    <div className='grid grid-cols-2 gap-4 mt-6'>
-                        <div className='items-center flex'>
+                    <span className='font-semibold text-xl'>Settings</span>
+                    <div className='mt-4'>
+                        <div className='items-center flex mb-5'>
+                            <Toggle checked={config.get('editorWordWrapEnabled')} onChange={e => config.set('editorWordWrapEnabled', !config.get('editorWordWrapEnabled'))} />
+                            <span className='text-sm ml-2.5 -mb-1.5'>Wrap lines</span>
+                        </div>
+                        <div className='items-center flex mb-5'>
                             <Toggle checked={config.get('editorMinimapEnabled')} onChange={e => config.set('editorMinimapEnabled', !config.get('editorMinimapEnabled'))} />
-                            <span className='text-xs ml-2.5 -mb-1.5'>Minimap Enabled</span>
+                            <span className='text-sm ml-2.5 -mb-1.5'>Minimap Enabled</span>
                         </div>
                         <div className='items-center flex'>
                             <NumberInput
-                                value={t}
-                                onChange={setT}
+                                value={fontSizeVal}
+                                onChange={setFontSizeVal}
                                 fallback={0}
+                                className="max-w-[80px]"
+                                height={"30px"}
                             />
-                            <span className='text-xs ml-2.5 -mb-1.5'>Wrap lines</span>
-                        </div>
-                        <div className='items-center flex'>
-                            <Toggle checked={config.get('editorWordWrapEnabled')} onChange={e => config.set('editorWordWrapEnabled', !config.get('editorWordWrapEnabled'))} />
-                            <span className='text-xs ml-2.5 -mb-1.5'>Wrap lines</span>
+                            <span className='text-sm ml-2.5'>Font Size</span>
                         </div>
                     </div>
                 </Modal.Content>

@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { UiContext } from '../../../context/UiContext';
 import ControlSnippet from './ControlSnippet';
 import Editor, { OnMount, BeforeMount } from '@monaco-editor/react';
-import { editor, IDisposable, KeyCode } from 'monaco-editor';
+import type { editor, IDisposable } from 'monaco-editor';
 import { Loading } from '@geist-ui/core';
 import logLanguage from './logLanguage';
 
@@ -120,10 +120,9 @@ export default function Output() {
                     // https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.IStandaloneEditorConstructionOptions.html#emptySelectionClipboard
                     readOnly: true,
                     minimap: { 
-                        scale: config.get('editorMinimapScale'), 
                         showSlider: 'mouseover', 
                         enabled: config.get('editorMinimapEnabled'), 
-                        renderCharacters: false 
+                        renderCharacters: false,
                     },
                     padding: { top: 0, bottom: 33 },
                     domReadOnly: true,
