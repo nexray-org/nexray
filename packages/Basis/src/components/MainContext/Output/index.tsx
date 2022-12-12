@@ -7,7 +7,7 @@ import { Loading } from '@geist-ui/core';
 import logLanguage from './logLanguage';
 
 export default function Output() {
-    const { data, selectedCategoryId } = useContext(UiContext);
+    const { data, selectedCategoryId, config } = useContext(UiContext);
     const item = data.find((ele) => ele.id === selectedCategoryId)!;
     // const preRef = useRef<HTMLPreElement>(null);
     const [monacoEditor, setMonacoEditor] = useState<editor.IStandaloneCodeEditor>();
@@ -119,14 +119,20 @@ export default function Output() {
                 options={{
                     // https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.IStandaloneEditorConstructionOptions.html#emptySelectionClipboard
                     readOnly: true,
-                    minimap: { scale: 0.75, showSlider: 'mouseover', enabled: false, renderCharacters: false },
+                    minimap: { 
+                        scale: config.get('editorMinimapScale'), 
+                        showSlider: 'mouseover', 
+                        enabled: config.get('editorMinimapEnabled'), 
+                        renderCharacters: false 
+                    },
                     padding: { top: 0, bottom: 33 },
                     domReadOnly: true,
                     // wordWrap: editorWordWrap ? "on" : "off",
-                    fontSize: 12,
+                    fontSize: config.get('editorFontSize'),
                     lightbulb: {
                         enabled: false,
                     },
+                    wordWrap: config.get('editorWordWrapEnabled') ? "on" : "off",
                     lineNumbers: 'off',
                     scrollBeyondLastLine: false,
                     scrollbar: {

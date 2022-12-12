@@ -15,6 +15,13 @@
       "all": false,
       "window": {
         "all": true
+      },
+      "path": {
+        "all": true
+      },
+      "fs": {
+        "all": true,
+        "scope": ["**"]
       }
     },
     "bundle": {
@@ -63,7 +70,7 @@
         "resizable": true,
         "title": "basis",
         "hiddenTitle": true,
-        "width": 1026,
+        "width": 1040,
         "titleBarStyle": "Overlay"
       }
     ]

@@ -1,11 +1,13 @@
 import { faker } from '@faker-js/faker';
 import React, { createContext, useEffect, useState } from 'react';
+import useConfig from '../hooks/useConfig';
 import { SchemaData } from '../types';
 
 interface IUiContext {
     selectedCategoryId: string;
     setSelectedCategoryId: React.Dispatch<React.SetStateAction<string>>;
     data: SchemaData['request'];
+    config: ReturnType<typeof useConfig>;
 }
 
 export const UiContext = createContext<IUiContext>({} as IUiContext);
@@ -29,6 +31,7 @@ export function UiProvider({ children }: { children: React.ReactNode | JSX.Eleme
             contents: logfile,
         })),
     );
+    const config = useConfig();
 
     return (
         <UiContext.Provider
@@ -36,6 +39,7 @@ export function UiProvider({ children }: { children: React.ReactNode | JSX.Eleme
                 selectedCategoryId,
                 setSelectedCategoryId,
                 data,
+                config
             }}
         >
             {children}

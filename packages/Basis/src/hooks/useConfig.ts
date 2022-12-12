@@ -1,6 +1,6 @@
 import useAsyncEffect from 'use-async-effect';
-import { fs, path } from '@tauri-apps/api';
-import { useState } from 'react';
+import type { fs as fsType, path as pathType } from '@tauri-apps/api';
+import { useRef, useState } from 'react';
 
 export interface Config {
     editorFontSize: number;
@@ -13,30 +13,69 @@ const defaultConfig: Config = {
     editorFontSize: 12,
     editorMinimapScale: 0.75,
     editorMinimapEnabled: false,
-    editorWordWrapEnabled: false,
+    editorWordWrapEnabled: true,
 };
 
-let _config: Config;
+let _configCache: Config | Record<string, any> = {};
 
 export default function useConfig() {
-    const [isInitialized, setIsInitialized] = useState<boolean>(() => !!_config);
+    const [config, setConfig] = useState<Config | Record<string, any>>({ ..._configCache });
+    const libsRef = useRef<{ fs: typeof fsType; path: typeof pathType }>();
+    const configFilePathRef = useRef<string>();
+
+    async function writeCache() {
+        await libsRef.current?.fs.writeTextFile(configFilePathRef.current!, JSON.stringify(_configCache, null, 2));
+    }
 
     useAsyncEffect(async (isActive) => {
-        if (!_config) {
+        // https://github.com/tauri-apps/tauri/issues/5518#issuecomment-1297586215
+        const [
+            fs,
+            path
+        ] = await Promise.all([
+            import('@tauri-apps/api/fs'),
+            import('@tauri-apps/api/path')
+        ]);
+
+        libsRef.current = {
+            fs,
+            path
+        }
+
+        if (Object.keys(_configCache).length === 0) {
             const configRootDir = await path.appConfigDir();
-            const configPath = await path.join(configRootDir, 'config.json');
-            const existingConfigFile = await fs.exists(configPath);
-            if (existingConfigFile) {
-                _config = JSON.parse(await fs.readTextFile(configPath));
-            } else {
-                _config = defaultConfig;
-                await fs.writeTextFile(configPath, JSON.stringify(defaultConfig));
+            try {
+                const existingConfigFileRoot = await fs.exists(configRootDir);
+                if (!existingConfigFileRoot) {
+                    throw new Error();
+                }
+            } catch (_) {
+                await fs.createDir(configRootDir, { recursive: true })
             }
-            setIsInitialized(true);
+
+            configFilePathRef.current = await path.join(configRootDir, 'config.json');
+            try {
+                const existingConfigFilePath = await fs.exists(configFilePathRef.current);
+                if (!existingConfigFilePath) {
+                    throw new Error();
+                }
+                _configCache = JSON.parse(await fs.readTextFile(configFilePathRef.current));
+            } catch (error) {
+                _configCache = defaultConfig;
+                await writeCache();
+            }
+
+            setConfig({ ..._configCache });
         }
     }, []);
 
     return {
-        initialized: isInitialized,
+        initialized: !!config,
+        get: <T extends keyof Config>(key: T): Config[T] | undefined => config[key],
+        set: async <T extends keyof Config>(key: T, value: Config[T]) => {
+            _configCache[key] = value;
+            setConfig({ ..._configCache });
+            await writeCache();
+        },
     };
 }
