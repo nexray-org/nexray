@@ -108,5 +108,4 @@ initialized
 03/22 08:51:06 INFO   :.....mailslot_create: creating mailslot for RSVP via UDP
 03/22 08:51:06 INFO   :....mailbox_register: mailbox allocated for rsvp-udp
 03/22 08:51:06 TRACE  :..entity_initialize: interface 9.67.117.98, entity for rsvp allocated and 
-initialized
-`;
+initialized`;

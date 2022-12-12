@@ -20,7 +20,7 @@ export default function Analyze() {
                         <SearchBar />
                         <QuickList height={height - 30 - 30} itemCount={1000} itemSize={listElements.itemSize} rowRenderer={listElements.CategoryListButton} />
                     </div>
-                    <div className='flex basis-9/12'>
+                    <div className='flex basis-9/12 overflow-hidden'>
                         {!selectedCategoryId ? (
                             <div className='flex-center flex-col text-center w-full pointer-events-none select-none'>
                                 <div className='max-w-[200px] brightness-[0.25]'>

@@ -23,6 +23,7 @@ export default function QuickList({ rowRenderer, height, ...props }: IQuickList)
             }}
             renderThumbVertical={thumbRenderer}
             renderThumbHorizontal={thumbRenderer}
+            className="[&>div]:!mr-[-16px]"
         >
             <FixedSizeList {...props} ref={listRef} height={height} width='100%' style={{ overflow: 'visible' }}>
                 {rowRenderer}

@@ -1,10 +1,10 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { UiContext } from '../../../context/UiContext';
 import ControlSnippet from './ControlSnippet';
-import Editor, { OnMount, BeforeMount, Monaco } from "@monaco-editor/react";
-import type { editor, IDisposable } from 'monaco-editor';
+import Editor, { OnMount, BeforeMount } from "@monaco-editor/react";
+import { editor, IDisposable, KeyCode } from 'monaco-editor';
 import { Loading } from '@geist-ui/core';
-import monacoTheme from './monacoTheme';
+import logLanguage from './logLanguage';
 
 export default function Output() {
     const { data, selectedCategoryId } = useContext(UiContext);
@@ -25,6 +25,9 @@ export default function Output() {
                     e.preventDefault();
                 }
             })
+
+            // Disable command palette
+            monacoEditor.addCommand(59 /* KeyCode.F1 */, () => { null; });
         }
 
         return () => {
@@ -73,7 +76,7 @@ export default function Output() {
     }
 
     const onBeforeMonacoMount: BeforeMount = (monaco) => {
-        monaco.editor.defineTheme('basistheme', monacoTheme);
+        logLanguage(monaco);
     }
 
     return (
@@ -101,15 +104,17 @@ export default function Output() {
             )}
             <Editor
                 height={`calc(100vh - 88px)`}
-                // defaultLanguage={"log"}
+                width={"100%"}
+                defaultLanguage={"basislog"}
+                language="basislog"
                 defaultValue={item.contents}
                 onMount={onMonacoMount}
                 beforeMount={onBeforeMonacoMount}
                 options={{
                     // https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.IStandaloneEditorConstructionOptions.html#emptySelectionClipboard
                     readOnly: true,
-                    minimap: { scale: 0.75, showSlider: "mouseover", enabled: false },
-                    padding: { top: 0, bottom: 0 },
+                    minimap: { scale: 0.75, showSlider: "mouseover", enabled: false, renderCharacters: false },
+                    padding: { top: 0, bottom: 33 },
                     domReadOnly: true,
                     // wordWrap: editorWordWrap ? "on" : "off",
                     fontSize: 12,
@@ -120,9 +125,14 @@ export default function Output() {
                     scrollBeyondLastLine: false,
                     scrollbar: {
                         useShadows: false,
-                        horizontalSliderSize: 33 + (46 /** Arbitrary Value */)
+                        horizontalSliderSize: 33 + (46 /** Arbitrary Value */),
+
                     },
                     contextmenu: false,
+                    find: {
+                        // https://github.com/microsoft/vscode/issues/28390#issuecomment-470797061
+                        addExtraSpaceOnTop: false,
+                    }
                 }}
                 theme={'basistheme'}
             />

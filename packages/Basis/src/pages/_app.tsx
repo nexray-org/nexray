@@ -4,7 +4,6 @@ import { UiProvider } from '../context/UiContext';
 import '../style.css';
 import '../monaco.css';
 
-// This default export is required in a new `pages/_app.js` file.
 export default function App({ Component, pageProps }: AppProps) {
     return (
         <GeistProvider themeType='dark'>
