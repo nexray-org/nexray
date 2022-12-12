@@ -1,0 +1,56 @@
+.monaco-editor .monaco-editor-overlaymessage {
+    display: none !important;
+}
+
+.monaco-editor .find-widget {
+    max-width: unset !important;
+    width: 100% !important;
+    right: 0px !important;
+    height: 33px;
+    top: calc(100vh - 88px - 33px) !important;
+    bottom:  unset !important;
+    @apply  !bg-g-primary-900 !text-g-primary-300 !shadow-none !border-t !border-t-g-primary-700 focus-within:!border-t-g-primary-400 !duration-[.2s] !transition-all !ease-[ease];
+}
+
+.monaco-editor .find-widget div.codicon.codicon-widget-close {
+    display: none !important;
+}
+
+.monaco-editor .find-widget>.find-part {
+    margin-left: 1px !important;
+}
+
+/* Text Input width and spacing */
+.monaco-editor .find-widget>.find-part .monaco-inputbox>.ibwrapper>textarea.input {
+    font-size: 15px;
+    width: calc(100% - 99px) !important;
+    @apply  !text-g-primary-200;
+}
+.monaco-editor .find-widget>.find-part .monaco-inputbox>.ibwrapper>.mirror {
+    padding-right: 99px !important;
+}
+
+.monaco-editor .find-widget>.find-part .monaco-inputbox {
+    @apply  !bg-transparent !outline-none;
+}
+
+.monaco-editor .find-widget .monaco-sash {
+    @apply  !hidden
+}
+
+.monaco-editor .monaco-custom-checkbox.checked {
+    @apply !text-g-primary-200 !bg-g-primary-700;
+}
+
+/* Icons */
+.monaco-editor .monaco-custom-checkbox {
+    @apply !ml-3 !border-none !w-[20px] !h-[20px] !flex !items-center !justify-center !p-0;
+}
+.monaco-editor .find-widget .codicon-find-next-match, .monaco-editor .find-widget .codicon-find-previous-match {
+    @apply !w-[20px] !h-[20px] !p-0 !ml-3;
+}
+
+.monaco-editor .find-widget .matchesCount {
+    font-size: 12px !important;
+    @apply !tracking-normal !pl-4;
+}

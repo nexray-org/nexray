@@ -1,9 +1,8 @@
-import { useContext, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { UiContext } from '../../../context/UiContext';
 import ControlSnippet from './ControlSnippet';
-import OutputSearch from './OutputSearch';
 import Editor, { OnMount, BeforeMount } from "@monaco-editor/react";
-import type { editor } from 'monaco-editor';
+import type { editor, IDisposable } from 'monaco-editor';
 import { Loading } from '@geist-ui/core';
 
 export default function Output() {
@@ -12,11 +11,37 @@ export default function Output() {
     // const preRef = useRef<HTMLPreElement>(null);
     const [monacoEditor, setMonacoEditor] = useState<editor.IStandaloneCodeEditor>();
 
+    useEffect(() => {
+        // This effect disables the escape key from closing the find bar
+        let dispose: IDisposable;
+        if (monacoEditor) {
+            // https://blutorange.github.io/primefaces-monaco/typedoc/interfaces/monaco.editor.istandalonecodeeditor.html
+            dispose = monacoEditor.onKeyDown(e => {
+                // https://blutorange.github.io/primefaces-monaco/typedoc/enums/monaco.editor.cursorchangereason.html
+                if (e.code === "Escape") {
+                    e.stopPropagation();
+                    e.preventDefault();
+                }
+            })
+        }
+        return () => {
+            if (dispose) {
+                dispose.dispose();
+            }
+        };
+    }, [monacoEditor])
+
     const onMonacoMount: OnMount = (editor) => {
         setMonacoEditor(editor);
+        
+        // https://github.com/microsoft/monaco-editor/issues/2355#issuecomment-791461752
+        editor.focus();
+        editor.trigger('toggleFind', 'actions.find', undefined);
+        
         const messageContribution = editor.getContribution(
             "editor.contrib.messageController"
         );
+        editor.onDidBlurEditorWidget
         editor.onDidAttemptReadOnlyEdit(() => {
             messageContribution!.dispose();
         });
@@ -147,7 +172,7 @@ export default function Output() {
                 </div>
             )}
             <Editor
-                height={`calc(100vh - 125px)`}
+                height={`calc(100vh - 88px)`}
                 // defaultLanguage={"log"}
                 defaultValue={item.contents}
                 onMount={onMonacoMount}
@@ -167,13 +192,12 @@ export default function Output() {
                     scrollBeyondLastLine: false,
                     scrollbar: {
                         useShadows: false,
+                        horizontalSliderSize: 33 + (46 /** Arbitrary Value */)
                     },
                     contextmenu: false,
-                    selectionHighlight: false
                 }}
                 theme={'basistheme'}
             />
-            <OutputSearch monacoEditor={monacoEditor!} />
         </div>
     );
 }

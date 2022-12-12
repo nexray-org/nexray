@@ -10,6 +10,8 @@ interface IOutputSearch {
     monacoEditor: editor.IStandaloneCodeEditor;
 }
 
+// Not used as of yet. Keeping for archives, but using native find for now.
+
 export default function OutputSearch({ monacoEditor }: IOutputSearch) {
     const [searchVal, setSearchVal] = useState<string>("");
     const [isHelpModalOpen, setIsHelpModalOpen] = useState<boolean>(false);
