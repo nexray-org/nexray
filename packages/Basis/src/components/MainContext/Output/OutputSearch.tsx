@@ -4,75 +4,100 @@ import { useEffect, useState } from 'react';
 import { AiFillQuestionCircle } from 'react-icons/ai';
 import { BsArrowUpShort, BsArrowDownShort } from 'react-icons/bs';
 import useDebounce from '../../../hooks/useDebounce';
-
-function parseRegex(str: string): RegExp | undefined {
-    // Main regex
-    const mainMatch = str.match(/\/(.+)\/.*/);
-    if (!mainMatch || !mainMatch[1]) {
-        return;
-    }
-    const main = mainMatch[1];
-
-    // Regex options
-    const optionsMatch = str.match(/\/.+\/(.*)/);
-    if (!optionsMatch || !optionsMatch[1]) {
-        return new RegExp(main, 'g');
-    }
-    const options = optionsMatch[1];
-
-    // Compiled regex
-    return new RegExp(main, options.includes("g") ? options : options + 'g');
-}
+import type { editor, IDisposable } from 'monaco-editor';
 
 interface IOutputSearch {
-    preRef: React.RefObject<HTMLPreElement>;
+    monacoEditor: editor.IStandaloneCodeEditor;
 }
 
-export default function OutputSearch({ preRef }: IOutputSearch) {
+export default function OutputSearch({ monacoEditor }: IOutputSearch) {
     const [searchVal, setSearchVal] = useState<string>("");
     const [isHelpModalOpen, setIsHelpModalOpen] = useState<boolean>(false);
     const [totalResults, setTotalResults] = useState<number>();
-    const [selectedIndex, setSelectedIndex] = useState<number>(0);
-
+    const [monacoMatches, setMonacoMatches] = useState<editor.FindMatch[]>([]);
     const debouncedSearch = useDebounce(searchVal, 400);
 
-    useEffect(() => {
-        console.log(preRef.current)
-        if (debouncedSearch && preRef.current) {
-            let searchRegex: RegExp;
-            if (debouncedSearch.startsWith("/") && debouncedSearch.indexOf("/", 2) !== -1) {
-                // Looks like regex
-                const parsedRegex = parseRegex(debouncedSearch)
-                if (parsedRegex) {
-                    searchRegex = parsedRegex
-                } else {
-                    searchRegex = new RegExp(debouncedSearch, 'g')
-                }
-            } else {
-                searchRegex = new RegExp(debouncedSearch, 'g')
-            }
+    // useEffect(() => {
+    //     let dispose: IDisposable;
+    //     if (monacoEditor) {
+    //         // https://blutorange.github.io/primefaces-monaco/typedoc/interfaces/monaco.editor.istandalonecodeeditor.html
+    //         dispose = monacoEditor.onDidChangeCursorSelection(e => {
+    //             // https://blutorange.github.io/primefaces-monaco/typedoc/enums/monaco.editor.cursorchangereason.html
+    //             if (e.reason === 3) {
+    //                 setSearchVal("");
+    //             }
+    //         })
+    //     }
+    //     return () => {
+    //         if (dispose) {
+    //             dispose.dispose();
+    //         }
+    //     };
+    // }, [monacoEditor])
 
-            // Should use textContent or strip HTML with https://codsen.com/os/string-strip-html
-            const source = preRef.current.textContent!;
-            const matches = source.matchAll(searchRegex);
-            let nMatches = 0;
-            for (const match of matches) {
-                nMatches++;
-                console.log(`Found ${match[0]} start=${match.index} end=${match.index! + match[0].length}.`,);
-            }
-            setTotalResults(nMatches);
-        } else {
+    useEffect(() => {
+        const resetSearch = () => {
+            // monacoEditor && monacoEditor.updateOptions({
+            //     selectionHighlight: true,
+            // });
             setTotalResults(0);
-            setSelectedIndex(0);
+            setMonacoMatches([]);
+        }
+        if (debouncedSearch && monacoEditor) {
+            const _monacoMatches = monacoEditor.getModel()!.findMatches(debouncedSearch, false, false, false, null, true, undefined);
+            if (_monacoMatches.length) {
+                monacoEditor.setScrollTop(0);
+                monacoEditor.setScrollLeft(0);
+                monacoEditor.setSelection(_monacoMatches[0].range);
+                monacoEditor.getAction('editor.action.moveSelectionToNextFindMatch').run()
+                    .then(() => monacoEditor.getAction('editor.action.moveSelectionToPreviousFindMatch').run());
+                setTotalResults(monacoMatches.length);
+                _monacoMatches && setMonacoMatches(_monacoMatches);
+                monacoEditor.updateOptions({
+                    selectionHighlight: false
+                });
+            } else {
+                resetSearch();
+            }
+        } else {
+            resetSearch();
         }
     }, [debouncedSearch])
+
+    // There's two methods to scroll to the part
+    // 1 .setSelection followed by manually scrolling to
+    // 2 'editor.action.moveSelectionToPreviousFindMatch'-like actions
+    // https://github.com/microsoft/monaco-editor/issues/823#issuecomment-470754000
+
+
+    function goToNextResult() {
+        monacoEditor.getAction('editor.action.moveSelectionToNextFindMatch').run();
+
+        // if (selectedIndex < 0 || selectedIndex + 1 > monacoMatches.length) {
+        //     return;
+        // } else {
+        //     // monacoEditor.setSelection(monacoMatches[selectedIndex + 1].range);
+        //     monacoEditor.getAction('editor.action.moveSelectionToNextFindMatch').run();
+        //     setSelectedIndex(prev => prev + 1);
+        // }
+    }
+
+    function goToPrevResult() {
+        monacoEditor.getAction('editor.action.moveSelectionToPreviousFindMatch').run();
+
+        // if (selectedIndex <= 0 || selectedIndex + 1 > monacoMatches.length) {
+        //     return;
+        // } else {
+        //     // monacoEditor.setSelection(monacoMatches[selectedIndex - 1].range);
+        //     monacoEditor.getAction('editor.action.moveSelectionToPreviousFindMatch').run();
+        //     setSelectedIndex(prev => prev - 1);
+        // }
+    }
 
     return (
         <div className='flex items-center border-t border-t-g-primary-700 focus-within:border-t-g-primary-400 duration-[.2s] transition-all ease-[ease]'>
             <Input
                 placeholder='Find on page (text or /regex/)'
-                // iconRight={os ? <EndAdornment>{os === 'mac' ? '⌘' : 'ctrl'} + K</EndAdornment> : <></>}
-                // iconClickable
                 className={clsx('[&>div]:!rounded-none [&>div]:!border-0 group')}
                 width="100%"
                 value={searchVal}
@@ -92,7 +117,7 @@ export default function OutputSearch({ preRef }: IOutputSearch) {
                             height="24px"
                             px={0}
                             py={0}
-                            onClick={() => setSelectedIndex(prev => prev + 1)}
+                            onClick={goToPrevResult}
                         />
                         <Button
                             icon={<BsArrowDownShort className='!w-[16px] !h-[16px]' />}
@@ -100,9 +125,9 @@ export default function OutputSearch({ preRef }: IOutputSearch) {
                             height="24px"
                             px={0}
                             py={0}
-                            onClick={() => setSelectedIndex(prev => prev - 1)}
+                            onClick={goToNextResult}
                         />
-                        <span className='text-xs whitespace-nowrap text-g-primary-200 text-right w-[40px]'>{selectedIndex + 1} of {totalResults}</span>
+                        <span className='text-xs whitespace-nowrap text-g-primary-200 text-right w-[70px]'>{totalResults} matches</span>
                     </div>
                 )}
             </div>
