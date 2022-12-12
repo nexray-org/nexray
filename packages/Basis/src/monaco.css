@@ -6,7 +6,7 @@
     max-width: unset !important;
     width: 100% !important;
     right: 0px !important;
-    height: 33px;
+    height: 33px !important;
     top: calc(100vh - 88px - 33px) !important;
     bottom:  unset !important;
     @apply  !bg-g-primary-900 !text-g-primary-300 !shadow-none !border-t !border-t-g-primary-700 focus-within:!border-t-g-primary-400 !duration-[.2s] !transition-all !ease-[ease];
@@ -24,6 +24,7 @@
 .monaco-editor .find-widget>.find-part .monaco-inputbox>.ibwrapper>textarea.input {
     font-size: 15px;
     width: calc(100% - 99px) !important;
+    height: 23px !important;
     @apply  !text-g-primary-200;
 }
 .monaco-editor .find-widget>.find-part .monaco-inputbox>.ibwrapper>.mirror {

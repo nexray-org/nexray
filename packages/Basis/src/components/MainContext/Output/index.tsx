@@ -4,6 +4,7 @@ import ControlSnippet from './ControlSnippet';
 import Editor, { OnMount, BeforeMount } from "@monaco-editor/react";
 import type { editor, IDisposable } from 'monaco-editor';
 import { Loading } from '@geist-ui/core';
+import monacoTheme from './monacoTheme';
 
 export default function Output() {
     const { data, selectedCategoryId } = useContext(UiContext);
@@ -33,119 +34,21 @@ export default function Output() {
 
     const onMonacoMount: OnMount = (editor) => {
         setMonacoEditor(editor);
-        
+        console.log("Monaco mounted");
         // https://github.com/microsoft/monaco-editor/issues/2355#issuecomment-791461752
         editor.focus();
-        editor.trigger('toggleFind', 'actions.find', undefined);
+        editor.getAction('actions.find').run();
         
         const messageContribution = editor.getContribution(
             "editor.contrib.messageController"
         );
-        editor.onDidBlurEditorWidget
         editor.onDidAttemptReadOnlyEdit(() => {
             messageContribution!.dispose();
         });
     }
 
     const onBeforeMonacoMount: BeforeMount = (monaco) => {
-        monaco.editor.defineTheme('basistheme', {
-            base: "vs",
-            inherit: true,
-            rules: [
-                {
-                    background: "FFFFFF",
-                    token: ""
-                },
-                {
-                    foreground: "008e00",
-                    token: "comment"
-                },
-                {
-                    foreground: "7d4726",
-                    token: "meta.preprocessor"
-                },
-                {
-                    foreground: "7d4726",
-                    token: "keyword.control.import"
-                },
-                {
-                    foreground: "df0002",
-                    token: "string"
-                },
-                {
-                    foreground: "3a00dc",
-                    token: "constant.numeric"
-                },
-                {
-                    foreground: "c800a4",
-                    token: "constant.language"
-                },
-                {
-                    foreground: "275a5e",
-                    token: "constant.character"
-                },
-                {
-                    foreground: "275a5e",
-                    token: "constant.other"
-                },
-                {
-                    foreground: "c800a4",
-                    token: "variable.language"
-                },
-                {
-                    foreground: "c800a4",
-                    token: "variable.other"
-                },
-                {
-                    foreground: "c800a4",
-                    token: "keyword"
-                },
-                {
-                    foreground: "c900a4",
-                    token: "storage"
-                },
-                {
-                    foreground: "438288",
-                    token: "entity.name.class"
-                },
-                {
-                    foreground: "790ead",
-                    token: "entity.name.tag"
-                },
-                {
-                    foreground: "450084",
-                    token: "entity.other.attribute-name"
-                },
-                {
-                    foreground: "450084",
-                    token: "support.function"
-                },
-                {
-                    foreground: "450084",
-                    token: "support.constant"
-                },
-                {
-                    foreground: "790ead",
-                    token: "support.type"
-                },
-                {
-                    foreground: "790ead",
-                    token: "support.class"
-                },
-                {
-                    foreground: "790ead",
-                    token: "support.other.variable"
-                }
-            ],
-            "colors": {
-                "editor.foreground": "#FAFAFA",
-                "editor.background": "#000",
-                "editor.selectionBackground": "#F81CE5",
-                "editor.lineHighlightBackground": "#2463B41F",
-                "editorCursor.foreground": "#333",
-                "editorWhitespace.foreground": "#4B4B7E80"
-            }
-        })
+        monaco.editor.defineTheme('basistheme', monacoTheme)
     }
 
     return (
