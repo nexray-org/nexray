@@ -452,9 +452,9 @@ export default function logLanguage(monaco: Monaco) {
             'editorWhitespace.foreground': '#4B4B7E80',
 
             'scrollbarSlider.shadow': '#00000000',
-            'scrollbarSlider.hoverBackground': "#EAEAEA7A",
+            'scrollbarSlider.hoverBackground': "#8888887A",
             'scrollbarSlider.background': '#9999997A',
-            'scrollbarSlider.activeBackground': "#8888887A",
+            'scrollbarSlider.activeBackground': "#EAEAEA",
         },
     });
 }
