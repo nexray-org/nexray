@@ -6,12 +6,16 @@ export interface Config {
     editorFontSize: number;
     editorMinimapEnabled: boolean;
     editorWordWrapEnabled: boolean;
+    parseFindJsonEnabled: boolean;
+    parseCustomFindJsonRoute: string;
 }
 
 const defaultConfig: Config = {
     editorFontSize: 12,
     editorMinimapEnabled: false,
     editorWordWrapEnabled: true,
+    parseFindJsonEnabled: true,
+    parseCustomFindJsonRoute: ""
 };
 
 let _configCache: Config | Record<string, any> = {};

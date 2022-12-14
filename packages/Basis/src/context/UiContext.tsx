@@ -28,7 +28,7 @@ export function UiProvider({ children }: { children: React.ReactNode | JSX.Eleme
             type: faker.internet.httpMethod(),
             url: faker.internet.url(),
             id: faker.datatype.uuid(),
-            contents: logfile,
+            contents: faker.helpers.arrayElement([logfile, "asdfasdf", "12345"]),
         })),
     );
     const config = useConfig();

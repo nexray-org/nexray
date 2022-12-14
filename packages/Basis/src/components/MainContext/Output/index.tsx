@@ -9,7 +9,6 @@ import logLanguage from './logLanguage';
 export default function Output() {
     const { data, selectedCategoryId, config } = useContext(UiContext);
     const item = data.find((ele) => ele.id === selectedCategoryId)!;
-    // const preRef = useRef<HTMLPreElement>(null);
     const [monacoEditor, setMonacoEditor] = useState<editor.IStandaloneCodeEditor>();
 
     useEffect(() => {
@@ -41,6 +40,32 @@ export default function Output() {
         };
     }, [monacoEditor]);
 
+    function focusFindAndClear(_editor: editor.IStandaloneCodeEditor) {
+        // https://github.com/microsoft/monaco-editor/issues/2355#issuecomment-791461752
+        // https://stackoverflow.com/a/46012210
+        _editor.focus();
+        _editor.getAction('actions.find').run();
+        if (document) {
+            const findRawInput = document.querySelector(".monaco-editor .find-widget>.find-part .monaco-inputbox>.ibwrapper>textarea.input");
+            if (findRawInput) {
+                const nativeTextAreaValueSetter = Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, "value")?.set;
+                if (nativeTextAreaValueSetter) {
+                    nativeTextAreaValueSetter.call(findRawInput, "");
+                    findRawInput.dispatchEvent(new Event("input", { bubbles: true }));
+                }
+            }
+        }
+    }
+
+    useEffect(() => {
+        // focus find bar and delete contents
+        if (monacoEditor) {
+            focusFindAndClear(monacoEditor)
+        } else {
+            // Otherwise, just do this 
+        }
+    }, [selectedCategoryId])
+
     useEffect(() => {
         // This effect disables the escape key for the find text box
         const findTextAreaEle: HTMLTextAreaElement | null = document.querySelector(
@@ -66,17 +91,15 @@ export default function Output() {
         };
     }, [monacoEditor]);
 
-    const onMonacoMount: OnMount = (editor) => {
-        setMonacoEditor(editor);
-        console.log('Monaco mounted');
-        // https://github.com/microsoft/monaco-editor/issues/2355#issuecomment-791461752
-        editor.focus();
-        editor.getAction('actions.find').run();
+    const onMonacoMount: OnMount = (_editor, _monaco) => {
+        setMonacoEditor(_editor);
+        console.log('Monaco supported actions:');
+        console.log(_editor.getSupportedActions().map((a) => a.id))
+        focusFindAndClear(_editor)
 
         // https://github.com/microsoft/monaco-editor/issues/287
-
-        const messageContribution = editor.getContribution('editor.contrib.messageController');
-        editor.onDidAttemptReadOnlyEdit(() => {
+        const messageContribution = _editor.getContribution('editor.contrib.messageController');
+        _editor.onDidAttemptReadOnlyEdit(() => {
             messageContribution!.dispose();
         });
     };
@@ -86,7 +109,7 @@ export default function Output() {
     };
 
     return (
-        <div className='relative group'>
+        <div className='relative group monacologivew'>
             <ControlSnippet />
             {/* <OverflowHandler marginY={125} className="[&>div]:!mr-[-17px]">
                 <Highlight {...defaultProps} code={item.contents} language={'log' as any} theme={prismStyle}>
@@ -113,15 +136,15 @@ export default function Output() {
                 width={'100%'}
                 defaultLanguage={'basislog'}
                 language='basislog'
-                defaultValue={item.contents}
+                value={item.contents}
                 onMount={onMonacoMount}
                 beforeMount={onBeforeMonacoMount}
                 options={{
                     // https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.IStandaloneEditorConstructionOptions.html#emptySelectionClipboard
                     readOnly: true,
-                    minimap: { 
-                        showSlider: 'mouseover', 
-                        enabled: config.get('editorMinimapEnabled'), 
+                    minimap: {
+                        showSlider: 'mouseover',
+                        enabled: config.get('editorMinimapEnabled'),
                         renderCharacters: false,
                     },
                     padding: { top: 0, bottom: 33 },
@@ -143,6 +166,7 @@ export default function Output() {
                         // https://github.com/microsoft/vscode/issues/28390#issuecomment-470797061
                         addExtraSpaceOnTop: false,
                     },
+                    renderWhitespace: "none"
                 }}
                 theme={'basistheme'}
             />

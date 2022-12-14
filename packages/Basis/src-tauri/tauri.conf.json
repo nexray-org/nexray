@@ -22,6 +22,9 @@
       "fs": {
         "all": true,
         "scope": ["**"]
+      },
+      "shell": {
+        "open": true
       }
     },
     "bundle": {

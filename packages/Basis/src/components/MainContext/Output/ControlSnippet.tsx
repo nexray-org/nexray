@@ -50,7 +50,7 @@ export default function ControlSnippet() {
             <Modal
                 visible={isSettingsDialogOpen}
                 onClose={() => setIsSettingsDialogOpen(false)}
-                width="300px"
+                width="400px"
                 pt={0}
             >
                 <Modal.Content>
@@ -64,7 +64,7 @@ export default function ControlSnippet() {
                             <Toggle checked={config.get('editorMinimapEnabled')} onChange={e => config.set('editorMinimapEnabled', !config.get('editorMinimapEnabled'))} />
                             <span className='text-sm ml-2.5 -mb-1.5'>Minimap Enabled</span>
                         </div>
-                        <div className='items-center flex'>
+                        <div className='items-center flex mb-5'>
                             <NumberInput
                                 value={fontSizeVal}
                                 onChange={setFontSizeVal}
@@ -73,6 +73,17 @@ export default function ControlSnippet() {
                                 height={"30px"}
                             />
                             <span className='text-sm ml-2.5'>Font Size</span>
+                        </div>
+                        <div className='relative'>
+                            <div className='items-center flex'>
+                                <Toggle checked={config.get('parseFindJsonEnabled')} onChange={e => config.set('parseFindJsonEnabled', !config.get('parseFindJsonEnabled'))} />
+                                <span className='text-sm ml-2.5 -mb-1.5'>Detect JSON in logs</span>
+                            </div>
+                            <span className='text-[10px] text-gray-500 inline-block mt-4'>
+                                By default, this functionality uses a hosted Shuttle API. No data 
+                                is logged and <Link target={"_blank"} color href="https://github.com/dilan-dio4/basis/tree/main/etc/json-finder">the source can be seen here</Link>.
+                                You can self-host that endpoint with the <span className='underline'>parseCustomFindJsonRoute</span> attribute in your configuration file.
+                            </span>
                         </div>
                     </div>
                 </Modal.Content>
