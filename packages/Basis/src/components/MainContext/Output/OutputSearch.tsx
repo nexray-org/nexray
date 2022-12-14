@@ -1,4 +1,4 @@
-import { Input, Link, Modal } from '@geist-ui/core';
+import { Input } from '@geist-ui/core';
 import clsx from 'clsx';
 import { useContext, useEffect, useState } from 'react';
 import { AiFillQuestionCircle } from 'react-icons/ai';
@@ -17,9 +17,8 @@ interface IOutputSearch {
 // https://github.com/Kong/insomnia/blob/4612ef75b12a1f0b67c3ac84d7985c2f9934268d/packages/insomnia/src/ui/components/viewers/response-viewer.tsx#L112
 
 export default function OutputSearch({ mode, searchingObject }: IOutputSearch) {
-    const { setInsightFilter } = useContext(UiContext);
+    const { setInsightFilter, setInsightFilterDialogOpen } = useContext(UiContext);
     const [searchVal, setSearchVal] = useState<string>('');
-    const [isHelpModalOpen, setIsHelpModalOpen] = useState<boolean>(false);
     const debouncedSearch = useDebounce(searchVal, 300);
     const isMounted = useIsMounted();
 
@@ -60,26 +59,9 @@ export default function OutputSearch({ mode, searchingObject }: IOutputSearch) {
             <div className={clsx('max-w-[250px] pr-2')}>
                 <AiFillQuestionCircle
                     className='text-g-primary-400 cursor-pointer hover:text-g-primary-200 transition-colors'
-                    onClick={() => setIsHelpModalOpen(true)}
+                    onClick={() => setInsightFilterDialogOpen(true)}
                 />
             </div>
-            <Modal visible={isHelpModalOpen} onClose={() => setIsHelpModalOpen(false)}>
-                <Modal.Title className='!block !text-left'>Find on page</Modal.Title>
-                <Modal.Content pt={0.4}>
-                    <p className='text-sm inline-block'>
-                        This input allows you to search for text in the current log. There are two types of values that can be searched:
-                        <ul className='leading-none list-none'>
-                            <li>
-                                Plain text: <code>TIMEOUT_ERROR</code>
-                            </li>
-                            <li>
-                                ECMA regular expression: <code>/^a...s$/g</code>
-                            </li>
-                        </ul>
-                        Please note that <Link color>ECMA regex</Link> is the variant that is used in JavaScript.
-                    </p>
-                </Modal.Content>
-            </Modal>
         </div>
     );
 }

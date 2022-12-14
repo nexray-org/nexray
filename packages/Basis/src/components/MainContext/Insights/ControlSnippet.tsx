@@ -7,7 +7,7 @@ import { AiOutlineLink, AiOutlineSetting } from 'react-icons/ai';
 export default function ControlSnippet() {
     const { setToast } = useToasts();
     const { copy } = useClipboard();
-    const { data, selectedCategoryId, setIsOutputSettingsDialogOpen } = useContext(UiContext);
+    const { data, selectedCategoryId, setIsInsightsSettingsDialogOpen } = useContext(UiContext);
     const item = data.find((ele) => ele.id === selectedCategoryId)!;
 
     const copyHandler = () => {
@@ -26,8 +26,8 @@ export default function ControlSnippet() {
     };
 
     return (
-        <div className='absolute top-3 right-6 opacity-0 transition-opacity group-hover:opacity-100 z-20 flex space-x-2'>
-            <Button icon={<AiOutlineSetting />} width={0.25} px={0} scale={0.8} onClick={() => setIsOutputSettingsDialogOpen(true)} />
+        <div className='absolute top-14 right-6 opacity-0 transition-opacity group-hover:opacity-100 z-20 flex space-x-2'>
+            <Button icon={<AiOutlineSetting />} width={0.25} px={0} scale={0.8} onClick={() => setIsInsightsSettingsDialogOpen(true)} />
             <Button icon={<AiOutlineLink />} width={0.25} px={0} scale={0.8} onClick={permaHandler} />
             <Button icon={<SnippetIcon />} width={0.25} px={0} scale={0.8} onClick={copyHandler} />
         </div>

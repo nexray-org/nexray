@@ -6,6 +6,8 @@ export interface Config {
     editorFontSize: number;
     editorMinimapEnabled: boolean;
     editorWordWrapEnabled: boolean;
+    insightsWordWrapEnabled: boolean;
+    insightsFontSize: number;
     parseFindJsonEnabled: boolean;
     parseCustomFindJsonRoute: string;
 }
@@ -14,6 +16,8 @@ const defaultConfig: Config = {
     editorFontSize: 12,
     editorMinimapEnabled: false,
     editorWordWrapEnabled: true,
+    insightsWordWrapEnabled: true,
+    insightsFontSize: 12,
     parseFindJsonEnabled: true,
     parseCustomFindJsonRoute: ""
 };
@@ -61,7 +65,10 @@ export default function useConfig() {
                 if (!existingConfigFilePath) {
                     throw new Error();
                 }
-                _configCache = JSON.parse(await fs.readTextFile(configFilePathRef.current));
+                _configCache = {
+                    ...defaultConfig,
+                    ...JSON.parse(await fs.readTextFile(configFilePathRef.current))
+                }
             } catch (error) {
                 _configCache = defaultConfig;
                 await writeCache();

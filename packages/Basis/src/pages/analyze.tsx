@@ -7,10 +7,14 @@ import { useContext } from 'react';
 import { UiContext } from '../context/UiContext';
 import Image from 'next/image';
 import MainContent from '../components/MainContext';
+import InsightSettings from '../modals/InsightSettings';
+import JsonFilterHelp from '../modals/JsonFilterHelp';
+import OutputSettings from '../modals/OutputSettings';
 
 export default function Analyze() {
     const { height } = useDeviceSize();
     const { selectedCategoryId } = useContext(UiContext);
+
     return (
         <HeadlessRoot>
             <div className='flex h-full w-full'>
@@ -34,6 +38,9 @@ export default function Analyze() {
                     </div>
                 </div>
             </div>
+            <InsightSettings />
+            <JsonFilterHelp />
+            <OutputSettings />
         </HeadlessRoot>
     );
 }

@@ -47,7 +47,6 @@ export default function Output() {
                     },
                     padding: { top: 0, bottom: 33 },
                     domReadOnly: true,
-                    // wordWrap: editorWordWrap ? "on" : "off",
                     fontSize: config.get('editorFontSize'),
                     lightbulb: {
                         enabled: false,

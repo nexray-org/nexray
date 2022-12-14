@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import React, { createContext, useEffect, useMemo, useState } from 'react';
+import React, { createContext, useMemo, useState } from 'react';
 import useConfig from '../hooks/useConfig';
 import { SchemaData } from '../types';
 
@@ -11,11 +11,20 @@ interface IUiContext {
     activeItem: SchemaData['request'][number] | undefined;
     insightFilter: string;
     setInsightFilter: React.Dispatch<React.SetStateAction<string>>;
+    isOutputSettingsDialogOpen: boolean;
+    setIsOutputSettingsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    isInsightsSettingsDialogOpen: boolean;
+    setIsInsightsSettingsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    isInsightFilterDialogOpen: boolean;
+    setInsightFilterDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const UiContext = createContext<IUiContext>({} as IUiContext);
 
 export function UiProvider({ children }: { children: React.ReactNode | JSX.Element | JSX.Element[] }) {
+    const [isOutputSettingsDialogOpen, setIsOutputSettingsDialogOpen] = useState<boolean>(false);
+    const [isInsightsSettingsDialogOpen, setIsInsightsSettingsDialogOpen] = useState<boolean>(false);
+    const [isInsightFilterDialogOpen, setInsightFilterDialogOpen] = useState<boolean>(false);
     const [selectedCategoryId, setSelectedCategoryId] = useState<string>('');
     const [insightFilter, setInsightFilter] = useState<string>('');
     const [data, setData] = useState<SchemaData['request']>(() =>
@@ -47,7 +56,13 @@ export function UiProvider({ children }: { children: React.ReactNode | JSX.Eleme
                 config,
                 activeItem,
                 insightFilter, 
-                setInsightFilter
+                setInsightFilter,
+                isOutputSettingsDialogOpen, 
+                setIsOutputSettingsDialogOpen,
+                isInsightsSettingsDialogOpen, 
+                setIsInsightsSettingsDialogOpen,
+                isInsightFilterDialogOpen, 
+                setInsightFilterDialogOpen,
             }}
         >
             {children}

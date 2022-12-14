@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from 'react';
 import MonacoWrapper from '../MonacoWrapper';
 import { UiContext } from '../../../context/UiContext';
 import OutputSearch from '../Output/OutputSearch';
+import ControlSnippet from './ControlSnippet';
 
 interface IInsight {
     discoveredObjs: ([number, number, Record<any, any> | any[]][]);
@@ -19,6 +20,7 @@ export default function Insight({ discoveredObjs, onBack }: IInsight) {
     if (!discoveredObjs || discoveredObjs.length === 0) return <></>;
     return (
         <div className='relative group monaco-json-view'>
+            <ControlSnippet />
             <div className='h-[43px] border-b border-b-gray-700 w-full flex items-center space-x-3 pl-3 pb-0.5'>
                 <Button
                     icon={<BsChevronLeft />}
@@ -63,17 +65,14 @@ export default function Insight({ discoveredObjs, onBack }: IInsight) {
                     options={{
                         // https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.IStandaloneEditorConstructionOptions.html#emptySelectionClipboard
                         readOnly: true,
-                        minimap: {
-                            enabled: false,
-                        },
+                        minimap: { enabled: false },
                         padding: { top: 0, bottom: 33 },
                         domReadOnly: true,
-                        // wordWrap: editorWordWrap ? "on" : "off",
-                        fontSize: config.get('editorFontSize'),
+                        fontSize: config.get('insightsFontSize'),
                         lightbulb: {
                             enabled: false,
                         },
-                        wordWrap: config.get('editorWordWrapEnabled') ? "on" : "off",
+                        wordWrap: config.get('insightsWordWrapEnabled') ? "on" : "off",
                         lineNumbers: 'off',
                         scrollBeyondLastLine: false,
                         scrollbar: {
