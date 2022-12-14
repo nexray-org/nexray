@@ -1,8 +1,9 @@
 import { Select, Button } from '@geist-ui/core';
 import { BsChevronLeft } from 'react-icons/bs';
-import { useContext, useState } from 'react';
-import UseMonaco from '../MonacoWrapper';
+import { useContext, useEffect, useState } from 'react';
+import MonacoWrapper from '../MonacoWrapper';
 import { UiContext } from '../../../context/UiContext';
+import OutputSearch from '../Output/OutputSearch';
 
 interface IInsight {
     discoveredObjs: ([number, number, Record<any, any> | any[]][]);
@@ -11,10 +12,13 @@ interface IInsight {
 
 export default function Insight({ discoveredObjs, onBack }: IInsight) {
     const [selectedIndex, setSelectedIndex] = useState<number>(0);
-    const { config } = useContext(UiContext);
-    if (!discoveredObjs) return undefined;
+    const { config, insightFilter, setInsightFilter } = useContext(UiContext);
+
+    useEffect(() => () => setInsightFilter(''), []);
+    
+    if (!discoveredObjs || discoveredObjs.length === 0) return <></>;
     return (
-        <div className='relative'>
+        <div className='relative group monaco-json-view'>
             <div className='h-[43px] border-b border-b-gray-700 w-full flex items-center space-x-3 pl-3 pb-0.5'>
                 <Button
                     icon={<BsChevronLeft />}
@@ -51,10 +55,11 @@ export default function Insight({ discoveredObjs, onBack }: IInsight) {
             </div>
             <div className='relative group monaco-log-view'>
                 {/* <ControlSnippet /> */}
-                <UseMonaco
-                    height={`calc(100vh - 88px)`}
+                <MonacoWrapper
+                    // Full screen - header - find bar - json path bar
+                    height={`calc(100vh - 88px - 43px - 33px)`}
                     language='json'
-                    value={JSON.stringify(discoveredObjs[selectedIndex][2], null, 2)}
+                    value={insightFilter || JSON.stringify(discoveredObjs[selectedIndex][2], null, 2)}
                     options={{
                         // https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.IStandaloneEditorConstructionOptions.html#emptySelectionClipboard
                         readOnly: true,
@@ -84,6 +89,7 @@ export default function Insight({ discoveredObjs, onBack }: IInsight) {
                     }}
                 />
             </div>
+            <OutputSearch mode='json' searchingObject={discoveredObjs[selectedIndex][2]} />
         </div>
     )
 }
