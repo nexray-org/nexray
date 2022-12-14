@@ -1,8 +1,8 @@
 import fetch from 'isomorphic-unfetch';
 
-export async function clipJsonFromAPI(text: string) {
+export default async function clipJsonFromAPI(text: string, customUrl: string | undefined) {
     try {
-        const res = await fetch('https://us-central1-shtl-371501.cloudfunctions.net/pyjf', {
+        const res = await fetch(customUrl || 'https://us-central1-shtl-371501.cloudfunctions.net/pyjf', {
             body: JSON.stringify({ text }),
             headers: {
                 'Content-Type': "application/json"
@@ -12,7 +12,7 @@ export async function clipJsonFromAPI(text: string) {
 
         const resText = await res.text();
         // [start, end, obj][]
-        const objsDiscovered: [number, number, Record<any, any> | any[]][] = JSON.parse(resText);
+        const objsDiscovered: [number, number, Record<any, any> | any[]][] = JSON.parse(resText).found;
         return objsDiscovered;
     } catch (error) {
         console.error(error);

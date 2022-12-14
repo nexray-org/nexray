@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect, useMemo, useState } from 'react';
 import useConfig from '../hooks/useConfig';
 import { SchemaData } from '../types';
 
@@ -8,6 +8,7 @@ interface IUiContext {
     setSelectedCategoryId: React.Dispatch<React.SetStateAction<string>>;
     data: SchemaData['request'];
     config: ReturnType<typeof useConfig>;
+    activeItem: SchemaData['request'][number] | undefined;
 }
 
 export const UiContext = createContext<IUiContext>({} as IUiContext);
@@ -28,10 +29,11 @@ export function UiProvider({ children }: { children: React.ReactNode | JSX.Eleme
             type: faker.internet.httpMethod(),
             url: faker.internet.url(),
             id: faker.datatype.uuid(),
-            contents: faker.helpers.arrayElement([logfile, "asdfasdf", "12345"]),
+            contents: faker.helpers.arrayElement([logfile, "a{\"hello\": \"world\"}sdf[123, { \"mif\": null }]asdf[123, { \"mif\": null }]", "12345{\"hello\": \"world\"}"]),
         })),
     );
     const config = useConfig();
+    const activeItem = useMemo(() => data.find((ele) => ele.id === selectedCategoryId), [data, selectedCategoryId])
 
     return (
         <UiContext.Provider
@@ -39,7 +41,8 @@ export function UiProvider({ children }: { children: React.ReactNode | JSX.Eleme
                 selectedCategoryId,
                 setSelectedCategoryId,
                 data,
-                config
+                config,
+                activeItem
             }}
         >
             {children}

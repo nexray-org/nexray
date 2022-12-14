@@ -30,7 +30,7 @@ def run(request):
         return ({ "error": "No test body attribute found" }, 200, headers)
     else:
         objs_discovered = []
-        for start, end, obj in jsonfinder(example[1]):
+        for start, end, obj in jsonfinder(request_json['text']):
             if obj is not None and len(obj) > 0:
                 objs_discovered.append([start, end, obj])
-        return (objs_discovered, 200, headers)
+        return ({ "found": objs_discovered }, 200, headers)
