@@ -1,9 +1,10 @@
 from typing import List, Tuple, Any
 from copy import deepcopy
+import json
 
 # `/"` and `//` as string values break most solutions
 
-def did_pass(generated: List[Any], correct: List[Any]):
+def did_pass(generated: List[Any], correct: List[Any]) -> Tuple[bool, List[Any], List[Any]]:
     
     def is_not_empty(temp: Any):
         if (len(temp) > 0):
@@ -17,8 +18,8 @@ def did_pass(generated: List[Any], correct: List[Any]):
     missing_elements = deepcopy(no_empty_correct)
     wrong_elements = []
 
-    for generated_element in generated:
-        if (any(x == generated_element for x in missing_elements)):
+    for generated_element in no_empty_generated:
+        if (any(json.dumps(x, sort_keys=True) == json.dumps(generated_element, sort_keys=True) for x in missing_elements)):
             missing_elements.remove(generated_element)
         else:
             wrong_elements.append(generated_element)
@@ -97,6 +98,24 @@ def examples() -> List[Tuple[str, str, List[Any]]]:
             "Deep empty arr with space",
             " [   [ [ []] ]  ]     ",
             [[[[[]]]]]
+        ],
+        [
+            "Simple deep object with nested quotes",
+            """
+            {{{ "hello": "world", "cap": "\" Example text\"", "arr": [ "hello", "world\"world\"world\"", "\"", "\"\"" ] }}}
+            """,
+            [
+                { 
+                    "hello": "world", 
+                    "cap": "\" Example text\"", 
+                    "arr": [ 
+                        "hello", 
+                        "world\"world\"world\"", 
+                        "\"", 
+                        "\"\"" 
+                    ] 
+                }
+            ]
         ],
         [
             "Massive array with nested arrs and objects",
@@ -231,7 +250,312 @@ def examples() -> List[Tuple[str, str, List[Any]]]:
             """
 asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another": "obf", "wor": [{ "I": "love" }, []asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }}}}}}}asdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[]asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }}}}}}}asdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[]asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }}}}}}}asdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[]asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }}}}}}}asdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[]asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }}}}}}}asdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[]asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }}}}}}}asdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[]asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }}}}}}}asdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[]asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }}}}}}}asdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[]asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }}}}}}}asdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[]asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }}}}}}}asdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[]asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }}}}}}}asdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[]asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }}}}}}}asdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[]asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }}}}}}}asdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[]asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }}}}}}}asdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[]asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }}}}}}}asdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[]asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}}asdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[]asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }}}}}}}asdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[]asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }}}}}}}asdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[]asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }}}}}}}asdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[]asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }}}}}}}asdfasdadsfasdf}{}{}{}{{}{}{}{her": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }}}}}}}asdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[]asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }}}}}}}asdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[]asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }sdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[]asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }}}}}}}asdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[]asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }}}}}}}asdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[]asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }}}}}}}asdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[] }}}}}}}asdfasdadsfasdf}{}{}{}{{}{}{}{her": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }}}}}}}asdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[]asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }}}}}}}asdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[]asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }sdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[]asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{ }}}}}}}asdfasdadsfasdf}{}{}{}{{}{}{}{her": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }}}}}}}asdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[]asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }}}}}}}asdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[]asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another": "obf", "wor": [{ "I": "love" }, {}, [{"json": 4}]] }sdfasdadsfasdf}{}{}{}{{}{}{}{+{}}{[]asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{
             """,
-            []
+            [
+                {
+                    'I': 'love'
+                }, {
+                    'hello': 'world',
+                    'ge': {
+                        'another': 'obf',
+                        'wor': [{
+                        'I': 'love'
+                        }, {}, [{
+                        'json': 4
+                        }]]
+                    }
+                }, {
+                'hello': 'world',
+                'ge': {
+                    'another': 'obf',
+                    'wor': [{
+                    'I': 'love'
+                    }, {}, [{
+                    'json': 4
+                    }]]
+                }
+                }, {
+                'hello': 'world',
+                'ge': {
+                    'another': 'obf',
+                    'wor': [{
+                    'I': 'love'
+                    }, {}, [{
+                    'json': 4
+                    }]]
+                }
+                }, {
+                'hello': 'world',
+                'ge': {
+                    'another': 'obf',
+                    'wor': [{
+                    'I': 'love'
+                    }, {}, [{
+                    'json': 4
+                    }]]
+                }
+                }, {
+                'hello': 'world',
+                'ge': {
+                    'another': 'obf',
+                    'wor': [{
+                    'I': 'love'
+                    }, {}, [{
+                    'json': 4
+                    }]]
+                }
+                }, {
+                'hello': 'world',
+                'ge': {
+                    'another': 'obf',
+                    'wor': [{
+                    'I': 'love'
+                    }, {}, [{
+                    'json': 4
+                    }]]
+                }
+                }, {
+                'hello': 'world',
+                'ge': {
+                    'another': 'obf',
+                    'wor': [{
+                    'I': 'love'
+                    }, {}, [{
+                    'json': 4
+                    }]]
+                }
+                }, {
+                'hello': 'world',
+                'ge': {
+                    'another': 'obf',
+                    'wor': [{
+                    'I': 'love'
+                    }, {}, [{
+                    'json': 4
+                    }]]
+                }
+                }, {
+                'hello': 'world',
+                'ge': {
+                    'another': 'obf',
+                    'wor': [{
+                    'I': 'love'
+                    }, {}, [{
+                    'json': 4
+                    }]]
+                }
+                }, {
+                'hello': 'world',
+                'ge': {
+                    'another': 'obf',
+                    'wor': [{
+                    'I': 'love'
+                    }, {}, [{
+                    'json': 4
+                    }]]
+                }
+                }, {
+                'hello': 'world',
+                'ge': {
+                    'another': 'obf',
+                    'wor': [{
+                    'I': 'love'
+                    }, {}, [{
+                    'json': 4
+                    }]]
+                }
+                }, {
+                'hello': 'world',
+                'ge': {
+                    'another': 'obf',
+                    'wor': [{
+                    'I': 'love'
+                    }, {}, [{
+                    'json': 4
+                    }]]
+                }
+                }, {
+                'hello': 'world',
+                'ge': {
+                    'another': 'obf',
+                    'wor': [{
+                    'I': 'love'
+                    }, {}, [{
+                    'json': 4
+                    }]]
+                }
+                }, {
+                'hello': 'world',
+                'ge': {
+                    'another': 'obf',
+                    'wor': [{
+                    'I': 'love'
+                    }, {}, [{
+                    'json': 4
+                    }]]
+                }
+                }, {
+                'hello': 'world',
+                'ge': {
+                    'another': 'obf',
+                    'wor': [{
+                    'I': 'love'
+                    }, {}, [{
+                    'json': 4
+                    }]]
+                }
+                }, {
+                'hello': 'world',
+                'ge': {
+                    'another': 'obf',
+                    'wor': [{
+                    'I': 'love'
+                    }, {}, [{
+                    'json': 4
+                    }]]
+                }
+                }, {
+                'hello': 'world',
+                'ge': {
+                    'another': 'obf',
+                    'wor': [{
+                    'I': 'love'
+                    }, {}, [{
+                    'json': 4
+                    }]]
+                }
+                }, {
+                'hello': 'world',
+                'ge': {
+                    'another': 'obf',
+                    'wor': [{
+                    'I': 'love'
+                    }, {}, [{
+                    'json': 4
+                    }]]
+                }
+                }, {
+                'hello': 'world',
+                'ge': {
+                    'another': 'obf',
+                    'wor': [{
+                    'I': 'love'
+                    }, {}, [{
+                    'json': 4
+                    }]]
+                }
+                }, [{
+                'I': 'love'
+                }, {}, [{
+                'json': 4
+                }]], {
+                'hello': 'world',
+                'ge': {
+                    'another': 'obf',
+                    'wor': [{
+                    'I': 'love'
+                    }, {}, [{
+                    'json': 4
+                    }]]
+                }
+                }, {
+                'another': 'obf',
+                'wor': [{
+                    'I': 'love'
+                }, {}, [{
+                    'json': 4
+                }]]
+                }, {
+                'hello': 'world',
+                'ge': {
+                    'another': 'obf',
+                    'wor': [{
+                    'I': 'love'
+                    }, {}, [{
+                    'json': 4
+                    }]]
+                }
+                }, {
+                'hello': 'world',
+                'ge': {
+                    'another': 'obf',
+                    'wor': [{
+                    'I': 'love'
+                    }, {}, [{
+                    'json': 4
+                    }]]
+                }
+                }, {
+                'hello': 'world',
+                'ge': {
+                    'another': 'obf',
+                    'wor': [{
+                    'I': 'love'
+                    }, {}, [{
+                    'json': 4
+                    }]]
+                }
+                }, [{
+                'I': 'love'
+                }, {}, [{
+                'json': 4
+                }]], {
+                'hello': 'world',
+                'ge': {
+                    'another': 'obf',
+                    'wor': [{
+                    'I': 'love'
+                    }, {}, [{
+                    'json': 4
+                    }]]
+                }
+                }, {
+                    'another': 'obf',
+                    'wor': [
+                        {
+                            'I': 'love'
+                        }, 
+                        {}, 
+                        [{
+                            'json': 4
+                        }]
+                    ]
+                }, [
+                    {
+                        'I': 'love'
+                    }, 
+                    {}, 
+                    [
+                        {
+                            'json': 4
+                        }
+                    ]
+                ], {
+                    'hello': 'world',
+                    'ge': {
+                        'another': 'obf',
+                        'wor': [
+                            {
+                                'I': 'love'
+                            }, 
+                            {}, 
+                            [{
+                                'json': 4
+                            }]
+                        ]
+                    }
+                }, {
+                    'another': 'obf',
+                    'wor': [
+                        {
+                            'I': 'love'
+                        }, 
+                        {}, 
+                        [{
+                            'json': 4
+                        }]
+                    ]
+                }
+            ]
         ],
         [
             "Bracket-delimitated object with nested objects and arrays",
@@ -255,7 +579,26 @@ asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another":
 "tls_match_ref": "http://192.168.10.5/accounts.php"\
 }
             """,
-            []
+            [
+                {
+                    "objects": [
+                        { "from": 44, "my_ref": "http://192.168.10.1/index.php", "allow": "no", "to": 10 },
+                        { "from": 20, "my_ref": "http://192.168.10.2/index.php", "allow": "mandatory", "to": 0 }
+                    ],
+                    "comment": "My PHP",
+                    "identifiable_with_user": True,
+                    "key": 10,
+                    "link": [
+                        { "href": "http://192.168.10.1/index.php", "method": "GET", "rel": "self", "type": "website" },
+                        { "href": "http://192.168.10.5/identifiable.php", "method": "GET", "rel": "account_info" }
+                    ],
+                    "name": "Accounts",
+                    "read_only": True,
+                    "system": True,
+                    "system_key": 20,
+                    "tls_match_ref": "http://192.168.10.5/accounts.php"
+                }
+            ]
         ],
         [
             "Location bed nested array",
@@ -288,6 +631,42 @@ asdfasdf{}{{}}{{}}{}{}{{}{{}{}{}{}{}{}{{{{{{"hello": "world", "ge": { "another":
 "program": "string"
 }]}]}]}]}
             """,
-            []
+            [
+                {
+                    'locations': [
+                        {
+                            'location_id': 4, 
+                            'location_name': 'string', 
+                            'buildings': [
+                                {
+                                    'building_name': 'string', 
+                                    'rooms': [
+                                        {
+                                            'room_name': 'string', 
+                                            'beds': [
+                                                {
+                                                    'bed_name': 'string', 
+                                                    'enabled': 'string', 
+                                                    'status': 'string', 
+                                                    'gender': 'string', 
+                                                    'gender_identity': 'string', 
+                                                    'casefile_id': 'string', 
+                                                    'first_name': 'string', 
+                                                    'last_name': 'string', 
+                                                    'admission_date': 'string', 
+                                                    'anticipated_discharge_date': 'string', 
+                                                    'dob': 'string', 
+                                                    'level_of_care': 'string', 
+                                                    'program': 'string'
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
         ]
     ]
