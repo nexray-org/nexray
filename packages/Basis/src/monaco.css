@@ -63,6 +63,10 @@
     top: calc(100vh - 88px - 33px - 43px - 33px) !important;
 }
 
-.monaco-highlight-block {
-    @apply !bg-[rgb(255,224,20)] !text-g-primary-900 rounded-[2px];
+.monaco-highlight-block-inline {
+    @apply !text-black font-semibold;
+}
+
+.monaco-highlight-block-root {
+    @apply !bg-[#f9ff38] rounded-[2px];
 }

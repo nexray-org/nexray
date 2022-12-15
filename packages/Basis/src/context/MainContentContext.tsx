@@ -46,15 +46,10 @@ export function MainContentProvider({ children }: { children: React.ReactNode | 
                 [],
                 [
                     {
-                        range: { startColumn: firstColumn, endColumn: firstColumn + 1, startLineNumber: firstLineNumber, endLineNumber: firstLineNumber },
+                        range: { startColumn: firstColumn, endColumn: secondColumn, startLineNumber: firstLineNumber, endLineNumber: secondLineNumber },
                         options: {
-                            inlineClassName: 'monaco-highlight-block',
-                        },
-                    },
-                    {
-                        range: { startColumn: secondColumn - 1, endColumn: secondColumn, startLineNumber: secondLineNumber, endLineNumber: secondLineNumber },
-                        options: {
-                            inlineClassName: 'monaco-highlight-block',
+                            inlineClassName: 'monaco-highlight-block-inline',
+                            className: 'monaco-highlight-block-root',
                         },
                     },
                 ],

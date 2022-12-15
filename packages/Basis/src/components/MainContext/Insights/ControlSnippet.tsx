@@ -19,7 +19,7 @@ export default function ControlSnippet() {
         setToast({
             text: (
                 <span className='text-sm'>
-                    Generated and copied shareable permalink: <Link color>{'https://asdf.com'}</Link>
+                    Generated and copied shareable permalink: <Link color target={"_blank"}>{'https://asdf.com'}</Link>
                 </span>
             ),
         });
