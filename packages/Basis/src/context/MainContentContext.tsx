@@ -40,7 +40,7 @@ export function MainContentProvider({ children }: { children: React.ReactNode | 
             const { lineNumber: firstLineNumber, column: firstColumn } = outputMonacoEditor.getModel()!.getPositionAt(scrollOutputToTuple[0]);
             const { lineNumber: secondLineNumber, column: secondColumn } = outputMonacoEditor.getModel()!.getPositionAt(scrollOutputToTuple[1]);
             
-            outputMonacoEditor.setScrollPosition({ scrollTop: firstLineNumber, scrollLeft: firstColumn });
+            outputMonacoEditor.revealPositionInCenter({ column: firstColumn, lineNumber: firstLineNumber });
 
             existingDecorationIds = outputMonacoEditor.deltaDecorations([], [
                 {
