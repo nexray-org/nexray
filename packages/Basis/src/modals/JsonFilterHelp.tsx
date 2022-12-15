@@ -3,9 +3,9 @@ import { useContext } from 'react';
 import { UiContext } from '../context/UiContext';
 
 export default function JsonFilterHelp() {
-    const { isInsightFilterDialogOpen, setInsightFilterDialogOpen } = useContext(UiContext);
+    const { isInsightFilterDialogOpen, setIsInsightFilterDialogOpen } = useContext(UiContext);
     return (
-        <Modal visible={isInsightFilterDialogOpen} onClose={() => setInsightFilterDialogOpen(false)} width="680px">
+        <Modal visible={isInsightFilterDialogOpen} onClose={() => setIsInsightFilterDialogOpen(false)} width="680px">
             <Modal.Title className='!block !text-left'>Filter JSON Objects</Modal.Title>
             <Modal.Content pt={0.4}>
                 <p className='text-sm inline-block'>

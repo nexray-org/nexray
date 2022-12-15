@@ -10,6 +10,7 @@ import MainContent from '../components/MainContext';
 import InsightSettings from '../modals/InsightSettings';
 import JsonFilterHelp from '../modals/JsonFilterHelp';
 import OutputSettings from '../modals/OutputSettings';
+import FilterGroups from '../modals/FilterGroups';
 
 export default function Analyze() {
     const { height } = useDeviceSize();
@@ -41,6 +42,7 @@ export default function Analyze() {
             <InsightSettings />
             <JsonFilterHelp />
             <OutputSettings />
+            <FilterGroups />
         </HeadlessRoot>
     );
 }

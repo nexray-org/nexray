@@ -14,7 +14,9 @@ interface IUiContext {
     isInsightsSettingsDialogOpen: boolean;
     setIsInsightsSettingsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
     isInsightFilterDialogOpen: boolean;
-    setInsightFilterDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    setIsInsightFilterDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    isFilterGroupDialogOpen: boolean;
+    setIsFilterGroupDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const UiContext = createContext<IUiContext>({} as IUiContext);
@@ -22,7 +24,8 @@ export const UiContext = createContext<IUiContext>({} as IUiContext);
 export function UiProvider({ children }: { children: React.ReactNode | JSX.Element | JSX.Element[] }) {
     const [isOutputSettingsDialogOpen, setIsOutputSettingsDialogOpen] = useState<boolean>(false);
     const [isInsightsSettingsDialogOpen, setIsInsightsSettingsDialogOpen] = useState<boolean>(false);
-    const [isInsightFilterDialogOpen, setInsightFilterDialogOpen] = useState<boolean>(false);
+    const [isInsightFilterDialogOpen, setIsInsightFilterDialogOpen] = useState<boolean>(false);
+    const [isFilterGroupDialogOpen, setIsFilterGroupDialogOpen] = useState<boolean>(false);
     const [selectedCategoryId, setSelectedCategoryId] = useState<string>('');
 
     const [data, setData] = useState<SchemaData['request']>(() =>
@@ -62,7 +65,9 @@ export function UiProvider({ children }: { children: React.ReactNode | JSX.Eleme
                 isInsightsSettingsDialogOpen,
                 setIsInsightsSettingsDialogOpen,
                 isInsightFilterDialogOpen,
-                setInsightFilterDialogOpen,
+                setIsInsightFilterDialogOpen,
+                isFilterGroupDialogOpen, 
+                setIsFilterGroupDialogOpen,
             }}
         >
             {children}

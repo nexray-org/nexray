@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Input, InputProps } from '@geist-ui/core';
 import { BsFillCaretDownFill } from 'react-icons/bs';
 import clsx from 'clsx';
+import { UiContext } from '../../context/UiContext';
 
 const EndAdornment = ({ children }: { children: React.ReactNode }) => (
     <div className='relative'>
@@ -11,13 +12,14 @@ const EndAdornment = ({ children }: { children: React.ReactNode }) => (
             </div>
         </div>
 
-        <BsFillCaretDownFill className='text-g-primary-300' />
+        <BsFillCaretDownFill className='text-g-primary-300 hover:text-g-primary-200' />
     </div>
 );
 
 export default function SearchBar(props: Partial<InputProps>) {
     const inputRef = useRef<HTMLInputElement>(null);
     const [os, setOS] = useState<'mac' | 'win'>(() => (navigator.platform.toUpperCase().indexOf('MAC') >= 0 ? 'mac' : 'win'));
+    const { setIsFilterGroupDialogOpen } = useContext(UiContext);
 
     useEffect(() => {
         const searchKeys = (e: KeyboardEvent) => {
@@ -39,6 +41,7 @@ export default function SearchBar(props: Partial<InputProps>) {
             placeholder='Search'
             iconRight={os ? <EndAdornment>{os === 'mac' ? '⌘' : 'ctrl'} + K</EndAdornment> : <></>}
             iconClickable
+            onIconClick={() => setIsFilterGroupDialogOpen(true)}
             {...props}
             className={clsx('[&>div]:!rounded-none [&>div]:!border-x-0 [&>div]:!border-t-0 group !w-full', props.className)}
         />

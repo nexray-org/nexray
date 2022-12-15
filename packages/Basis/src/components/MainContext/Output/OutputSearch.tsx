@@ -18,7 +18,7 @@ interface IOutputSearch {
 // https://github.com/Kong/insomnia/blob/4612ef75b12a1f0b67c3ac84d7985c2f9934268d/packages/insomnia/src/ui/components/viewers/response-viewer.tsx#L112
 
 export default function OutputSearch({ mode, searchingObject }: IOutputSearch) {
-    const { setInsightFilterDialogOpen } = useContext(UiContext);
+    const { setIsInsightFilterDialogOpen } = useContext(UiContext);
     const { setInsightFilter } = useContext(MainContentContext);
     const [searchVal, setSearchVal] = useState<string>('');
     const debouncedSearch = useDebounce(searchVal, 300);
@@ -59,7 +59,7 @@ export default function OutputSearch({ mode, searchingObject }: IOutputSearch) {
             <div className={clsx('max-w-[250px] pr-2')}>
                 <AiFillQuestionCircle
                     className='text-g-primary-400 cursor-pointer hover:text-g-primary-200 transition-colors'
-                    onClick={() => setInsightFilterDialogOpen(true)}
+                    onClick={() => setIsInsightFilterDialogOpen(true)}
                 />
             </div>
         </div>
