@@ -8,7 +8,7 @@ import { JSONPath } from 'jsonpath-plus';
 import useIsMounted from '../../../hooks/useIsMounted';
 
 interface IOutputSearch {
-    mode: "json" | "xml" | "html";
+    mode: 'json' | 'xml' | 'html';
     searchingObject: Record<any, any> | any[];
 }
 
@@ -27,25 +27,23 @@ export default function OutputSearch({ mode, searchingObject }: IOutputSearch) {
             return;
         }
 
-        let prettyFilter = "";
+        let prettyFilter = '';
         if (debouncedSearch) {
             try {
-                if (mode === "html") {
+                if (mode === 'html') {
                     null;
                     // https://github.com/Kong/insomnia/blob/4612ef75b12a1f0b67c3ac84d7985c2f9934268d/packages/insomnia/src/ui/components/codemirror/code-editor.tsx#L194
-                } else if (mode === "xml") {
+                } else if (mode === 'xml') {
                     null;
-                } else if (mode === "json") {
-                    prettyFilter = JSON.stringify(
-                        JSONPath({ json: searchingObject, path: debouncedSearch.trim() }), null, 2
-                    );
-                } 
+                } else if (mode === 'json') {
+                    prettyFilter = JSON.stringify(JSONPath({ json: searchingObject, path: debouncedSearch.trim() }), null, 2);
+                }
             } catch (error) {
-                prettyFilter = "";
+                prettyFilter = '';
             }
         }
         setInsightFilter(prettyFilter);
-    }, [debouncedSearch])
+    }, [debouncedSearch]);
 
     return (
         <div className='flex max-h-[33px] items-center border-t border-t-g-primary-700 focus-within:border-t-g-primary-400 duration-[.2s] transition-all ease-[ease]'>

@@ -13,11 +13,11 @@ export default function Output() {
     useEffect(() => {
         // focus find bar and delete contents
         if (outputMonacoEditor) {
-            focusFindAndClear(outputMonacoEditor)
+            focusFindAndClear(outputMonacoEditor);
         } else {
-            // Otherwise, just do this 
+            // Otherwise, just do this
         }
-    }, [selectedCategoryId])
+    }, [selectedCategoryId]);
 
     const onMonacoMount: OnMount = (_editor) => {
         setOutputMonacoEditor(_editor);
@@ -50,7 +50,7 @@ export default function Output() {
                     lightbulb: {
                         enabled: false,
                     },
-                    wordWrap: config.get('editorWordWrapEnabled') ? "on" : "off",
+                    wordWrap: config.get('editorWordWrapEnabled') ? 'on' : 'off',
                     lineNumbers: 'off',
                     scrollBeyondLastLine: false,
                     scrollbar: {
@@ -62,7 +62,7 @@ export default function Output() {
                         // https://github.com/microsoft/vscode/issues/28390#issuecomment-470797061
                         addExtraSpaceOnTop: false,
                     },
-                    renderWhitespace: "none"
+                    renderWhitespace: 'none',
                 }}
             />
         </div>

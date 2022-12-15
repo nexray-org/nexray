@@ -8,7 +8,7 @@ function MonacoPlaceholder() {
         <div className='z-20 absolute top-0 left-0 w-full h-[calc(100vh-125px)] flex-center bg-g-primary-900 pb-[5%]'>
             <Loading />
         </div>
-    )
+    );
 }
 
 export function focusFindAndClear(_editor: editor.IStandaloneCodeEditor) {
@@ -18,18 +18,18 @@ export function focusFindAndClear(_editor: editor.IStandaloneCodeEditor) {
     // _editor.getAction('actions.find').run(); This doesn;t run sometimes, returns null. Stick with trigger
     _editor.trigger('', 'actions.find', undefined);
     if (document) {
-        const findRawInput = document.querySelector(".monaco-editor .find-widget>.find-part .monaco-inputbox>.ibwrapper>textarea.input");
+        const findRawInput = document.querySelector('.monaco-editor .find-widget>.find-part .monaco-inputbox>.ibwrapper>textarea.input');
         if (findRawInput) {
-            const nativeTextAreaValueSetter = Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, "value")?.set;
+            const nativeTextAreaValueSetter = Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, 'value')?.set;
             if (nativeTextAreaValueSetter) {
-                nativeTextAreaValueSetter.call(findRawInput, "");
-                findRawInput.dispatchEvent(new Event("input", { bubbles: true }));
+                nativeTextAreaValueSetter.call(findRawInput, '');
+                findRawInput.dispatchEvent(new Event('input', { bubbles: true }));
             }
         }
     }
 }
 
-export default function MonacoWrapper(props: Omit<EditorProps, "onMount" | "theme" | "width"> & { safeOnMount?: OnMount; }) {
+export default function MonacoWrapper(props: Omit<EditorProps, 'onMount' | 'theme' | 'width'> & { safeOnMount?: OnMount }) {
     const [monacoEditor, setMonacoEditor] = useState<editor.IStandaloneCodeEditor>();
 
     useEffect(() => {
@@ -89,8 +89,8 @@ export default function MonacoWrapper(props: Omit<EditorProps, "onMount" | "them
     const onMonacoMount: OnMount = (_editor, _monaco) => {
         setMonacoEditor(_editor);
         console.log('Monaco supported actions:');
-        console.log(_editor.getSupportedActions().map((a) => a.id))
-        focusFindAndClear(_editor)
+        console.log(_editor.getSupportedActions().map((a) => a.id));
+        focusFindAndClear(_editor);
 
         // https://github.com/microsoft/monaco-editor/issues/287
         const messageContribution = _editor.getContribution('editor.contrib.messageController');
@@ -112,5 +112,5 @@ export default function MonacoWrapper(props: Omit<EditorProps, "onMount" | "them
                 }}
             />
         </>
-    )
+    );
 }

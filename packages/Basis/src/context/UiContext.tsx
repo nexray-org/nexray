@@ -41,11 +41,15 @@ export function UiProvider({ children }: { children: React.ReactNode | JSX.Eleme
             type: faker.internet.httpMethod(),
             url: faker.internet.url(),
             id: faker.datatype.uuid(),
-            contents: faker.helpers.arrayElement([logfile, "a{\"hello\": \"world\"}sdf[123, { \"mif\": null }]asdf[123, { \"mif\": null }]", "12345{\"hello\": \"world\"}"]),
+            contents: faker.helpers.arrayElement([
+                logfile,
+                'a{"hello": "world"}sdf[123, { "mif": null }]asdf[123, { "mif": null }]',
+                '12345{"hello": "world"}',
+            ]),
         })),
     );
     const config = useConfig();
-    const activeItem = useMemo(() => data.find((ele) => ele.id === selectedCategoryId), [data, selectedCategoryId])
+    const activeItem = useMemo(() => data.find((ele) => ele.id === selectedCategoryId), [data, selectedCategoryId]);
 
     return (
         <UiContext.Provider
@@ -55,13 +59,13 @@ export function UiProvider({ children }: { children: React.ReactNode | JSX.Eleme
                 data,
                 config,
                 activeItem,
-                insightFilter, 
+                insightFilter,
                 setInsightFilter,
-                isOutputSettingsDialogOpen, 
+                isOutputSettingsDialogOpen,
                 setIsOutputSettingsDialogOpen,
-                isInsightsSettingsDialogOpen, 
+                isInsightsSettingsDialogOpen,
                 setIsInsightsSettingsDialogOpen,
-                isInsightFilterDialogOpen, 
+                isInsightFilterDialogOpen,
                 setInsightFilterDialogOpen,
             }}
         >

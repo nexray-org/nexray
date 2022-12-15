@@ -15,7 +15,7 @@ interface IMainContentContext {
     jumpTo: (start: number, end: number) => void;
 }
 
-export type DiscoveredObject = ([number, number, Record<any, any> | any[]]);
+export type DiscoveredObject = [number, number, Record<any, any> | any[]];
 
 export const MainContentContext = createContext<IMainContentContext>({} as IMainContentContext);
 
@@ -28,7 +28,7 @@ export function MainContentProvider({ children }: { children: React.ReactNode | 
     function jumpTo(start: number, end: number) {
         if (outputMonacoEditor) {
             setActiveTab('output');
-            setScrollOutputToTuple([start, end])
+            setScrollOutputToTuple([start, end]);
             // output Monaco editor is now null. Need to wait until next hook
             // https://stackoverflow.com/a/55147134
         }
@@ -39,40 +39,43 @@ export function MainContentProvider({ children }: { children: React.ReactNode | 
         if (outputMonacoEditor && scrollOutputToTuple) {
             const { lineNumber: firstLineNumber, column: firstColumn } = outputMonacoEditor.getModel()!.getPositionAt(scrollOutputToTuple[0]);
             const { lineNumber: secondLineNumber, column: secondColumn } = outputMonacoEditor.getModel()!.getPositionAt(scrollOutputToTuple[1]);
-            
+
             outputMonacoEditor.revealPositionInCenter({ column: firstColumn, lineNumber: firstLineNumber });
 
-            existingDecorationIds = outputMonacoEditor.deltaDecorations([], [
-                {
-                    range: { startColumn: firstColumn, endColumn: firstColumn + 1, startLineNumber: firstLineNumber, endLineNumber: firstLineNumber },
-                    options: { 
-                        inlineClassName: "monaco-highlight-block", 
-                    }
-                },
-                {
-                    range: { startColumn: secondColumn - 1, endColumn: secondColumn, startLineNumber: secondLineNumber, endLineNumber: secondLineNumber },
-                    options: { 
-                        inlineClassName: "monaco-highlight-block", 
-                    }
-                }
-            ])
+            existingDecorationIds = outputMonacoEditor.deltaDecorations(
+                [],
+                [
+                    {
+                        range: { startColumn: firstColumn, endColumn: firstColumn + 1, startLineNumber: firstLineNumber, endLineNumber: firstLineNumber },
+                        options: {
+                            inlineClassName: 'monaco-highlight-block',
+                        },
+                    },
+                    {
+                        range: { startColumn: secondColumn - 1, endColumn: secondColumn, startLineNumber: secondLineNumber, endLineNumber: secondLineNumber },
+                        options: {
+                            inlineClassName: 'monaco-highlight-block',
+                        },
+                    },
+                ],
+            );
         }
         return () => {
             existingDecorationIds && outputMonacoEditor?.removeDecorations(existingDecorationIds);
             setScrollOutputToTuple(undefined);
         };
-    }, [outputMonacoEditor])
+    }, [outputMonacoEditor]);
 
     return (
         <MainContentContext.Provider
             value={{
                 setActiveTab,
                 tabsBindings,
-                discoveredObjs, 
+                discoveredObjs,
                 setDiscoveredObjs,
-                outputMonacoEditor, 
+                outputMonacoEditor,
                 setOutputMonacoEditor,
-                jumpTo
+                jumpTo,
             }}
         >
             {children}

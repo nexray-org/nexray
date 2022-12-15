@@ -5,9 +5,9 @@ export default async function clipJsonFromAPI(text: string, customUrl: string | 
         const res = await fetch(customUrl || 'https://us-central1-shtl-371501.cloudfunctions.net/pyjf', {
             body: JSON.stringify({ text }),
             headers: {
-                'Content-Type': "application/json"
+                'Content-Type': 'application/json',
             },
-            method: "POST"
+            method: 'POST',
         });
 
         const resText = await res.text();

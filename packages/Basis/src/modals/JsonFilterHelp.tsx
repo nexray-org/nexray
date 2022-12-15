@@ -22,5 +22,5 @@ export default function JsonFilterHelp() {
                 </p>
             </Modal.Content>
         </Modal>
-    )
+    );
 }

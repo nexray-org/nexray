@@ -19,7 +19,7 @@ const defaultConfig: Config = {
     insightsWordWrapEnabled: true,
     insightsFontSize: 12,
     parseFindJsonEnabled: true,
-    parseCustomFindJsonRoute: ""
+    parseCustomFindJsonRoute: '',
 };
 
 let _configCache: Config | Record<string, any> = {};
@@ -35,18 +35,12 @@ export default function useConfig() {
 
     useAsyncEffect(async (isActive) => {
         // https://github.com/tauri-apps/tauri/issues/5518#issuecomment-1297586215
-        const [
-            fs,
-            path
-        ] = await Promise.all([
-            import('@tauri-apps/api/fs'),
-            import('@tauri-apps/api/path')
-        ]);
+        const [fs, path] = await Promise.all([import('@tauri-apps/api/fs'), import('@tauri-apps/api/path')]);
 
         libsRef.current = {
             fs,
-            path
-        }
+            path,
+        };
 
         if (Object.keys(_configCache).length === 0) {
             const configRootDir = await path.appConfigDir();
@@ -56,7 +50,7 @@ export default function useConfig() {
                     throw new Error();
                 }
             } catch (_) {
-                await fs.createDir(configRootDir, { recursive: true })
+                await fs.createDir(configRootDir, { recursive: true });
             }
 
             configFilePathRef.current = await path.join(configRootDir, 'config.json');
@@ -67,8 +61,8 @@ export default function useConfig() {
                 }
                 _configCache = {
                     ...defaultConfig,
-                    ...JSON.parse(await fs.readTextFile(configFilePathRef.current))
-                }
+                    ...JSON.parse(await fs.readTextFile(configFilePathRef.current)),
+                };
             } catch (error) {
                 _configCache = defaultConfig;
                 await writeCache();

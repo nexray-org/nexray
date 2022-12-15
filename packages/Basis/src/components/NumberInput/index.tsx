@@ -1,18 +1,18 @@
-import { useState } from "react";
+import { useState } from 'react';
 import { Input, InputProps } from '@geist-ui/core';
-import numbro from "numbro";
+import numbro from 'numbro';
 
 type ControlledRowNumberInputProps =
     | {
-        fallback: number | undefined;
-        value: number | undefined;
-        onChange: (value: number | undefined) => any;
-    }
+          fallback: number | undefined;
+          value: number | undefined;
+          onChange: (value: number | undefined) => any;
+      }
     | {
-        value: number;
-        fallback: number;
-        onChange: (value: number) => any;
-    };
+          value: number;
+          fallback: number;
+          onChange: (value: number) => any;
+      };
 
 type INumberInput = Omit<InputProps, 'value' | 'onChange'> & ControlledRowNumberInputProps;
 
@@ -41,7 +41,7 @@ export default function NumberInput({ fallback, value, onChange, ...props }: INu
     return (
         <Input
             value={`${value === undefined ? '' : numbro(value).format({ thousandSeparated: true })}${isShowDot ? '.' : ''}`}
-            onChange={e => onChangeWrapper(e.target.value)}
+            onChange={(e) => onChangeWrapper(e.target.value)}
             onKeyDown={({ nativeEvent: { key } }) => {
                 if (key === 'Backspace') {
                     setIsShowDot(false);
@@ -51,9 +51,9 @@ export default function NumberInput({ fallback, value, onChange, ...props }: INu
                     }
                 }
             }}
-            inputMode="numeric"
+            inputMode='numeric'
             // htmlType="number" DON'T DO THIS!
             {...props}
         />
-    )
+    );
 }
