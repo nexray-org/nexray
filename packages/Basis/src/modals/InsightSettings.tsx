@@ -35,6 +35,13 @@ export default function InsightSettings() {
                         <NumberInput value={fontSizeVal} onChange={setFontSizeVal} fallback={0} className='max-w-[80px]' height={'30px'} />
                         <span className='text-sm ml-2.5'>Font Size</span>
                     </div>
+                    <div className='items-center flex mb-5'>
+                        <Toggle
+                            checked={config.get('insightsIndexesEnabled')}
+                            onChange={(e) => config.set('insightsIndexesEnabled', !config.get('insightsIndexesEnabled'))}
+                        />
+                        <span className='text-sm ml-2.5 -mb-1.5'>Show position indexes</span>
+                    </div>
                 </div>
             </Modal.Content>
             <Modal.Action passive onClick={() => setIsInsightsSettingsDialogOpen(false)}>

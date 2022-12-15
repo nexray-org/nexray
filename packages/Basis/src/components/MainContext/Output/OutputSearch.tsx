@@ -6,6 +6,7 @@ import { UiContext } from '../../../context/UiContext';
 import useDebounce from '../../../hooks/useDebounce';
 import { JSONPath } from 'jsonpath-plus';
 import useIsMounted from '../../../hooks/useIsMounted';
+import { MainContentContext } from '../../../context/MainContentContext';
 
 interface IOutputSearch {
     mode: 'json' | 'xml' | 'html';
@@ -17,7 +18,8 @@ interface IOutputSearch {
 // https://github.com/Kong/insomnia/blob/4612ef75b12a1f0b67c3ac84d7985c2f9934268d/packages/insomnia/src/ui/components/viewers/response-viewer.tsx#L112
 
 export default function OutputSearch({ mode, searchingObject }: IOutputSearch) {
-    const { setInsightFilter, setInsightFilterDialogOpen } = useContext(UiContext);
+    const { setInsightFilterDialogOpen } = useContext(UiContext);
+    const { setInsightFilter } = useContext(MainContentContext);
     const [searchVal, setSearchVal] = useState<string>('');
     const debouncedSearch = useDebounce(searchVal, 300);
     const isMounted = useIsMounted();

@@ -8,6 +8,7 @@ export interface Config {
     editorWordWrapEnabled: boolean;
     insightsWordWrapEnabled: boolean;
     insightsFontSize: number;
+    insightsIndexesEnabled: boolean;
     parseFindJsonEnabled: boolean;
     parseCustomFindJsonRoute: string;
 }
@@ -18,6 +19,7 @@ const defaultConfig: Config = {
     editorWordWrapEnabled: true,
     insightsWordWrapEnabled: true,
     insightsFontSize: 12,
+    insightsIndexesEnabled: false,
     parseFindJsonEnabled: true,
     parseCustomFindJsonRoute: '',
 };

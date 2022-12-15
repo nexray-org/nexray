@@ -1,11 +1,12 @@
 import { Select, Button } from '@geist-ui/core';
 import { BsChevronLeft } from 'react-icons/bs';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import MonacoWrapper from '../MonacoWrapper';
 import { UiContext } from '../../../context/UiContext';
 import OutputSearch from '../Output/OutputSearch';
 import ControlSnippet from './ControlSnippet';
 import { MainContentContext } from '../../../context/MainContentContext';
+import numbro from 'numbro';
 
 interface IInsight {
     discoveredObjs: [number, number, Record<any, any> | any[]][];
@@ -13,11 +14,13 @@ interface IInsight {
 }
 
 export default function Insight({ discoveredObjs, onBack }: IInsight) {
-    const [selectedIndex, setSelectedIndex] = useState<number>(0);
-    const { config, insightFilter, setInsightFilter } = useContext(UiContext);
-    const { jumpTo } = useContext(MainContentContext);
+    const { config } = useContext(UiContext);
+    const { jumpTo, insightFilter, setInsightFilter, selectedDiscoveredIndex, setSelectedDiscoveredIndex } = useContext(MainContentContext);
 
-    useEffect(() => () => setInsightFilter(''), []);
+    useEffect(() => () => {
+        setInsightFilter('');
+        setSelectedDiscoveredIndex(0);
+    }, []);
 
     if (!discoveredObjs || discoveredObjs.length === 0) return <></>;
     return (
@@ -27,7 +30,7 @@ export default function Insight({ discoveredObjs, onBack }: IInsight) {
                 <Button icon={<BsChevronLeft />} auto h='30px' type='default' pr={'7px'} pl={'6px'} className='!flex' onClick={onBack}>
                     <span className='text-[10px] tracking-tight'>BACK</span>
                 </Button>
-                <Select type='success' initialValue='1' h='30px' value={'' + selectedIndex} width='150px' onChange={(val) => setSelectedIndex(+val)}>
+                <Select type='success' initialValue='1' h='30px' value={'' + selectedDiscoveredIndex} width='150px' onChange={(val) => setSelectedDiscoveredIndex(+val)}>
                     {discoveredObjs.map((ele, index) => (
                         <Select.Option value={'' + index}>
                             <span>
@@ -45,13 +48,17 @@ export default function Insight({ discoveredObjs, onBack }: IInsight) {
                     className='!flex'
                     px={'10px'}
                     onClick={() => {
-                        jumpTo(discoveredObjs[selectedIndex][0], discoveredObjs[selectedIndex][1]);
+                        jumpTo(discoveredObjs[selectedDiscoveredIndex][0], discoveredObjs[selectedDiscoveredIndex][1]);
                     }}
                 >
                     <span className='text-[12px] tracking-tight font-bold'>Jump to</span>
                 </Button>
-                <span className='font-mono text-xs'>Start index: {discoveredObjs[selectedIndex][0]}&nbsp;</span>
-                <span className='font-mono text-xs'>End index: {discoveredObjs[selectedIndex][1]}</span>
+                {config.get('insightsIndexesEnabled') && (
+                    <>
+                        <span className='font-mono text-[11px]'>Start index: {numbro(discoveredObjs[selectedDiscoveredIndex][0]).format({ thousandSeparated: true })}</span>
+                        <span className='font-mono text-[11px]'>End index: {numbro(discoveredObjs[selectedDiscoveredIndex][1]).format({ thousandSeparated: true })}</span>
+                    </>
+                )}
             </div>
             <div className='relative group monaco-log-view'>
                 {/* <ControlSnippet /> */}
@@ -59,7 +66,7 @@ export default function Insight({ discoveredObjs, onBack }: IInsight) {
                     // Full screen - header - find bar - json path bar
                     height={`calc(100vh - 88px - 43px - 33px)`}
                     language='json'
-                    value={insightFilter || JSON.stringify(discoveredObjs[selectedIndex][2], null, 2)}
+                    value={insightFilter || JSON.stringify(discoveredObjs[selectedDiscoveredIndex][2], null, 2)}
                     options={{
                         // https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.IStandaloneEditorConstructionOptions.html#emptySelectionClipboard
                         readOnly: true,
@@ -87,7 +94,7 @@ export default function Insight({ discoveredObjs, onBack }: IInsight) {
                     }}
                 />
             </div>
-            <OutputSearch mode='json' searchingObject={discoveredObjs[selectedIndex][2]} />
+            <OutputSearch mode='json' searchingObject={discoveredObjs[selectedDiscoveredIndex][2]} />
         </div>
     );
 }

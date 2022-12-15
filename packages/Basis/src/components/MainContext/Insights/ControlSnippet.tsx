@@ -3,16 +3,19 @@ import { Button, useClipboard, useToasts, Link } from '@geist-ui/core';
 import { useContext } from 'react';
 import { UiContext } from '../../../context/UiContext';
 import { AiOutlineLink, AiOutlineSetting } from 'react-icons/ai';
+import { MainContentContext } from '../../../context/MainContentContext';
 
 export default function ControlSnippet() {
+    const { setIsInsightsSettingsDialogOpen } = useContext(UiContext);
+    const { discoveredObjs, selectedDiscoveredIndex } = useContext(MainContentContext);
     const { setToast } = useToasts();
     const { copy } = useClipboard();
-    const { data, selectedCategoryId, setIsInsightsSettingsDialogOpen } = useContext(UiContext);
-    const item = data.find((ele) => ele.id === selectedCategoryId)!;
 
     const copyHandler = () => {
-        copy(item.contents);
-        setToast({ text: 'Copied log contents' });
+        if (discoveredObjs !== false && discoveredObjs[selectedDiscoveredIndex]) {
+            copy(JSON.stringify(discoveredObjs[selectedDiscoveredIndex][2], null, 2));
+            setToast({ text: 'Copied object contents' });
+        }
     };
 
     const permaHandler = () => {
@@ -29,7 +32,7 @@ export default function ControlSnippet() {
         <div className='absolute top-14 right-6 opacity-0 transition-opacity group-hover:opacity-100 z-20 flex space-x-2'>
             <Button icon={<AiOutlineSetting />} width={0.25} px={0} scale={0.8} onClick={() => setIsInsightsSettingsDialogOpen(true)} />
             <Button icon={<AiOutlineLink />} width={0.25} px={0} scale={0.8} onClick={permaHandler} />
-            <Button icon={<SnippetIcon />} width={0.25} px={0} scale={0.8} onClick={copyHandler} />
+            <Button disabled={!discoveredObjs || discoveredObjs.length === 0} icon={<SnippetIcon />} width={0.25} px={0} scale={0.8} onClick={copyHandler} />
         </div>
     );
 }

@@ -9,8 +9,6 @@ interface IUiContext {
     data: SchemaData['request'];
     config: ReturnType<typeof useConfig>;
     activeItem: SchemaData['request'][number] | undefined;
-    insightFilter: string;
-    setInsightFilter: React.Dispatch<React.SetStateAction<string>>;
     isOutputSettingsDialogOpen: boolean;
     setIsOutputSettingsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
     isInsightsSettingsDialogOpen: boolean;
@@ -26,7 +24,7 @@ export function UiProvider({ children }: { children: React.ReactNode | JSX.Eleme
     const [isInsightsSettingsDialogOpen, setIsInsightsSettingsDialogOpen] = useState<boolean>(false);
     const [isInsightFilterDialogOpen, setInsightFilterDialogOpen] = useState<boolean>(false);
     const [selectedCategoryId, setSelectedCategoryId] = useState<string>('');
-    const [insightFilter, setInsightFilter] = useState<string>('');
+
     const [data, setData] = useState<SchemaData['request']>(() =>
         [...new Array(1000)].map((_) => ({
             durationMs: faker.datatype.number({ min: 19, max: 1000000 }),
@@ -59,8 +57,6 @@ export function UiProvider({ children }: { children: React.ReactNode | JSX.Eleme
                 data,
                 config,
                 activeItem,
-                insightFilter,
-                setInsightFilter,
                 isOutputSettingsDialogOpen,
                 setIsOutputSettingsDialogOpen,
                 isInsightsSettingsDialogOpen,

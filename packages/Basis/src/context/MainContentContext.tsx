@@ -13,6 +13,10 @@ interface IMainContentContext {
     outputMonacoEditor: editor.IStandaloneCodeEditor | undefined;
     setOutputMonacoEditor: React.Dispatch<React.SetStateAction<editor.IStandaloneCodeEditor | undefined>>;
     jumpTo: (start: number, end: number) => void;
+    insightFilter: string;
+    setInsightFilter: React.Dispatch<React.SetStateAction<string>>;
+    selectedDiscoveredIndex: number;
+    setSelectedDiscoveredIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export type DiscoveredObject = [number, number, Record<any, any> | any[]];
@@ -22,8 +26,10 @@ export const MainContentContext = createContext<IMainContentContext>({} as IMain
 export function MainContentProvider({ children }: { children: React.ReactNode | JSX.Element | JSX.Element[] }) {
     const { bindings: tabsBindings, setState: setActiveTab } = useTabs('output');
     const [discoveredObjs, setDiscoveredObjs] = useState<DiscoveredObject[] | false>(false);
+    const [selectedDiscoveredIndex, setSelectedDiscoveredIndex] = useState<number>(0);
     const [outputMonacoEditor, setOutputMonacoEditor] = useState<editor.IStandaloneCodeEditor>();
     const [scrollOutputToTuple, setScrollOutputToTuple] = useState<[number, number]>();
+    const [insightFilter, setInsightFilter] = useState<string>('');
 
     function jumpTo(start: number, end: number) {
         if (outputMonacoEditor) {
@@ -71,6 +77,10 @@ export function MainContentProvider({ children }: { children: React.ReactNode | 
                 outputMonacoEditor,
                 setOutputMonacoEditor,
                 jumpTo,
+                insightFilter, 
+                setInsightFilter,
+                selectedDiscoveredIndex, 
+                setSelectedDiscoveredIndex
             }}
         >
             {children}
