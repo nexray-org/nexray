@@ -62,3 +62,7 @@
 .monaco-json-view .monaco-editor .find-widget {
     top: calc(100vh - 88px - 33px - 43px - 33px) !important;
 }
+
+.monaco-highlight-block {
+    @apply !bg-[rgb(255,224,20)] !text-g-primary-900 rounded-[2px];
+}

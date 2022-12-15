@@ -2,25 +2,25 @@ import { useContext, useEffect, useState } from 'react';
 import { UiContext } from '../../../context/UiContext';
 import ControlSnippet from './ControlSnippet';
 import { OnMount, BeforeMount } from '@monaco-editor/react';
-import type { editor } from 'monaco-editor';
 import logLanguage from './logLanguage';
 import MonacoWrapper, { focusFindAndClear } from '../MonacoWrapper';
+import { MainContentContext } from '../../../context/MainContentContext';
 
 export default function Output() {
     const { selectedCategoryId, config, activeItem } = useContext(UiContext);
-    const [monacoEditor, setMonacoEditor] = useState<editor.IStandaloneCodeEditor>();
+    const { outputMonacoEditor, setOutputMonacoEditor } = useContext(MainContentContext);
 
     useEffect(() => {
         // focus find bar and delete contents
-        if (monacoEditor) {
-            focusFindAndClear(monacoEditor)
+        if (outputMonacoEditor) {
+            focusFindAndClear(outputMonacoEditor)
         } else {
             // Otherwise, just do this 
         }
     }, [selectedCategoryId])
 
     const onMonacoMount: OnMount = (_editor) => {
-        setMonacoEditor(_editor);
+        setOutputMonacoEditor(_editor);
     };
 
     const onBeforeMonacoMount: BeforeMount = (monaco) => {
@@ -30,7 +30,6 @@ export default function Output() {
     return (
         <div className='relative group monaco-log-view'>
             <ControlSnippet />
-            {monacoEditor === undefined && <></>}
             <MonacoWrapper
                 height={`calc(100vh - 88px)`}
                 language='basislog'

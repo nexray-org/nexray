@@ -15,7 +15,8 @@ export function focusFindAndClear(_editor: editor.IStandaloneCodeEditor) {
     // https://github.com/microsoft/monaco-editor/issues/2355#issuecomment-791461752
     // https://stackoverflow.com/a/46012210
     _editor.focus();
-    _editor.getAction('actions.find').run();
+    // _editor.getAction('actions.find').run(); This doesn;t run sometimes, returns null. Stick with trigger
+    _editor.trigger('', 'actions.find', undefined);
     if (document) {
         const findRawInput = document.querySelector(".monaco-editor .find-widget>.find-part .monaco-inputbox>.ibwrapper>textarea.input");
         if (findRawInput) {

@@ -5,6 +5,7 @@ import MonacoWrapper from '../MonacoWrapper';
 import { UiContext } from '../../../context/UiContext';
 import OutputSearch from '../Output/OutputSearch';
 import ControlSnippet from './ControlSnippet';
+import { MainContentContext } from '../../../context/MainContentContext';
 
 interface IInsight {
     discoveredObjs: ([number, number, Record<any, any> | any[]][]);
@@ -14,6 +15,7 @@ interface IInsight {
 export default function Insight({ discoveredObjs, onBack }: IInsight) {
     const [selectedIndex, setSelectedIndex] = useState<number>(0);
     const { config, insightFilter, setInsightFilter } = useContext(UiContext);
+    const { jumpTo } = useContext(MainContentContext);
 
     useEffect(() => () => setInsightFilter(''), []);
     
@@ -29,7 +31,6 @@ export default function Insight({ discoveredObjs, onBack }: IInsight) {
                     type='default'
                     pr={"7px"}
                     pl={"6px"}
-                    py={0}
                     className='!flex'
                     onClick={onBack}
                 >
@@ -52,6 +53,17 @@ export default function Insight({ discoveredObjs, onBack }: IInsight) {
                         </Select.Option>
                     ))}
                 </Select>
+                <Button
+                    auto
+                    h="30px"
+                    className='!flex'
+                    px={"10px"}
+                    onClick={() => {
+                        jumpTo(discoveredObjs[selectedIndex][0], discoveredObjs[selectedIndex][1])
+                    }}
+                >
+                    <span className='text-[12px] tracking-tight font-bold'>Jump to</span>
+                </Button>
                 <span className='font-mono text-xs'>Start index: {discoveredObjs[selectedIndex][0]}&nbsp;</span>
                 <span className='font-mono text-xs'>End index: {discoveredObjs[selectedIndex][1]}</span>
             </div>
@@ -84,7 +96,8 @@ export default function Insight({ discoveredObjs, onBack }: IInsight) {
                             // https://github.com/microsoft/vscode/issues/28390#issuecomment-470797061
                             addExtraSpaceOnTop: false,
                         },
-                        renderWhitespace: "none"
+                        renderWhitespace: "none",
+                        showFoldingControls: "always"
                     }}
                 />
             </div>

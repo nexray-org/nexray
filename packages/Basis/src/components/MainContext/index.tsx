@@ -1,15 +1,15 @@
-import { Tabs, useTabs, Loading, Badge, Spinner } from '@geist-ui/core';
+import { Tabs, Badge, Spinner } from '@geist-ui/core';
 import Output from './Output';
 import Insights from './Insights';
 import useAsyncEffect from "use-async-effect";
 import { UiContext } from "../../context/UiContext"
 import jsonFinder from '../../utils/jsonFinder';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
+import { MainContentProvider, MainContentContext } from '../../context/MainContentContext';
 
-export default function MainContent() {
-    const { bindings, setState } = useTabs('output');
+function MainContent() {
     const { selectedCategoryId, activeItem, config } = useContext(UiContext);
-    const [discoveredObjs, setDiscoveredObjs] = useState<([number, number, Record<any, any> | any[]][]) | false>(false);
+    const { setActiveTab, setDiscoveredObjs, tabsBindings, discoveredObjs } = useContext(MainContentContext);
 
     useAsyncEffect(async isActive => {
         setDiscoveredObjs(false);
@@ -28,32 +28,40 @@ export default function MainContent() {
             } catch (error) {
                 console.error(error);
                 setDiscoveredObjs([]);
-                setState('output');
+                setActiveTab('output');
             }
         } else {
             setDiscoveredObjs([]);
-            setState('output');
+            setActiveTab('output');
         }
     }, [selectedCategoryId])
 
     return (
         <div className='w-full h-full'>
-            <Tabs {...bindings} hideDivider>
+            <Tabs {...tabsBindings} hideDivider>
                 <Tabs.Item label='Output' value='output'>
                     <Output />
                 </Tabs.Item>
-                <Tabs.Item 
+                <Tabs.Item
                     label={<>
                         Insights
                         {discoveredObjs === false && <Spinner scale={0.3} ml={"5px"} />}
                         {(discoveredObjs !== false && discoveredObjs.length > 0) && <Badge ml={"5px"} scale={0.3}>{discoveredObjs.length}</Badge>}
-                    </>} 
-                    value='insights' 
+                    </>}
+                    value='insights'
                     disabled={discoveredObjs === false || discoveredObjs.length === 0}
                 >
-                    {discoveredObjs !== false && <Insights discoveredObjs={discoveredObjs} onBack={() => setState("output")} />}
+                    {discoveredObjs !== false && <Insights discoveredObjs={discoveredObjs} onBack={() => setActiveTab("output")} />}
                 </Tabs.Item>
             </Tabs>
         </div>
     );
+}
+
+export default function MainContentWrapper() {
+    return (
+        <MainContentProvider>
+            <MainContent />
+        </MainContentProvider>
+    )
 }

@@ -1,5 +1,5 @@
 import NumberInput from '../components/NumberInput';
-import { Link, Modal, Toggle } from '@geist-ui/core';
+import { Modal, Toggle } from '@geist-ui/core';
 import { useContext, useEffect, useState } from 'react';
 import { UiContext } from '../context/UiContext';
 import useIsMounted from '../hooks/useIsMounted';
