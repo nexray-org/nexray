@@ -11,8 +11,12 @@
                 ".next/**"
             ]
         },
-        "lint": {
-            "outputs": []
+        "test": {
+            "outputs": [],
+            "cache": false
+        },
+        "test:watch": {
+            "cache": false
         }
     }
 }
