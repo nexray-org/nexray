@@ -3,6 +3,15 @@
     "references": [
         {
             "path": "./packages/Basis",
+        },
+        {
+            "path": "./packages/api-capture",
+        },
+        {
+            "path": "./packages/providers",
+        },
+        {
+            "path": "./packages/tests",
         }
     ]
 }

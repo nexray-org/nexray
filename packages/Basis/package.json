@@ -4,7 +4,9 @@
   "scripts": {
     "dev": "next dev -p 1420",
     "build": "next build && next export -o dist",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "prebuild": "shx rm -f tsconfig.package.tsbuildinfo",
+    "clean": "shx rm -rf build pnpm-lock.yaml node_modules tsconfig.package.tsbuildinfo"
   },
   "dependencies": {
     "@geist-ui/core": "^2.3.8",
