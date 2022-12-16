@@ -14,8 +14,6 @@ async function exists() {
     return true;
 }
 
-const provider: Provider = {
+export const provider: Provider = {
     exists
 }
-
-export default provider;

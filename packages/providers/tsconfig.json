@@ -8,6 +8,7 @@
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
+    "skipLibCheck": true,
     "outDir": "./build"
   },
   "include": ["**/*.ts"],
