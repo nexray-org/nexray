@@ -18,8 +18,12 @@ const EndAdornment = ({ children }: { children: React.ReactNode }) => (
 
 export default function SearchBar(props: Partial<InputProps>) {
     const inputRef = useRef<HTMLInputElement>(null);
-    const [os, setOS] = useState<'mac' | 'win'>(() => (navigator.platform.toUpperCase().indexOf('MAC') >= 0 ? 'mac' : 'win'));
+    const [os, setOS] = useState<'mac' | 'win'>();
     const { setIsFilterGroupDialogOpen } = useContext(UiContext);
+
+    useEffect(() => {
+        setOS(navigator.platform.toUpperCase().indexOf('MAC') >= 0 ? 'mac' : 'win');
+    }, [])
 
     useEffect(() => {
         const searchKeys = (e: KeyboardEvent) => {

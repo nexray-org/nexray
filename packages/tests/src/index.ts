@@ -1,1 +1,3 @@
-export function A(){null;}
+export function A(){
+    null;
+}
