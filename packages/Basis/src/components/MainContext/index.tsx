@@ -13,7 +13,7 @@ function MainContent() {
     useEffect(() => {
         setDiscoveredObjs(false);
         if (activeItem && config.get('parseFindJsonEnabled')) {
-            workerRef.current = new Worker(new URL('./Insights/finder.worker.ts', import.meta.url))
+            workerRef.current = new Worker(new URL('./Insights/finder.worker.ts', import.meta.url));
             workerRef.current.postMessage(activeItem.contents);
             workerRef.current.onmessage = (event: MessageEvent<DiscoveredObject[]>) => {
                 if (event.data.length > 0) {
@@ -22,14 +22,14 @@ function MainContent() {
                     setDiscoveredObjs([]);
                     setActiveTab('output');
                 }
-            }
+            };
         } else {
             setDiscoveredObjs([]);
             setActiveTab('output');
         }
         return () => {
             workerRef.current && workerRef.current.terminate();
-        }
+        };
     }, [selectedCategoryId]);
 
     return (

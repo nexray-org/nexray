@@ -66,7 +66,7 @@ export function UiProvider({ children }: { children: React.ReactNode | JSX.Eleme
                 setIsInsightsSettingsDialogOpen,
                 isInsightFilterDialogOpen,
                 setIsInsightFilterDialogOpen,
-                isFilterGroupDialogOpen, 
+                isFilterGroupDialogOpen,
                 setIsFilterGroupDialogOpen,
             }}
         >

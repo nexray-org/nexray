@@ -17,10 +17,13 @@ export default function Insight({ discoveredObjs, onBack }: IInsight) {
     const { config } = useContext(UiContext);
     const { jumpTo, insightFilter, setInsightFilter, selectedDiscoveredIndex, setSelectedDiscoveredIndex } = useContext(MainContentContext);
 
-    useEffect(() => () => {
-        setInsightFilter('');
-        setSelectedDiscoveredIndex(0);
-    }, []);
+    useEffect(
+        () => () => {
+            setInsightFilter('');
+            setSelectedDiscoveredIndex(0);
+        },
+        [],
+    );
 
     if (!discoveredObjs || discoveredObjs.length === 0) return <></>;
     return (
@@ -30,7 +33,14 @@ export default function Insight({ discoveredObjs, onBack }: IInsight) {
                 <Button icon={<BsChevronLeft />} auto h='30px' type='default' pr={'7px'} pl={'6px'} className='!flex' onClick={onBack}>
                     <span className='text-[10px] tracking-tight'>BACK</span>
                 </Button>
-                <Select type='success' initialValue='1' h='30px' value={'' + selectedDiscoveredIndex} width='150px' onChange={(val) => setSelectedDiscoveredIndex(+val)}>
+                <Select
+                    type='success'
+                    initialValue='1'
+                    h='30px'
+                    value={'' + selectedDiscoveredIndex}
+                    width='150px'
+                    onChange={(val) => setSelectedDiscoveredIndex(+val)}
+                >
                     {discoveredObjs.map((ele, index) => (
                         <Select.Option value={'' + index}>
                             <span>
@@ -55,8 +65,12 @@ export default function Insight({ discoveredObjs, onBack }: IInsight) {
                 </Button>
                 {config.get('insightsIndexesEnabled') && (
                     <>
-                        <span className='font-mono text-[11px]'>Start index: {numbro(discoveredObjs[selectedDiscoveredIndex][0]).format({ thousandSeparated: true })}</span>
-                        <span className='font-mono text-[11px]'>End index: {numbro(discoveredObjs[selectedDiscoveredIndex][1]).format({ thousandSeparated: true })}</span>
+                        <span className='font-mono text-[11px]'>
+                            Start index: {numbro(discoveredObjs[selectedDiscoveredIndex][0]).format({ thousandSeparated: true })}
+                        </span>
+                        <span className='font-mono text-[11px]'>
+                            End index: {numbro(discoveredObjs[selectedDiscoveredIndex][1]).format({ thousandSeparated: true })}
+                        </span>
                     </>
                 )}
             </div>

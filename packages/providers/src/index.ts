@@ -1,2 +1,2 @@
 export { provider as serverlessProviders } from './serverless';
-export const A = "azsdf"
+export const A = 'azsdf';

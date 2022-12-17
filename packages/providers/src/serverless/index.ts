@@ -11,23 +11,29 @@ import { readFile } from 'fs';
 async function exists() {
     const api = new fdir()
         .withFullPaths()
-        .exclude((dirName, dirPath) => dirName.startsWith(".") || dirName.startsWith("node_modules"))
+        .exclude((dirName, dirPath) => dirName.startsWith('.') || dirName.startsWith('node_modules'))
         .filter((path, isDirectory) => !isDirectory)
-        .filter((path, isDirectory) => path.endsWith("serverless.ts") || path.endsWith("serverless.json") || path.endsWith("serverless.js") || path.endsWith("serverless.yaml") || path.endsWith("serverless.yml"))
-        .crawl('./')
+        .filter(
+            (path, isDirectory) =>
+                path.endsWith('serverless.ts') ||
+                path.endsWith('serverless.json') ||
+                path.endsWith('serverless.js') ||
+                path.endsWith('serverless.yaml') ||
+                path.endsWith('serverless.yml'),
+        )
+        .crawl('./');
 
-    const files = await api.withPromise() as GroupOutput;
+    const files = (await api.withPromise()) as GroupOutput;
     return files.length > 0;
 }
 
 async function getCredentials() {
-    console.log("Booting up serverless instance...");
+    console.log('Booting up serverless instance...');
     try {
-        readFile
+        readFile;
     } catch (error) {
-        console.log("error", error)
+        console.log('error', error);
     }
-
 }
 
 // async function init() {
@@ -52,5 +58,5 @@ async function getCredentials() {
 
 export const provider: Provider = {
     exists,
-    getCredentials
-}
+    getCredentials,
+};

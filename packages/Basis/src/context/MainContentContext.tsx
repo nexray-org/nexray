@@ -77,10 +77,10 @@ export function MainContentProvider({ children }: { children: React.ReactNode | 
                 outputMonacoEditor,
                 setOutputMonacoEditor,
                 jumpTo,
-                insightFilter, 
+                insightFilter,
                 setInsightFilter,
-                selectedDiscoveredIndex, 
-                setSelectedDiscoveredIndex
+                selectedDiscoveredIndex,
+                setSelectedDiscoveredIndex,
             }}
         >
             {children}

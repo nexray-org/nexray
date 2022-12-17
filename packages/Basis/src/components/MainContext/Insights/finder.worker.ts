@@ -8,5 +8,5 @@ addEventListener('message', (event: MessageEvent<string>) => {
             data.push(found);
         }
     }
-    postMessage(data)
-})
+    postMessage(data);
+});

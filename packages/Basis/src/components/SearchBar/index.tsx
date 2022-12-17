@@ -23,7 +23,7 @@ export default function SearchBar(props: Partial<InputProps>) {
 
     useEffect(() => {
         setOS(navigator.platform.toUpperCase().indexOf('MAC') >= 0 ? 'mac' : 'win');
-    }, [])
+    }, []);
 
     useEffect(() => {
         const searchKeys = (e: KeyboardEvent) => {
