@@ -4,7 +4,7 @@
   "main": "build/index.js",
   "scripts": {
     "dev": "next dev -p 1420",
-    "test": "tap",
+    "test": "true",
     "build": "next build && next export -o dist",
     "tauri": "tauri",
     "prebuild": "shx rm -f tsconfig.package.tsbuildinfo",
