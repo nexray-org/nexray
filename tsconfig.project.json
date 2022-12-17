@@ -9,6 +9,9 @@
         },
         {
             "path": "./packages/providers",
+        },
+        {
+            "path": "./packages/json-finder",
         }
     ]
 }
