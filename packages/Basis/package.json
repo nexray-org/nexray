@@ -11,6 +11,7 @@
     "clean": "shx rm -rf build pnpm-lock.yaml node_modules tsconfig.package.tsbuildinfo"
   },
   "dependencies": {
+    "@basis/json-finder": "workspace:^1.0.0",
     "@geist-ui/core": "^2.3.8",
     "@headlessui/react": "^1.7.4",
     "@monaco-editor/react": "^4.4.6",

@@ -1,8 +1,7 @@
 {
   "name": "@basis/json-finder",
   "version": "1.0.0",
-  "main": "src/index.ts",
-  "types": "src/index.ts",
+  "main": "build/index.js",
   "scripts": {
     "test": "ts-mocha --paths test/**/*.spec.ts --timeout 50000",
     "prebuild": "shx rm -f tsconfig.package.tsbuildinfo",
