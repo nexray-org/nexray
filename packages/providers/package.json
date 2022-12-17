@@ -4,17 +4,20 @@
   "main": "src/index.ts",
   "types": "src/index.ts",
   "scripts": {
-    "test": "tap --ts",
+    "test": "tap --ts --files=test/index.test.ts",
     "prebuild": "shx rm -f tsconfig.package.tsbuildinfo",
     "build": "tsc -p ./tsconfig.json",
     "clean": "shx rm -rf build pnpm-lock.yaml node_modules tsconfig.package.tsbuildinfo"
   },
   "dependencies": {
+    "aws-sdk": "^2.1277.0",
     "fdir": "^5.3.0",
-    "fs-extra": "^11.1.0"
+    "fs-extra": "^11.1.0",
+    "serverless": "^3.25.1"
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.13",
+    "@types/serverless": "^3.12.9",
     "typescript": "^4.7.4"
   }
 }
