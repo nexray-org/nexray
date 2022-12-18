@@ -1,10 +1,29 @@
 import { Provider } from '../types';
 import { fdir, GroupOutput } from 'fdir';
 import { readFile } from 'fs';
+import Serverless from 'serverless';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import runServerless from '@serverless/test/run-serverless'
 
 // AWS Credentials file locations:
 // Linux, Unix, MacOS - ~/.aws/credentials
 // Windows: C:\Users\USER_NAME\.aws\credentials
+
+let _serverless: Serverless;
+const getServerless = async () => {
+    if (_serverless) {
+        return _serverless;
+    } 
+    // serverless will mistakenly take mocha's --config option as its own during init
+    process.argv = process.argv.slice(0, 2);
+    const serverless = new Serverless({ commands: ["logs"], configuration: {}, options: {} });
+    await serverless.init();
+    await serverless.variables.populateService();
+    serverless.service.mergeResourceArrays();
+    _serverless = serverless;
+    return serverless;
+}
 
 // https://github.com/nicolasdao/sls-config-parser/blob/master/src/index.js
 
@@ -28,12 +47,20 @@ async function exists() {
 }
 
 async function getCredentials() {
+    // https://forum.serverless.com/t/npm-install-as-a-dependency/3744
+    // https://github.com/serverless/serverless/issues/8628
+    // https://stackoverflow.com/questions/58890867/how-to-parse-serverless-yml-file-in-script
+    
+    const serverless = await getServerless()
     console.log('Booting up serverless instance...');
     try {
-        readFile;
+        const provider = serverless.getProvider("aws");
+        console.log("provider.getCredentials()", provider.getCredentials());
     } catch (error) {
-        console.log('error', error);
+        console.log("error", error)
     }
+    console.log("SSDFSDF")
+    return provider.getCredentials()
 }
 
 // async function init() {

@@ -12,6 +12,9 @@
         },
         {
             "path": "./packages/json-finder",
+        },
+        {
+            "path": "./packages/next",
         }
     ]
 }
