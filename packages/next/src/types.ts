@@ -13,7 +13,7 @@ export type CapturedFetchInitialized = {
     url: string;
     id: string;
     requestInit: RequestInit | undefined;
-}
+};
 
 export type CapturedFetchFinished = {
     duration: number;
