@@ -1,5 +1,9 @@
 import useBasis from '../../../../../';
 
+// Integration options:
+// 1: use like a _hook_ in the Server component
+// 2: wrap the default export and generateStaticParams
+
 async function getData() {
   const res = await fetch('https://jsonplaceholder.typicode.com/todos');
   // The return value is *not* serialized
@@ -14,8 +18,7 @@ async function getData() {
   return res.json();
 }
 
-export default async function Home() {
-  useBasis()
+export default useBasis(async function Home() {
   console.log("This is a server component")
   const data = await getData();
   return (
@@ -23,8 +26,8 @@ export default async function Home() {
       <h2>This is a nested route</h2>
       <h3>Here's some fetched data from jsonplaceholder.com:</h3>
       <code>
-        {JSON.stringify(data, null, 2)};
+        {JSON.stringify(data, null, 2).slice(0, 240)}...
       </code>
     </main>
   )
-}
+});
