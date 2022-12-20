@@ -1,6 +1,7 @@
 import { useTabs } from '@geist-ui/core';
-import React, { createContext, useEffect, useState } from 'react';
-import type { editor, IRange } from 'monaco-editor';
+import React, { createContext, useEffect, useMemo, useState } from 'react';
+import type { editor } from 'monaco-editor';
+import type { ServerComponentRequest } from '@basis/types';
 
 interface IMainContentContext {
     setActiveTab: React.Dispatch<React.SetStateAction<string>>;
@@ -17,6 +18,9 @@ interface IMainContentContext {
     setInsightFilter: React.Dispatch<React.SetStateAction<string>>;
     selectedDiscoveredIndex: number;
     setSelectedDiscoveredIndex: React.Dispatch<React.SetStateAction<number>>;
+    enabledTimelineTypes: Record<ServerComponentRequest['timeline'][number]['type'], boolean>;
+    setEnabledTimelineTypes: React.Dispatch<React.SetStateAction<Record<ServerComponentRequest['timeline'][number]['type'], boolean>>>;
+    selectedContentString: ServerComponentRequest['timeline'][number]['type'] | "combined" | undefined;
 }
 
 export type DiscoveredObject = [number, number, Record<any, any> | any[]];
@@ -30,6 +34,20 @@ export function MainContentProvider({ children }: { children: React.ReactNode | 
     const [outputMonacoEditor, setOutputMonacoEditor] = useState<editor.IStandaloneCodeEditor>();
     const [scrollOutputToTuple, setScrollOutputToTuple] = useState<[number, number]>();
     const [insightFilter, setInsightFilter] = useState<string>('');
+    const [enabledTimelineTypes, setEnabledTimelineTypes] = useState<Record<ServerComponentRequest['timeline'][number]['type'], boolean>>({
+        event: true,
+        log: true
+    })
+
+    const selectedContentString = useMemo<ServerComponentRequest['timeline'][number]['type'] | "combined" | undefined>(() => {
+        if (Object.values(enabledTimelineTypes).every(ele => !!ele)) {
+            return "combined"
+        } else if (Object.values(enabledTimelineTypes).every(ele => !ele)) {
+            return undefined;
+        } else {
+            return Object.entries(enabledTimelineTypes).find(([k, v]) => !!v)![0] as ServerComponentRequest['timeline'][number]['type'];
+        }
+    }, [enabledTimelineTypes])
 
     function jumpTo(start: number, end: number) {
         if (outputMonacoEditor) {
@@ -81,6 +99,9 @@ export function MainContentProvider({ children }: { children: React.ReactNode | 
                 setInsightFilter,
                 selectedDiscoveredIndex,
                 setSelectedDiscoveredIndex,
+                enabledTimelineTypes,
+                setEnabledTimelineTypes,
+                selectedContentString
             }}
         >
             {children}

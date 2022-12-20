@@ -34,10 +34,11 @@
     "react-window": "^1.8.8",
     "react-window-infinite-loader": "^1.0.8",
     "styled-components": "^5.3.6",
+    "tauri-plugin-fs-watch-api": "github:tauri-apps/tauri-plugin-fs-watch#release",
     "use-async-effect": "^2.2.7"
   },
   "devDependencies": {
-    "@faker-js/faker": "^7.6.0",
+    "@basis/types": "workspace:^1.0.0",
     "@tailwindcss/line-clamp": "^0.4.2",
     "@tauri-apps/cli": "^1.2.2",
     "@types/node": "^18.7.11",

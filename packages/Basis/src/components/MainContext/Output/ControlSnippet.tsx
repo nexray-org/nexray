@@ -3,16 +3,19 @@ import { Button, useClipboard, useToasts, Link } from '@geist-ui/core';
 import { useContext } from 'react';
 import { UiContext } from '../../../context/UiContext';
 import { AiOutlineLink, AiOutlineSetting } from 'react-icons/ai';
+import { MainContentContext } from '../../../context/MainContentContext';
 
 export default function ControlSnippet() {
     const { setToast } = useToasts();
     const { copy } = useClipboard();
-    const { data, selectedCategoryId, setIsOutputSettingsDialogOpen } = useContext(UiContext);
-    const item = data.find((ele) => ele.id === selectedCategoryId)!;
+    const { setIsOutputSettingsDialogOpen, itemContentStrings } = useContext(UiContext);
+    const { selectedContentString } = useContext(MainContentContext);
 
     const copyHandler = () => {
-        copy(item.contents);
-        setToast({ text: 'Copied log contents' });
+        if (itemContentStrings && selectedContentString) {
+            copy(itemContentStrings[selectedContentString]);
+            setToast({ text: 'Copied log contents' });
+        }
     };
 
     const permaHandler = () => {

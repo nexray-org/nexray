@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { UiContext } from '../../../context/UiContext';
 import ControlSnippet from './ControlSnippet';
 import { OnMount, BeforeMount } from '@monaco-editor/react';
@@ -7,8 +7,8 @@ import MonacoWrapper, { focusFindAndClear } from '../MonacoWrapper';
 import { MainContentContext } from '../../../context/MainContentContext';
 
 export default function Output() {
-    const { selectedCategoryId, config, activeItem } = useContext(UiContext);
-    const { outputMonacoEditor, setOutputMonacoEditor } = useContext(MainContentContext);
+    const { selectedCategoryId, config, itemContentStrings } = useContext(UiContext);
+    const { outputMonacoEditor, setOutputMonacoEditor, selectedContentString } = useContext(MainContentContext);
 
     useEffect(() => {
         // focus find bar and delete contents
@@ -33,7 +33,7 @@ export default function Output() {
             <MonacoWrapper
                 height={`calc(100vh - 88px)`}
                 language='basislog'
-                value={activeItem?.contents}
+                value={itemContentStrings ? itemContentStrings[selectedContentString!] : undefined}
                 safeOnMount={onMonacoMount}
                 beforeMount={onBeforeMonacoMount}
                 options={{

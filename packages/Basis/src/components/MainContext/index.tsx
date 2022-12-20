@@ -6,15 +6,20 @@ import { useContext, useRef, useEffect } from 'react';
 import { MainContentProvider, MainContentContext, DiscoveredObject } from '../../context/MainContentContext';
 
 function MainContent() {
-    const { selectedCategoryId, activeItem, config } = useContext(UiContext);
-    const { setActiveTab, setDiscoveredObjs, tabsBindings, discoveredObjs } = useContext(MainContentContext);
+    const { selectedCategoryId, activeItem, config, itemContentStrings } = useContext(UiContext);
+    const { setActiveTab, setDiscoveredObjs, tabsBindings, discoveredObjs, enabledTimelineTypes, selectedContentString } = useContext(MainContentContext);
     const workerRef = useRef<Worker>();
 
     useEffect(() => {
         setDiscoveredObjs(false);
-        if (activeItem && config.get('parseFindJsonEnabled')) {
+        if (
+            activeItem &&
+            config.get('parseFindJsonEnabled') &&
+            selectedContentString &&
+            itemContentStrings
+        ) {
             workerRef.current = new Worker(new URL('./Insights/finder.worker.ts', import.meta.url));
-            workerRef.current.postMessage(activeItem.contents);
+            workerRef.current.postMessage(itemContentStrings[selectedContentString]);
             workerRef.current.onmessage = (event: MessageEvent<DiscoveredObject[]>) => {
                 if (event.data.length > 0) {
                     setDiscoveredObjs(event.data);
@@ -30,7 +35,7 @@ function MainContent() {
         return () => {
             workerRef.current && workerRef.current.terminate();
         };
-    }, [selectedCategoryId]);
+    }, [selectedCategoryId, enabledTimelineTypes]);
 
     return (
         <div className='w-full h-full'>

@@ -1,27 +1,35 @@
 /* eslint-disable no-irregular-whitespace */
-import { headers, cookies } from 'next/headers';
+import { headers } from 'next/headers';
 import { nanoid } from 'nanoid';
-import type { RequestCookie } from 'next/dist/server/web/spec-extension/cookies';
 import { Fragment } from 'react';
-import { ServerComponentRequest, OptionalExcept } from './types';
+import type { ServerComponentRequest, OptionalExcept } from '@basis/types';
+import * as ops from './db';
+import path from 'path';
 
 type NextAppServerComponentProps = Record<any, any>;
 
 const clocktime = Date.now;
 
+const thisUrl = path.relative(process.cwd(), __dirname);
+
 let inDevEnvironment = false;
+let isDbInitialized = false;
 
 if (process && process.env.NODE_ENV === 'development') {
     inDevEnvironment = true;
+    ops.init().then(_ => isDbInitialized = true)
+} else {
+    // Check for remote db config with process.env.BASIS_KEY;
 }
 
 export default function useBasis(componentGenerator: (props: NextAppServerComponentProps) => Promise<JSX.Element> | JSX.Element) {
     const requestId = nanoid();
-    const requestData: OptionalExcept<ServerComponentRequest, 'id' | 'logs' | 'timeline' | 'fetches'> = {
+    const requestData: OptionalExcept<ServerComponentRequest, 'id' | 'timeline' | 'fetches' | 'url' | 'type'> = {
         id: requestId,
-        logs: [],
         timeline: [],
         fetches: {},
+        url: thisUrl,
+        type: "server"
     };
 
     // Must manually reference
@@ -40,8 +48,11 @@ export default function useBasis(componentGenerator: (props: NextAppServerCompon
             requestInit: init,
             id: fetchId,
         };
-        requestData.timeline.push(`${time} – Fetch ${requestId} initiated to ${url}${init ? '' + JSON.stringify(init) : ''}`);
-        process.env.BASIS_KEY;
+        requestData.timeline.push({
+            content: `${time} – Fetch ${requestId} initiated to ${url}${init ? '' + JSON.stringify(init) : ''}`,
+            type: "event",
+            time
+        });
     }
 
     function captureFetchResponse(fetchId: string, response: any) {
@@ -51,35 +62,56 @@ export default function useBasis(componentGenerator: (props: NextAppServerCompon
             duration: time - requestData.fetches[fetchId].time,
             response,
         };
-        requestData.timeline.push(`${time} – Fetch ${requestId} responded ${JSON.stringify(response)}`);
-        process.env.BASIS_KEY;
+        requestData.timeline.push({
+            content: `${time} – Fetch ${requestId} responded ${JSON.stringify(response)}`,
+            type: "event",
+            time
+        });
     }
 
     function captureLogParams(level: string, params: any[]) {
         const time = clocktime();
-        requestData.timeline.push(`${time} – ${level.toUpperCase()} – ${params.join(' ')}`);
-        process.env.BASIS_KEY;
+        requestData.timeline.push({
+            content: `${time} – ${level.toUpperCase()} – ${params.join(' ')}`,
+            type: "log",
+            time
+        });
     }
 
     let renderStartTime: number;
-    function captureRequest(headers: [string, string][], cookies: RequestCookie[]) {
+    function captureRequest(headers: [string, string][]) {
         const time = clocktime();
         renderStartTime = time;
-        requestData.timeline.push(`${time} – Component request initiated with headers: ${JSON.stringify(headers)} and cookies ${JSON.stringify(cookies)}`);
-        process.env.BASIS_KEY;
+        requestData.headers = headers;
+        requestData.time = time;
+        requestData.timeline.push({
+            content: `${time} – Component request initiated with headers: ${JSON.stringify(headers)}`,
+            type: "event",
+            time
+        });
     }
 
     function captureRenderEnd() {
         const time = clocktime();
         const diff = time - renderStartTime!;
-        requestData.durationMS = diff;
-        requestData.timeline.push(`${time} – Transferring HTML to client. Render time: ${diff}`);
+        requestData.durationMs = diff;
+        requestData.timeline.push({
+            content: `${time} – Transferring HTML to client. Render time: ${diff}`,
+            type: "event",
+            time
+        });
+        ops.insertRequest(requestData as ServerComponentRequest);
     }
 
     function captureRenderError(error: any) {
         const time = clocktime();
-        requestData.timeline.push(`${time} – ERROR – ${JSON.stringify(error)}`);
+        requestData.timeline.push({
+            content: `${time} – ERROR – ${JSON.stringify(error)}`,
+            type: "event",
+            time
+        });
         requestData.error = error || true;
+        ops.insertRequest(requestData as ServerComponentRequest);
     }
 
     // Next fetch implementation: https://github.com/vercel/next.js/blob/canary/packages/next/server/node-polyfill-fetch.js
@@ -117,7 +149,9 @@ export default function useBasis(componentGenerator: (props: NextAppServerCompon
     }
 
     return async (props: NextAppServerComponentProps) => {
-        captureRequest([...headers().entries()], cookies().getAll());
+
+        // Forgetting cookies for now
+        captureRequest([...headers().entries()]);
 
         const { params, ...restProps } = props;
         let component: undefined | JSX.Element;

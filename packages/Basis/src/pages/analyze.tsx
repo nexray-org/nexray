@@ -11,11 +11,13 @@ import InsightSettings from '../modals/InsightSettings';
 import JsonFilterHelp from '../modals/JsonFilterHelp';
 import OutputSettings from '../modals/OutputSettings';
 import FilterGroups from '../modals/FilterGroups';
+import useWatchLocalDb from '../hooks/useWatchLocalDb';
 
 export default function Analyze() {
     const { height } = useDeviceSize();
     const { selectedCategoryId } = useContext(UiContext);
-
+    useWatchLocalDb();
+    
     return (
         <HeadlessRoot>
             <div className='flex h-full w-full'>
