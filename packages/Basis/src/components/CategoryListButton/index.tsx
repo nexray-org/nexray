@@ -9,7 +9,11 @@ export const itemSize = 140;
 
 export const CategoryListButton: FixedSizeListProps<undefined>['children'] = ({ index, style }) => {
     const { selectedCategoryId, setSelectedCategoryId, data } = useContext(UiContext);
-    const item = data[index] || { id: undefined };
+    const item = data[index];
+
+    if (!item) {
+        return <></>;
+    }
 
     return (
         <div

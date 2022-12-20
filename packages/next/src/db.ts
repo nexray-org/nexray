@@ -4,9 +4,10 @@ import fs from 'fs';
 import { ServerComponentRequest } from '@basis/types';
 import type { Low } from 'lowdb';
 import type { JSONFile as JSONFileType } from 'lowdb/lib/node';
+import appRoot from 'app-root-path';
 
 const CACHE_LENGTH = 30;
-const dbPath = path.join(homedir(), '.basis');
+const dbPath = path.join(appRoot.toString(), '.basis');
 let db: Low<ServerComponentRequest[]>;
 
 const _safeRotate = async () => {
