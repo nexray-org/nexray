@@ -8,7 +8,7 @@ import { MainContentContext } from '../../../context/MainContentContext';
 
 export default function Output() {
     const { selectedCategoryId, config, itemContentStrings } = useContext(UiContext);
-    const { outputMonacoEditor, setOutputMonacoEditor, selectedContentString } = useContext(MainContentContext);
+    const { outputMonacoEditor, setOutputMonacoEditor, selectedContentString, enabledTimelineTypes, setEnabledTimelineTypes } = useContext(MainContentContext);
 
     useEffect(() => {
         // focus find bar and delete contents
@@ -33,7 +33,7 @@ export default function Output() {
             <MonacoWrapper
                 height={`calc(100vh - 88px)`}
                 language='basislog'
-                value={itemContentStrings ? itemContentStrings[selectedContentString!] : undefined}
+                value={(itemContentStrings && selectedContentString) ? itemContentStrings[selectedContentString] : ""}
                 safeOnMount={onMonacoMount}
                 beforeMount={onBeforeMonacoMount}
                 options={{
@@ -63,6 +63,7 @@ export default function Output() {
                         addExtraSpaceOnTop: false,
                     },
                     renderWhitespace: 'none',
+                    links: false,
                 }}
             />
         </div>

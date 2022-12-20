@@ -33,7 +33,7 @@ export default function InsightSettings() {
                     </div>
                     <div className='items-center flex mb-5'>
                         <NumberInput value={fontSizeVal} onChange={setFontSizeVal} fallback={0} className='max-w-[80px]' height={'30px'} />
-                        <span className='text-sm ml-2.5'>Font Size</span>
+                        <span className='text-sm ml-2.5'>Font size</span>
                     </div>
                     <div className='items-center flex mb-5'>
                         <Toggle

@@ -7,9 +7,6 @@ import { useContext } from 'react';
 import { UiContext } from '../context/UiContext';
 import Image from 'next/image';
 import MainContent from '../components/MainContext';
-import InsightSettings from '../modals/InsightSettings';
-import JsonFilterHelp from '../modals/JsonFilterHelp';
-import OutputSettings from '../modals/OutputSettings';
 import FilterGroups from '../modals/FilterGroups';
 import useWatchLocalDb from '../hooks/useWatchLocalDb';
 
@@ -41,9 +38,6 @@ export default function Analyze() {
                     </div>
                 </div>
             </div>
-            <InsightSettings />
-            <JsonFilterHelp />
-            <OutputSettings />
             <FilterGroups />
         </HeadlessRoot>
     );

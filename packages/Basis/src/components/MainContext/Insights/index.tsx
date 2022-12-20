@@ -42,7 +42,7 @@ export default function Insight({ discoveredObjs, onBack }: IInsight) {
                     onChange={(val) => setSelectedDiscoveredIndex(+val)}
                 >
                     {discoveredObjs.map((ele, index) => (
-                        <Select.Option value={'' + index}>
+                        <Select.Option value={'' + index} key={'' + index}>
                             <span>
                                 <span className='font-bold tracking-normal'>
                                     {index + 1}/{discoveredObjs.length}:&nbsp;
@@ -105,6 +105,7 @@ export default function Insight({ discoveredObjs, onBack }: IInsight) {
                         },
                         renderWhitespace: 'none',
                         showFoldingControls: 'always',
+                        links: false,
                     }}
                 />
             </div>

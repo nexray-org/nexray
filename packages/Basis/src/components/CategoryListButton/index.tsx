@@ -41,7 +41,7 @@ export const CategoryListButton: FixedSizeListProps<undefined>['children'] = ({ 
             <div className='flex items-center justify-between tracking-tight'>
                 <span className='text-xs font-semibold text-g-primary-200'>{dayjs(item.time).format('MM/DD/YYYY h:mm:ss A')}</span>
                 <span className='flex items-center font-mono text-[10px]'>
-                    {numbro(item.durationMs).format({ thousandSeparated: true })} MS {numbro(item.payloadSizeBytes).format({ thousandSeparated: true })} Bytes
+                    {numbro(item.durationMs).format({ thousandSeparated: true })} MS
                 </span>
             </div>
         </div>

@@ -4,6 +4,9 @@ import Insights from './Insights';
 import { UiContext } from '../../context/UiContext';
 import { useContext, useRef, useEffect } from 'react';
 import { MainContentProvider, MainContentContext, DiscoveredObject } from '../../context/MainContentContext';
+import OutputSettings from '../../modals/OutputSettings';
+import InsightSettings from '../../modals/InsightSettings';
+import JsonFilterHelp from '../../modals/JsonFilterHelp';
 
 function MainContent() {
     const { selectedCategoryId, activeItem, config, itemContentStrings } = useContext(UiContext);
@@ -61,6 +64,9 @@ function MainContent() {
                     {discoveredObjs !== false && <Insights discoveredObjs={discoveredObjs} onBack={() => setActiveTab('output')} />}
                 </Tabs.Item>
             </Tabs>
+            <OutputSettings />
+            <InsightSettings />
+            <JsonFilterHelp />
         </div>
     );
 }
