@@ -2,7 +2,7 @@
     "files": [],
     "references": [
         {
-            "path": "./packages/Basis",
+            "path": "./packages/app",
         },
         {
             "path": "./packages/api-capture",
