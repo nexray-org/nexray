@@ -16,6 +16,7 @@
     "@headlessui/react": "^1.7.4",
     "@monaco-editor/react": "^4.4.6",
     "@tauri-apps/api": "^1.2.0",
+    "allotment": "^1.17.1",
     "clsx": "^1.2.1",
     "date-fns": "^2.29.3",
     "dayjs": "^1.11.7",

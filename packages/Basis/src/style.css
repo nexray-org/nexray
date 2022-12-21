@@ -18,6 +18,13 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  --focus-border: #007fd4;
+  --separator-border: #333 !important;
+}
+
+.split-view-view-visible.split-view-view::before {
+    z-index: 105 !important;
 }
 
 ::selection {

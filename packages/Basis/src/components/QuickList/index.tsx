@@ -9,7 +9,7 @@ interface IQuickList extends Omit<FixedSizeListProps, 'children' | 'width'> {
 }
 
 export const thumbRenderer = ({ style, ...props }: any) => {
-    return <div style={style} {...props} className={clsx(props.className, 'rounded-md bg-g-primary-600 active:bg-g-primary-500')} />;
+    return <div style={style} {...props} className={clsx(props.className, 'rounded-none bg-g-primary-600 active:bg-g-primary-500')} />;
 };
 
 export default function QuickList({ rowRenderer, height, ...props }: IQuickList) {
@@ -23,9 +23,8 @@ export default function QuickList({ rowRenderer, height, ...props }: IQuickList)
             }}
             renderThumbVertical={thumbRenderer}
             renderThumbHorizontal={thumbRenderer}
-            className='[&>div]:!mr-[-16px]'
         >
-            <FixedSizeList {...props} ref={listRef} height={height} width='100%' style={{ overflow: 'visible' }}>
+            <FixedSizeList {...props} ref={listRef} height={height} width='100%' style={{ overflow: "visible" }}>
                 {rowRenderer}
             </FixedSizeList>
         </Scrollbars>

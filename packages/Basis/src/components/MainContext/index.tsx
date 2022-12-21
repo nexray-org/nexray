@@ -7,6 +7,7 @@ import { MainContentProvider, MainContentContext, DiscoveredObject } from '../..
 import OutputSettings from '../../modals/OutputSettings';
 import InsightSettings from '../../modals/InsightSettings';
 import JsonFilterHelp from '../../modals/JsonFilterHelp';
+import Headers from './Headers';
 
 function MainContent() {
     const { selectedCategoryId, activeItem, config, itemContentStrings } = useContext(UiContext);
@@ -43,6 +44,21 @@ function MainContent() {
     return (
         <div className='w-full h-full'>
             <Tabs {...tabsBindings} hideDivider>
+                <Tabs.Item
+                    label={
+                        <>
+                            Requests
+                            {activeItem && Object.keys(activeItem.fetches).length > 0 && (
+                                <Badge ml={'5px'} scale={0.3}>
+                                    {Object.keys(activeItem.fetches).length}
+                                </Badge>
+                            )}
+                        </>
+                    }
+                    value='requests'
+                    disabled={activeItem ? Object.keys(activeItem.fetches).length === 0 : true}
+                >
+                </Tabs.Item>
                 <Tabs.Item label='Output' value='output'>
                     <Output />
                 </Tabs.Item>
@@ -61,7 +77,10 @@ function MainContent() {
                     value='insights'
                     disabled={discoveredObjs === false || discoveredObjs.length === 0}
                 >
-                    {discoveredObjs !== false && <Insights discoveredObjs={discoveredObjs} onBack={() => setActiveTab('output')} />}
+                    {discoveredObjs !== false && <Insights />}
+                </Tabs.Item>
+                <Tabs.Item label='Headers' value='headers'>
+                    <Headers />
                 </Tabs.Item>
             </Tabs>
             <OutputSettings />

@@ -1,14 +1,14 @@
 import { useContext, useEffect } from 'react';
 import { UiContext } from '../../../context/UiContext';
-import ControlSnippet from './ControlSnippet';
+import ControlSnippet from '../ControlSnippet';
 import { OnMount, BeforeMount } from '@monaco-editor/react';
 import logLanguage from './logLanguage';
 import MonacoWrapper, { focusFindAndClear } from '../MonacoWrapper';
 import { MainContentContext } from '../../../context/MainContentContext';
 
 export default function Output() {
-    const { selectedCategoryId, config, itemContentStrings } = useContext(UiContext);
-    const { outputMonacoEditor, setOutputMonacoEditor, selectedContentString, enabledTimelineTypes, setEnabledTimelineTypes } = useContext(MainContentContext);
+    const { selectedCategoryId, config, itemContentStrings, setIsOutputSettingsDialogOpen } = useContext(UiContext);
+    const { outputMonacoEditor, setOutputMonacoEditor, selectedContentString } = useContext(MainContentContext);
 
     useEffect(() => {
         // focus find bar and delete contents
@@ -29,7 +29,11 @@ export default function Output() {
 
     return (
         <div className='relative group monaco-log-view'>
-            <ControlSnippet />
+            <ControlSnippet 
+                copyText={(itemContentStrings && selectedContentString) ? itemContentStrings[selectedContentString] : ""} 
+                className="top-3"
+                onSettingClick={() => setIsOutputSettingsDialogOpen(true)}
+            />
             <MonacoWrapper
                 height={`calc(100vh - 88px)`}
                 language='basislog'

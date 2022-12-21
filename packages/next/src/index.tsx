@@ -96,7 +96,7 @@ export default function useBasis(componentGenerator: (props: NextAppServerCompon
             requestData.headers = headers;
             requestData.time = time;
             requestData.timeline.push({
-                content: `${time} - Component request initiated with headers: ${JSON.stringify(headers)}`,
+                content: `${time} - Component request initiated`,
                 type: "event",
                 time
             });

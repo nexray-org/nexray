@@ -20,7 +20,7 @@ export const CategoryListButton: FixedSizeListProps<undefined>['children'] = ({ 
             style={style}
             onClick={() => setSelectedCategoryId(item.id)}
             className={clsx(
-                'pl-2 pr-3.5 py-4 border-b border-b-g-primary-800 transition-colors hover:bg-g-primary-800',
+                'pl-2 pr-3.5 py-4 border-b border-b-g-primary-800 transition-colors hover:bg-g-primary-800 h-[140px]',
                 'cursor-pointer',
                 selectedCategoryId === item.id && 'bg-g-primary-800',
             )}
