@@ -7,6 +7,8 @@ const Query = Type.Object({
     after: Type.Optional(Type.Number())
 })
 
+// https://github.com/dilan-dio4/reverse-proxy/blob/029e0b30759dd76150295dd175b13991fa0e0af1/src/app.ts#L867
+// WebSockets interface for v2
 const route = (db: GenericDB) => async (server: FastifyInstance) => {
     server.get<{ Reply: ServerComponentRequest[]; Querystring: Static<typeof Query> }>(
         '/requests',

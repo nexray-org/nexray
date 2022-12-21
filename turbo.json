@@ -20,6 +20,9 @@
         },
         "test:watch": {
             "cache": false
+        },
+        "start:env": {
+            "dependsOn": ["build"]
         }
     }
 }

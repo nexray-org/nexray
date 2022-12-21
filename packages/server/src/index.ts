@@ -9,7 +9,7 @@ import requestsRoute from './routes/requests';
 import statusRoute from './routes/status';
 
 async function initLocalDb(provider: "local" | "remote"): Promise<GenericDB> {
-    const db = new Datastore({ filename: path.join(homedir(), '.basis', 'dev-logs', 'db') })
+    const db = new Datastore({ filename: path.join(homedir(), '.basis', 'dev-logs', 'nedb') })
     try {
         await db.loadDatabaseAsync()
     } catch (error) {

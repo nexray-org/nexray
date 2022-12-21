@@ -8,8 +8,7 @@
   "scripts": {
     "clean": "pnpm --filter \"*\" clean && shx rm -rf pnpm-lock.yaml node_modules",
     "prettier-format": "prettier --config prettier.config.js 'packages/*/src/**/*{.ts,.tsx,.js,.jsx}' --write",
-    "find-circular-deps": "pnpx madge --circular --extensions ts,tsx packages/",
-    "start": "pnpm turbo build && IS_DEV=1 node packages/start/bin/index.js"
+    "find-circular-deps": "pnpx madge --circular --extensions ts,tsx packages/"
   },
   "author": "dilan-dio4",
   "devDependencies": {

@@ -30,9 +30,9 @@ export default function Analyze() {
                             </div>
                         </Allotment.Pane>
                         <Allotment.Pane preferredSize={"65%"}>
-                            <div className='overflow-hidden'>
+                            <div className='overflow-hidden h-full'>
                                 {!selectedCategoryId ? (
-                                    <div className='flex-center flex-col text-center w-full pointer-events-none select-none'>
+                                    <div className='flex-center flex-col text-center w-full h-full pb-[10vh] pointer-events-none select-none'>
                                         <div className='max-w-[200px] brightness-[0.25]'>
                                             <Image src={require('../assets/ring.png')} />
                                         </div>
