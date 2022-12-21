@@ -2,6 +2,7 @@
 
 import { execa } from "@esm2cjs/execa";
 import path from 'path';
+import startServer from '@basis/server';
 
 const currentNodeVersion = process.versions.node;
 const semver = currentNodeVersion.split('.');
@@ -25,6 +26,7 @@ async function main() {
     if (process.env['IS_DEV']) {
         console.log("Running basis in dev mode");
         console.log("CWD:", cwd);
+        startServer("local")
         execa("pnpm tauri dev", { cwd: path.join(cwd, "packages", "app"), shell: true })
     } else {
         console.log("IS PROD");

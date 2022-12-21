@@ -6,6 +6,7 @@ import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import { GenericDB } from './types';
 import captureRoute from './routes/capture';
 import requestsRoute from './routes/requests';
+import statusRoute from './routes/status';
 
 async function initLocalDb(provider: "local" | "remote"): Promise<GenericDB> {
     const db = new Datastore({ filename: path.join(homedir(), '.basis', 'dev-logs', 'db') })
@@ -24,6 +25,7 @@ export default async function launch(provider: "local" | "remote") {
 
     server.register(captureRoute(db));
     server.register(requestsRoute(db));
+    server.register(statusRoute(db));
 
     await server.listen({ port });
     return server;

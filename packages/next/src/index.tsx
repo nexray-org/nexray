@@ -2,22 +2,25 @@ import { headers } from 'next/headers';
 import { nanoid } from 'nanoid';
 import { Fragment } from 'react';
 import type { ServerComponentRequest, OptionalExcept } from '@basis/types';
-import * as ops from './db';
+import BasisAPIClient from './client';
 import path from 'path';
 
 type NextAppServerComponentProps = Record<any, any>;
 
 const clocktime = Date.now;
-
+const _fetch = fetch;
 let inDevEnvironment = false;
+let endpoint = process.env['BASIS_ENDPOINT'] || "";
 
 if (process && process.env.NODE_ENV === 'development') {
     inDevEnvironment = true;
+    if (!endpoint) {
+        // check dev endpoint
+        endpoint = "http://localhost:4694"
+    }
 } else {
     // Check for remote db config with process.env.BASIS_KEY;
 }
-
-const _fetch = fetch;
 
 // Must manually reference
 const _trueLog = console.log;
@@ -35,6 +38,9 @@ const consoles = {
     debug: _trueDebug,
     dir: _trueDir,
 } as const;
+
+const ops = new BasisAPIClient(_fetch, endpoint)
+ops.testEndpoint().then(res => _trueLog(`Tested local endpoint with response: ${res}`))
 
 export default function useBasis(componentGenerator: (props: NextAppServerComponentProps) => Promise<JSX.Element> | JSX.Element) {
     // .next/server/app/...
@@ -111,7 +117,7 @@ export default function useBasis(componentGenerator: (props: NextAppServerCompon
                 type: "event",
                 time
             });
-            ops.insertRequest(requestData as ServerComponentRequest);
+            ops.captureRequest(requestData as ServerComponentRequest);
         }
 
         function captureRenderError(error: any) {
@@ -122,7 +128,7 @@ export default function useBasis(componentGenerator: (props: NextAppServerCompon
                 time
             });
             requestData.error = error || true;
-            ops.insertRequest(requestData as ServerComponentRequest);
+            ops.captureRequest(requestData as ServerComponentRequest);
         }
 
         // Next fetch implementation: https://github.com/vercel/next.js/blob/canary/packages/next/server/node-polyfill-fetch.js

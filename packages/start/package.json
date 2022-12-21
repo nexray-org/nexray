@@ -16,6 +16,7 @@
     "basis": "bin/index.js"
   },
   "dependencies": {
+    "@basis/server": "workspace:^1.0.0",
     "@esm2cjs/execa": "6.1.1-cjs.1",
     "sqlite3": "^5.1.4"
   }

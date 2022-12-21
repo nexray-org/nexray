@@ -42,6 +42,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var execa_1 = require("@esm2cjs/execa");
 var path_1 = __importDefault(require("path"));
+var server_1 = __importDefault(require("@basis/server"));
 var currentNodeVersion = process.versions.node;
 var semver = currentNodeVersion.split('.');
 var major = semver[0];
@@ -54,17 +55,19 @@ if (+major < 14) {
         'or switch installations to continue.');
     process.exit(1);
 }
+// Boot up dev server
 function main() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             if (process.env['IS_DEV']) {
                 console.log("Running basis in dev mode");
                 console.log("CWD:", cwd);
-                console.log("APP DIR: ", path_1.default.join(cwd, "packages", "app"));
+                (0, server_1.default)("local");
                 (0, execa_1.execa)("pnpm tauri dev", { cwd: path_1.default.join(cwd, "packages", "app"), shell: true });
             }
             else {
                 console.log("IS PROD");
+                // TODO: load to cross-platform app dir, exec from there
             }
             return [2 /*return*/];
         });

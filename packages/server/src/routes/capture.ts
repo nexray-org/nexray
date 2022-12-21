@@ -6,16 +6,19 @@ import { ServerComponentRequest } from '@basis/types';
 const Response = Type.Boolean();
 
 const route = (db: GenericDB) => async (server: FastifyInstance) => {
-    server.post<{ Body: ServerComponentRequest; Reply: Static<typeof Response>; }>(
-        '/createPayment',
+    server.post<{ Body: { data: ServerComponentRequest }; Reply: Static<typeof Response>; }>(
+        '/capture-request',
         {
             schema: {
-                response: Response
+                response: {
+                    "2xx": Response
+                }
             },
         },
         async (req, res) => {
             const { body } = req;
-            db.insertAsync(body);
+            console.log("Captured request: ", body.data)
+            db.insertAsync(body.data);
             res.send(true);
         },
     );
