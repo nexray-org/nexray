@@ -1,7 +1,6 @@
 #! /usr/bin/env node
 
 import { execa } from "@esm2cjs/execa";
-import express from 'express';
 import path from 'path';
 
 const currentNodeVersion = process.versions.node;
