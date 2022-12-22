@@ -7,6 +7,7 @@ import { GenericDB } from './types';
 import captureRoute from './routes/capture';
 import requestsRoute from './routes/requests';
 import statusRoute from './routes/status';
+import cors from '@fastify/cors';
 
 async function initLocalDb(provider: "local" | "remote"): Promise<GenericDB> {
     const db = new Datastore({ filename: path.join(homedir(), '.basis', 'dev-logs', 'nedb') })
@@ -23,6 +24,7 @@ export default async function launch(provider: "local" | "remote") {
     const server = fastify({ trustProxy: true }).withTypeProvider<TypeBoxTypeProvider>()
     const port = 4694;
 
+    server.register(cors)
     server.register(captureRoute(db));
     server.register(requestsRoute(db));
     server.register(statusRoute(db));

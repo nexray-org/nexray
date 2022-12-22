@@ -13,6 +13,7 @@
     "start:env": "tauri dev"
   },
   "dependencies": {
+    "@basis/api-client": "workspace:^1.0.0",
     "@basis/json-finder": "workspace:^1.0.0",
     "@geist-ui/core": "^2.3.8",
     "@headlessui/react": "^1.7.4",

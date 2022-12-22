@@ -21,6 +21,7 @@ if (+major < 14) {
 }
 
 // Boot up dev server
+// Based on devtools: https://github.com/facebook/react/blob/main/packages/react-devtools/bin.js
 
 async function main() {
     if (process.env['IS_DEV']) {

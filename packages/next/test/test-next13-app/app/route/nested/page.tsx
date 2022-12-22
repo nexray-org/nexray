@@ -18,9 +18,21 @@ async function getData() {
   return res.json();
 }
 
+async function HomeServerSibling() {
+  console.log("This is another async server component")
+  const data = await getData();
+  return (
+    <main>
+      <h2>This is another component in the nested route</h2>
+      <h3>It also fetched data from jsonplaceholder.com</h3>
+    </main>
+  )
+}
+
 export default useBasis(async function Home() {
   console.log("This is a server component")
   const data = await getData();
+  const homeServerSibling = await HomeServerSibling();
   return (
     <main>
       <h2>This is a nested route</h2>
@@ -28,6 +40,7 @@ export default useBasis(async function Home() {
       <code>
         {JSON.stringify(data, null, 2).slice(0, 240)}...
       </code>
+      {homeServerSibling}
     </main>
   )
 });

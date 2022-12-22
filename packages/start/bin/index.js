@@ -56,6 +56,7 @@ if (+major < 14) {
     process.exit(1);
 }
 // Boot up dev server
+// Based on devtools: https://github.com/facebook/react/blob/main/packages/react-devtools/bin.js
 function main() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {

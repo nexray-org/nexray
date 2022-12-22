@@ -1,14 +1,13 @@
 import { headers } from 'next/headers';
 import { nanoid } from 'nanoid';
-import { Fragment } from 'react';
-import type { ServerComponentRequest, OptionalExcept } from '@basis/types';
-import BasisAPIClient from './client';
+import { ReactNode } from 'react';
+import type { ServerComponentRequest, OptionalExcept, NextAppServerComponentProps, Child } from '@basis/types';
+import BasisAPIClient from '@basis/api-client';
 import path from 'path';
+import { _fetch, _consoles } from './globalCache';
+import { deepMap } from 'react-children-utilities';
+import * as reactIs from 'react-is';
 
-type NextAppServerComponentProps = Record<any, any>;
-
-const clocktime = Date.now;
-const _fetch = fetch;
 let inDevEnvironment = false;
 let endpoint = process.env['BASIS_ENDPOINT'] || "";
 
@@ -22,43 +21,25 @@ if (process && process.env.NODE_ENV === 'development') {
     // Check for remote db config with process.env.BASIS_KEY;
 }
 
-// Must manually reference
-const _trueLog = console.log;
-const _trueError = console.error;
-const _trueInfo = console.info;
-const _trueWarn = console.warn;
-const _trueDebug = console.debug;
-const _trueDir = console.dir;
-
-const consoles = {
-    log: _trueLog,
-    error: _trueError,
-    info: _trueInfo,
-    warn: _trueWarn,
-    debug: _trueDebug,
-    dir: _trueDir,
-} as const;
-
 const ops = new BasisAPIClient(_fetch, endpoint)
-ops.testEndpoint().then(res => _trueLog(`Tested local endpoint with response: ${res}`))
+ops.testEndpoint().then(res => _consoles.log(`Tested local endpoint with response: ${res}`))
 
-export default function useBasis(componentGenerator: (props: NextAppServerComponentProps) => Promise<JSX.Element> | JSX.Element) {
+export default function nexrayPage(componentGenerator: (props: NextAppServerComponentProps) => Promise<JSX.Element> | JSX.Element) {
     // .next/server/app/...
     const absoluteFsUrl = path.relative(process.cwd(), __dirname);
     const relativeFsUrl = absoluteFsUrl.includes("/app/") ? absoluteFsUrl.split("/app").pop()! : absoluteFsUrl;
 
     return async (props: NextAppServerComponentProps) => {
         const requestId = nanoid();
-        const requestData: OptionalExcept<ServerComponentRequest, 'id' | 'timeline' | 'fetches' | 'url' | 'type'> = {
+        const requestData: OptionalExcept<ServerComponentRequest, 'id' | 'timeline' | 'fetches' | 'url'> = {
             id: requestId,
             timeline: [],
             fetches: {},
             url: relativeFsUrl,
-            type: "server"
         };
 
         function captureFetch(fetchId: string, url: string, init: RequestInit | undefined) {
-            const time = clocktime();
+            const time = Date.now();
             requestData.fetches[fetchId] = {
                 time,
                 url,
@@ -73,7 +54,7 @@ export default function useBasis(componentGenerator: (props: NextAppServerCompon
         }
 
         function captureFetchResponse(fetchId: string, response: any) {
-            const time = clocktime();
+            const time = Date.now();
             requestData.fetches[fetchId] = {
                 ...requestData.fetches[fetchId],
                 duration: time - requestData.fetches[fetchId].time,
@@ -86,20 +67,21 @@ export default function useBasis(componentGenerator: (props: NextAppServerCompon
             });
         }
 
-        function captureLogParams(level: string, params: any[]) {
-            const time = clocktime();
+        function captureLogParams(level: string, consoleParams: any[]) {
+            const time = Date.now();
             requestData.timeline.push({
-                content: `${time} - ${level.toUpperCase()} - ${params.join(' ')}`,
+                content: `${time} - ${level.toUpperCase()} - ${consoleParams.join(' ')}`,
                 type: "log",
                 time
             });
         }
 
         let renderStartTime: number;
-        function captureRequest(headers: [string, string][]) {
-            const time = clocktime();
+        function captureRenderRequest(headers: [string, string][], componentProps: NextAppServerComponentProps) {
+            const time = Date.now();
             renderStartTime = time;
             requestData.headers = headers;
+            requestData.props = componentProps;
             requestData.time = time;
             requestData.timeline.push({
                 content: `${time} - Component request initiated`,
@@ -108,10 +90,12 @@ export default function useBasis(componentGenerator: (props: NextAppServerCompon
             });
         }
 
-        function captureRenderEnd() {
-            const time = clocktime();
+        function captureRenderEnd(children: Child[]) {
+            const time = Date.now();
             const diff = time - renderStartTime!;
             requestData.durationMs = diff;
+            requestData.children = children;
+            console.log(JSON.stringify(requestData, null, 2))
             requestData.timeline.push({
                 content: `${time} - Transferring HTML to client. Render time: ${diff}`,
                 type: "event",
@@ -121,7 +105,7 @@ export default function useBasis(componentGenerator: (props: NextAppServerCompon
         }
 
         function captureRenderError(error: any) {
-            const time = clocktime();
+            const time = Date.now();
             requestData.timeline.push({
                 content: `${time} - ERROR - ${JSON.stringify(error)}`,
                 type: "event",
@@ -148,27 +132,35 @@ export default function useBasis(componentGenerator: (props: NextAppServerCompon
             return _rawRes;
         };
 
-        for (const [name, proc] of Object.entries(consoles)) {
-            global.console[name as keyof typeof consoles] = function (...params) {
-                captureLogParams(name, params);
-                proc(...params);
+        for (const [name, proc] of Object.entries(_consoles)) {
+            global.console[name as keyof typeof _consoles] = function (...consoleParams) {
+                captureLogParams(name, consoleParams);
+                proc(...consoleParams);
             };
         }
 
         // Forgetting cookies for now
-        captureRequest([...headers().entries()]);
+        captureRenderRequest([...headers().entries()], props || {});
 
-        const { params, ...restProps } = props;
         let component: undefined | JSX.Element;
         try {
             const maybePromise = componentGenerator(props);
             component = await maybePromise;
-            captureRenderEnd();
+            const childrenProps = deepMap(component, (child) => {
+                if (reactIs.isElement(child)) {
+                    if (typeof child.type === "function") {
+                        return { type: (child as any)['displayName'] || "Functional Component", props: child.props } as ReactNode;
+                    } else {
+                        return { type: child.type, props: child.props } as ReactNode;
+                    }
+                }
+            }) as Child[];
+            captureRenderEnd(childrenProps);
         } catch (error) {
             captureRenderError(error);
             throw error;
         }
 
-        return <Fragment>{component}</Fragment>;
+        return component;
     };
 }

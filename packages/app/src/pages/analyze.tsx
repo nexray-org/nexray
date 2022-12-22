@@ -8,14 +8,14 @@ import { UiContext } from '../context/UiContext';
 import Image from 'next/image';
 import MainContent from '../components/MainContext';
 import FilterGroups from '../modals/FilterGroups';
-import useWatchLocalDb from '../hooks/useWatchLocalDb';
+import useApi from '../hooks/useApi';
 import { Allotment } from "allotment";
 import "allotment/dist/style.css";
 
 export default function Analyze() {
     const { height } = useDeviceSize();
     const { selectedCategoryId, data } = useContext(UiContext);
-    useWatchLocalDb();
+    useApi(process.env['BASIS_ENDPOINT'] || "http://localhost:4694", 1000);
 
     return (
         <HeadlessRoot>

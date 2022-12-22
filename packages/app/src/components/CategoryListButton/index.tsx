@@ -24,9 +24,10 @@ export const CategoryListButton: FixedSizeListProps<undefined>['children'] = ({ 
                 'cursor-pointer',
                 selectedCategoryId === item.id && 'bg-g-primary-800',
             )}
+            onContextMenu={e => { e.preventDefault() }}
         >
             <div className='flex items-center justify-between tracking-tight'>
-                <span className='text-g-primary-100 text-xs font-semibold capitalize'>{`${item.type} component`}</span>
+                <span className='text-g-primary-100 text-xs font-semibold capitalize'>{`Server component`}</span>
                 <div className={clsx(
                     'font-mono ml-2 rounded leading-none font-bold px-1.5 py-1 text-xs text-g-primary-50',
                     item.error ? "bg-red-500" : "bg-green-600"

@@ -1,5 +1,5 @@
 {
-  "name": "@basis/server",
+  "name": "@basis/api-client",
   "version": "1.0.0",
   "main": "build/index.js",
   "scripts": {
@@ -7,13 +7,6 @@
     "prebuild": "shx rm -f tsconfig.package.tsbuildinfo",
     "build": "tsc -p ./tsconfig.json",
     "clean": "shx rm -rf build pnpm-lock.yaml node_modules tsconfig.package.tsbuildinfo"
-  },
-  "dependencies": {
-    "@fastify/cors": "^8.2.0",
-    "@fastify/type-provider-typebox": "^2.4.0",
-    "@seald-io/nedb": "^3.1.0",
-    "@sinclair/typebox": "^0.25.15",
-    "fastify": "^4.10.2"
   },
   "devDependencies": {
     "@basis/types": "workspace:^1.0.0"

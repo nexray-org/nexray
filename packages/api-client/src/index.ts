@@ -1,6 +1,7 @@
 import { ServerComponentRequest } from '@basis/types';
 
 export default class BasisAPIClient {
+    isEndpointUp: boolean | undefined = undefined;
     constructor(
         private _fetch: (input: RequestInfo | URL, init?: RequestInit | undefined) => Promise<Response>,
         private endpoint: string,
@@ -10,9 +11,11 @@ export default class BasisAPIClient {
         try {
             const endpointUp = await this._fetch(`${this.endpoint}/status`);
             if (await endpointUp.text()) {
+                this.isEndpointUp = true;
                 return true;
             }
         } catch (error) {
+            this.isEndpointUp = false;
             return false;
         }
     }
@@ -25,5 +28,10 @@ export default class BasisAPIClient {
             },
             body: JSON.stringify({ data })
         });
+    }
+
+    async readRequests(afterTime?: number) {
+        const _res = await this._fetch(`${this.endpoint}/requests${afterTime ? "?after=" + afterTime : ""}`);
+        return _res.json() as Promise<ServerComponentRequest[]>;
     }
 }
