@@ -11,6 +11,7 @@ import FilterGroups from '../modals/FilterGroups';
 import useApi from '../hooks/useApi';
 import { Allotment } from "allotment";
 import "allotment/dist/style.css";
+import Sidebar from '../components/Sidebar';
 
 export default function Analyze() {
     const { height } = useDeviceSize();
@@ -20,7 +21,9 @@ export default function Analyze() {
     return (
         <HeadlessRoot>
             <div className='flex h-full w-full'>
-                <div className='h-full w-[60px] bg-g-primary-800 border-r-1 border-g-primary-700'></div>
+                <div className='h-full w-[60px] bg-g-primary-800 border-r-1 border-g-primary-700'>
+                    <Sidebar />
+                </div>
                 <div className='flex w-full'>
                     <Allotment>
                         <Allotment.Pane preferredSize={"35%"} minSize={250}>
