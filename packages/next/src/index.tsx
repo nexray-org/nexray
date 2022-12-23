@@ -53,7 +53,7 @@ export default function nexrayPage(componentGenerator: (props: NextAppServerComp
             });
         }
 
-        function captureFetchResponse(fetchId: string, response: any) {
+        function captureFetchResponseSuccess(fetchId: string, response: Response) {
             const time = Date.now();
             requestData.fetches[fetchId] = {
                 ...requestData.fetches[fetchId],
@@ -62,6 +62,21 @@ export default function nexrayPage(componentGenerator: (props: NextAppServerComp
             };
             requestData.timeline.push({
                 content: `${time} - Fetch ${requestId} responded ${JSON.stringify(response)}`,
+                type: "event",
+                time
+            });
+        }
+
+
+        function captureFetchResponseError(fetchId: string, error: any) {
+            const time = Date.now();
+            requestData.fetches[fetchId] = {
+                ...requestData.fetches[fetchId],
+                duration: time - requestData.fetches[fetchId].time,
+                error
+            };
+            requestData.timeline.push({
+                content: `${time} - Fetch ${requestId} errored ${JSON.stringify(error)}`,
                 type: "event",
                 time
             });
@@ -115,22 +130,30 @@ export default function nexrayPage(componentGenerator: (props: NextAppServerComp
             ops.captureRequest(requestData as ServerComponentRequest);
         }
 
-        // Next fetch implementation: https://github.com/vercel/next.js/blob/canary/packages/next/server/node-polyfill-fetch.js
-        global.fetch = async (...args) => {
-            let url: string;
-            if (typeof args[0] === 'string') {
-                url = args[0];
-            } else {
-                url = (args[0] as Request).url;
-            }
-
-            const fetchId = nanoid();
-            captureFetch(fetchId, url, args[1]);
-
-            const _rawRes = await _fetch(...args);
-            captureFetchResponse(fetchId, _rawRes);
-            return _rawRes;
-        };
+        if (!(global as any).fetch['NEXRAY_ATTACHED']) {
+            // Next fetch implementation: https://github.com/vercel/next.js/blob/canary/packages/next/server/node-polyfill-fetch.js
+            global.fetch = async (...args) => {
+                let url: string;
+                if (typeof args[0] === 'string') {
+                    url = args[0];
+                } else {
+                    url = (args[0] as Request).url;
+                }
+    
+                const fetchId = nanoid();
+                captureFetch(fetchId, url, args[1]);
+    
+                try {
+                    const _rawRes = await _fetch(...args);
+                    captureFetchResponseSuccess(fetchId, _rawRes);
+                    return _rawRes;
+                } catch (error) {
+                    captureFetchResponseError(fetchId, error);
+                    throw error;
+                }
+            };
+            (global as any).fetch['NEXRAY_ATTACHED'] = true;
+        }
 
         for (const [name, proc] of Object.entries(_consoles)) {
             global.console[name as keyof typeof _consoles] = function (...consoleParams) {

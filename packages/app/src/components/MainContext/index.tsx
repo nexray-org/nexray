@@ -8,6 +8,7 @@ import OutputSettings from '../../modals/OutputSettings';
 import InsightSettings from '../../modals/InsightSettings';
 import JsonFilterHelp from '../../modals/JsonFilterHelp';
 import Headers from './Headers';
+import Requests from './Requests';
 
 function MainContent() {
     const { selectedCategoryId, activeItem, config, itemContentStrings } = useContext(UiContext);
@@ -58,6 +59,7 @@ function MainContent() {
                     value='requests'
                     disabled={activeItem ? Object.keys(activeItem.fetches).length === 0 : true}
                 >
+                    <Requests />
                 </Tabs.Item>
                 <Tabs.Item label='Output' value='output'>
                     <Output />
