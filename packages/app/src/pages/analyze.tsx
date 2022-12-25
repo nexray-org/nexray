@@ -12,6 +12,7 @@ import useApi from '../hooks/useApi';
 import { Allotment } from "allotment";
 import "allotment/dist/style.css";
 import Sidebar from '../components/Sidebar';
+import { ServerComponentRequest } from '@basis/types';
 
 export default function Analyze() {
     const { height } = useDeviceSize();
@@ -29,7 +30,13 @@ export default function Analyze() {
                         <Allotment.Pane preferredSize={"35%"} minSize={250}>
                             <div className='flex flex-col border-l border-l-g-primary-700'>
                                 <SearchBar />
-                                <QuickList height={height - 30 - 36} itemCount={data.length} itemSize={listElements.itemSize} rowRenderer={listElements.CategoryListButton} />
+                                <QuickList<ServerComponentRequest[]> 
+                                    height={height - 30 - 36}
+                                    itemCount={data.length} 
+                                    itemSize={listElements.itemSize} 
+                                    rowRenderer={listElements.CategoryListButton} 
+                                    itemKey={index => data[index].id}
+                                />
                             </div>
                         </Allotment.Pane>
                         <Allotment.Pane preferredSize={"65%"}>

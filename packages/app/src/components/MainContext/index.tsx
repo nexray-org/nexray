@@ -9,11 +9,14 @@ import InsightSettings from '../../modals/InsightSettings';
 import JsonFilterHelp from '../../modals/JsonFilterHelp';
 import Headers from './Headers';
 import Requests from './Requests';
+import Tree from './Tree';
+import useDeviceSize from '../../hooks/useDeviceSize';
 
 function MainContent() {
     const { selectedCategoryId, activeItem, config, itemContentStrings } = useContext(UiContext);
     const { setActiveTab, setDiscoveredObjs, tabsBindings, discoveredObjs, enabledTimelineTypes, selectedContentString } = useContext(MainContentContext);
     const workerRef = useRef<Worker>();
+    const { height } = useDeviceSize();
 
     useEffect(() => {
         setDiscoveredObjs(false);
@@ -83,6 +86,9 @@ function MainContent() {
                 </Tabs.Item>
                 <Tabs.Item label='Headers' value='headers'>
                     <Headers />
+                </Tabs.Item>
+                <Tabs.Item label='Tree' value='tree'>
+                    <Tree height={height - 30 - 36} />
                 </Tabs.Item>
             </Tabs>
             <OutputSettings />

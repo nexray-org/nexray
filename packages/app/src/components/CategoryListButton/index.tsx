@@ -4,10 +4,11 @@ import { useContext } from 'react';
 import { FixedSizeListProps } from 'react-window';
 import { UiContext } from '../../context/UiContext';
 import numbro from 'numbro';
+import { ServerComponentRequest } from '@basis/types';
 
 export const itemSize = 140;
 
-export const CategoryListButton: FixedSizeListProps<undefined>['children'] = ({ index, style }) => {
+export const CategoryListButton: FixedSizeListProps<ServerComponentRequest[]>['children'] = ({ index, style }) => {
     const { selectedCategoryId, setSelectedCategoryId, data } = useContext(UiContext);
     const item = data[index];
 

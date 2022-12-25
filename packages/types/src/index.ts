@@ -1,12 +1,12 @@
-type Props = {
+export type ChildProps = {
     [x: string | number | symbol]: any;
     className: string | undefined;
-    children: string | number | boolean | null | undefined | Child[];
+    children: string | number | boolean | null | undefined | (string | Child)[];
 }
 
 export type Child = {
     type: string;
-    props: Props
+    props: ChildProps;
 }
 
 export type ServerComponentRequest = {

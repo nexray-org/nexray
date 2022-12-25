@@ -172,7 +172,7 @@ export default function nexrayPage(componentGenerator: (props: NextAppServerComp
             const childrenProps = deepMap(component, (child) => {
                 if (reactIs.isElement(child)) {
                     if (typeof child.type === "function") {
-                        return { type: (child as any)['displayName'] || "Functional Component", props: child.props } as ReactNode;
+                        return { type: (child as any)['nexrayName'] || "Component", props: child.props } as ReactNode;
                     } else {
                         return { type: child.type, props: child.props } as ReactNode;
                     }
