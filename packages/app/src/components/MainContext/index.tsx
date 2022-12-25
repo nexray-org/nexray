@@ -88,7 +88,7 @@ function MainContent() {
                     <Headers />
                 </Tabs.Item>
                 <Tabs.Item label='Tree' value='tree'>
-                    <Tree height={height - 30 - 36} />
+                    <Tree height={height - 30 - 46} />
                 </Tabs.Item>
             </Tabs>
             <OutputSettings />

@@ -6,14 +6,15 @@ import { FlatChildrenWithInitData } from './types';
 import { nanoid } from 'nanoid';
 import cloneDeep from 'lodash.clonedeep';
 import { Child } from '@basis/types';
+import clsx from 'clsx';
+import useDeviceSize from '../../../hooks/useDeviceSize';
 
-interface ITree {
-    height: number;
-}
-
-export default function Tree({ height }: ITree) {
+export default function Tree() {
     const { activeItem } = useContext(UiContext);
     const [closedNodeIds, setClosedNodeIds] = useState<string[]>([]);
+    const [selectedNodeId, setSelectedNodeId] = useState<string>("");
+
+    const { height } = useDeviceSize();
 
     const flatData = useMemo(() => {
         const flattenNode = (node: Child | string, depth: number, result: FlatChildrenWithInitData[], path: string[]) => {
@@ -71,18 +72,33 @@ export default function Tree({ height }: ITree) {
         :
         setClosedNodeIds(prev => [...prev, id])
 
+    const onSelectNode = setSelectedNodeId;
 
     if (!activeItem?.children) {
         return <></>;
     }
 
+    const rowRendererExtraProps = {
+        flatDataWithState,
+        onToggleOpen,
+        closedNodeIds,
+        onSelectNode
+    } as const;
+
     return (
-        <QuickList<FlatChildrenWithInitData[]>
-            height={height}
-            itemCount={flatDataWithState.length}
-            itemSize={rowHeight}
-            itemKey={(index) => flatDataWithState[index].id}
-            rowRenderer={(props) => <Row {...props} flatDataWithState={flatDataWithState} onToggleOpen={onToggleOpen} closedNodeIds={closedNodeIds} />}
-        />
+        <div className='flex border-t border-t-g-primary-700 pt-[4px] mt-[4px]'>
+            <QuickList<FlatChildrenWithInitData[]>
+                height={height - 30 - 46 - 4 - 4 - 11}
+                itemCount={flatDataWithState.length}
+                itemSize={rowHeight}
+                itemKey={(index) => flatDataWithState[index].id}
+                rowRenderer={(props) => <Row {...props} {...rowRendererExtraProps} />}
+                className={clsx("flex", selectedNodeId && "basis-2/3")}
+            />
+            {selectedNodeId && (
+                <div className={clsx("flex basis-1/3 border-l border-l-g-primary-700")}>
+                </div>
+            )}
+        </div>
     )
 }

@@ -4,18 +4,20 @@ import { AiFillCaretDown, AiFillCaretRight } from 'react-icons/ai';
 import clsx from 'clsx';
 import { Code } from '@geist-ui/core';
 
-export const rowHeight = 24;
+export const rowHeight = 22;
 
-const Row = ({ 
-    index, 
-    style, 
+const Row = ({
+    index,
+    style,
     flatDataWithState,
     onToggleOpen,
-    closedNodeIds
-}: ListChildComponentProps<FlatChildrenWithInitData[]> & { 
-    flatDataWithState: FlatChildrenWithInitData[]; 
+    closedNodeIds,
+    onSelectNode
+}: ListChildComponentProps<FlatChildrenWithInitData[]> & {
+    flatDataWithState: FlatChildrenWithInitData[];
     onToggleOpen: (id: string) => void;
     closedNodeIds: string[];
+    onSelectNode: (id: string) => void;
 }) => {
     const node = flatDataWithState[index];
     const left = node.depth * 20;
@@ -24,28 +26,40 @@ const Row = ({
         <div
             style={style}
             className={clsx(
-                "flex items-center transition-colors select-none",
+                "flex items-center transition-colors select-none duration-75",
                 node.hasChildren && "hover:bg-g-primary-700 cursor-pointer"
             )}
         >
-            <div
-                style={{
-                    paddingLeft: `${left}px`
-                }}
-                className="flex items-center"
-            >
+            {node.is === "string" ? (
                 <div
-                    onClick={() => onToggleOpen(node.id)}
-                    className="py-0.5 px-2"
+                    style={{
+                        paddingLeft: `${left}px`
+                    }}
+                    className="flex items-center"
                 >
-                    {node.hasChildren && <>{closedNodeIds.includes(node.id) ? <AiFillCaretRight size={"0.8em"} className="!text-g-primary-400" /> : <AiFillCaretDown size={"0.8em"} className="!text-g-primary-400" />}</>}
+                    <span className={clsx(rootTextClassName, 'font-mono pl-4')}>&#8220;{node.type}&#8221;</span>
                 </div>
-                {node.is === "string" ? (
-                    <span className={clsx(rootTextClassName, 'font-mono')}>&#8220;{node.type}&#8221;</span>
-                ) : (
+            ) : (
+                <div
+                    style={{
+                        paddingLeft: `${left}px`
+                    }}
+                    className="flex items-center"
+                    onClick={() => onSelectNode(node.id)}
+                >
+                    <div
+                        onClick={(e) => {
+                            onToggleOpen(node.id);
+                            e.preventDefault();
+                            e.stopPropagation();
+                        }}
+                        className="px-2"
+                    >
+                        {node.hasChildren && <>{closedNodeIds.includes(node.id) ? <AiFillCaretRight size={"0.8em"} className="!text-g-primary-400" /> : <AiFillCaretDown size={"0.8em"} className="!text-g-primary-400" />}</>}
+                    </div>
                     <span className={clsx(rootTextClassName, 'text-[#79ffe1]')}>{node.type}</span>
-                )}
-            </div>
+                </div>
+            )}
         </div>
     )
 }
