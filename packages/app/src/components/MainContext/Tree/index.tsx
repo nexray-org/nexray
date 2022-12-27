@@ -8,6 +8,7 @@ import cloneDeep from 'lodash.clonedeep';
 import { Child } from '@basis/types';
 import clsx from 'clsx';
 import useDeviceSize from '../../../hooks/useDeviceSize';
+import KeyValue from './KeyValue';
 
 export default function Tree() {
     const { activeItem } = useContext(UiContext);
@@ -19,7 +20,6 @@ export default function Tree() {
     const flatData = useMemo(() => {
         const flattenNode = (node: Child | string, depth: number, result: FlatChildrenWithInitData[], path: string[]) => {
             const id = nanoid();
-            console.log("node", node)
             if (typeof node === "string") {
                 result.push({
                     id,
@@ -27,16 +27,20 @@ export default function Tree() {
                     hasChildren: false,
                     type: node,
                     is: "string",
-                    path
+                    path,
+                    propsWithoutChildren: undefined
                 });
             } else {
+                const propsWithoutChildren = {...node.props};
+                delete propsWithoutChildren['children'];
                 result.push({
                     id,
                     depth,
                     hasChildren: !!node.props?.children,
                     type: node.type,
                     is: "component",
-                    path
+                    path,
+                    propsWithoutChildren: propsWithoutChildren
                 });
 
                 if (node.props?.children) {
@@ -86,17 +90,26 @@ export default function Tree() {
     } as const;
 
     return (
-        <div className='flex border-t border-t-g-primary-700 pt-[4px] mt-[4px]'>
-            <QuickList<FlatChildrenWithInitData[]>
-                height={height - 30 - 46 - 4 - 4 - 11}
-                itemCount={flatDataWithState.length}
-                itemSize={rowHeight}
-                itemKey={(index) => flatDataWithState[index].id}
-                rowRenderer={(props) => <Row {...props} {...rowRendererExtraProps} />}
-                className={clsx("flex", selectedNodeId && "basis-2/3")}
-            />
-            {selectedNodeId && (
-                <div className={clsx("flex basis-1/3 border-l border-l-g-primary-700")}>
+        <div className='flex border-t border-t-g-primary-700 mt-[4px]'>
+            <div className={clsx("pt-[4px] flex w-full", selectedNodeId && "basis-1/2")}>
+                <QuickList<FlatChildrenWithInitData[]>
+                    height={height - 30 - 46 - 4 - 4 - 11}
+                    itemCount={flatDataWithState.length}
+                    itemSize={rowHeight}
+                    itemKey={(index) => flatDataWithState[index].id}
+                    rowRenderer={(props) => <Row {...props} {...rowRendererExtraProps} />}
+                    className="flex"
+                />
+            </div>
+            {(selectedNodeId) && (
+                <div className={clsx("flex basis-1/2 border-l border-l-g-primary-700 py-2")}>
+                    <div className='w-full'>
+                        <div className='border-b border-b-g-primary-700 px-4 pt-4'>
+                            <p className="text-lg font-bold leading-none m-0">Component Props</p>
+                            <p className='text-[12px] text-g-primary-400 leading-none mt-2 mb-4'>*children prop is omitted</p>
+                        </div>
+                        <KeyValue itemProps={flatDataWithState.find(ele => ele.id === selectedNodeId)?.propsWithoutChildren} />
+                    </div>
                 </div>
             )}
         </div>

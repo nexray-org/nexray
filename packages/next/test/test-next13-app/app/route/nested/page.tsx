@@ -29,6 +29,12 @@ async function HomeServerSibling() {
   )
 }
 
+function SyncFunctionWithAnyProps(props: Record<string | number | symbol, any>) {
+  return <span>Pass through props component with: <code>{JSON.stringify(props, null, 2)}</code></span>
+}
+SyncFunctionWithAnyProps.nexrayName = "Passthrough Component"
+SyncFunctionWithAnyProps.displayName = "Passthrough Component"
+
 export default useBasis(async function Home() {
   console.log("This is a server component")
   const data = await getData();
@@ -41,6 +47,28 @@ export default useBasis(async function Home() {
         {JSON.stringify(data, null, 2).slice(0, 240)}...
       </code>
       {homeServerSibling}
+      <span>Span component with {"Multiple"}&nbsp;{"Text"}&nbsp;{"Children"} and a {"\n"} new line</span>
+      <SyncFunctionWithAnyProps 
+        number={1} 
+        string={"Hello"} 
+        function={(a: string) => console.log(a)}
+        array={[
+          1, 
+          "Hello", 
+          (a: string) => console.log(a), 
+          {}, 
+          []
+        ]}
+        object={{ 
+          number: 1, 
+          string: "hello", 
+          function: (a: string) => console.log(a),
+          object: {},
+          array: []
+        }}
+      >
+        <span>Span component with {"Multiple"}&nbsp;{"Text"}&nbsp;{"Children"} and a {"\n"} new line</span>
+      </SyncFunctionWithAnyProps>
     </main>
   )
 });

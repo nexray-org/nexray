@@ -21,7 +21,7 @@ const Row = ({
 }) => {
     const node = flatDataWithState[index];
     const left = node.depth * 20;
-    const rootTextClassName = "text-xs tracking-normal overflow-hidden text-ellipsis whitespace-nowrap overflow-ellipsis";
+    const rootTextClassName = "text-xs tracking-normal overflow-hidden whitespace-nowrap overflow-ellipsis";
     return (
         <div
             style={style}
@@ -44,7 +44,7 @@ const Row = ({
                     style={{
                         paddingLeft: `${left}px`
                     }}
-                    className="flex items-center"
+                    className="flex items-center w-full"
                     onClick={() => onSelectNode(node.id)}
                 >
                     <div

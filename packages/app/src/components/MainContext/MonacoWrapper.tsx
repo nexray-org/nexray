@@ -29,7 +29,7 @@ export function focusFindAndClear(_editor: editor.IStandaloneCodeEditor) {
     }
 }
 
-export default function MonacoWrapper(props: Omit<EditorProps, 'onMount' | 'theme' | 'width'> & { safeOnMount?: OnMount }) {
+export default function MonacoWrapper(props: Omit<EditorProps, 'onMount' | 'theme' | 'width'> & { safeOnMount?: OnMount, disableFind?: boolean; }) {
     const [monacoEditor, setMonacoEditor] = useState<editor.IStandaloneCodeEditor>();
 
     useEffect(() => {
@@ -90,7 +90,9 @@ export default function MonacoWrapper(props: Omit<EditorProps, 'onMount' | 'them
         setMonacoEditor(_editor);
         console.log('Monaco supported actions:');
         console.log(_editor.getSupportedActions().map((a) => a.id));
-        focusFindAndClear(_editor);
+        if (!props.disableFind) {
+            focusFindAndClear(_editor);
+        }
 
         // https://github.com/microsoft/monaco-editor/issues/287
         const messageContribution = _editor.getContribution('editor.contrib.messageController');
