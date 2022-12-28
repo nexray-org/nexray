@@ -86,7 +86,8 @@ export default function Tree() {
         flatDataWithState,
         onToggleOpen,
         closedNodeIds,
-        onSelectNode
+        onSelectNode,
+        selectedNodeId
     } as const;
 
     return (
@@ -104,7 +105,7 @@ export default function Tree() {
             {(selectedNodeId) && (
                 <div className={clsx("flex basis-1/2 border-l border-l-g-primary-700 py-2")}>
                     <div className='w-full'>
-                        <div className='border-b border-b-g-primary-700 px-4 pt-4'>
+                        <div className='border-b border-b-g-primary-700 px-4 pt-2'>
                             <p className="text-lg font-bold leading-none m-0">Component Props</p>
                             <p className='text-[12px] text-g-primary-400 leading-none mt-2 mb-4'>*children prop is omitted</p>
                         </div>

@@ -12,12 +12,14 @@ const Row = ({
     flatDataWithState,
     onToggleOpen,
     closedNodeIds,
-    onSelectNode
+    onSelectNode,
+    selectedNodeId
 }: ListChildComponentProps<FlatChildrenWithInitData[]> & {
     flatDataWithState: FlatChildrenWithInitData[];
     onToggleOpen: (id: string) => void;
     closedNodeIds: string[];
     onSelectNode: (id: string) => void;
+    selectedNodeId: string;
 }) => {
     const node = flatDataWithState[index];
     const left = node.depth * 20;
@@ -27,7 +29,8 @@ const Row = ({
             style={style}
             className={clsx(
                 "flex items-center transition-colors select-none duration-75",
-                node.hasChildren && "hover:bg-g-primary-700 cursor-pointer"
+                node.hasChildren && "hover:bg-g-primary-700 cursor-pointer",
+                selectedNodeId === node.id && "bg-g-primary-500 hover:bg-g-primary-500"
             )}
         >
             {node.is === "string" ? (

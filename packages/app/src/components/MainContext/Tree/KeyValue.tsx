@@ -22,7 +22,7 @@ export default function KeyValue({ itemProps }: IKeyValue) {
     } else {
         return (
             <MonacoWrapper
-                height={height - 30 - 46 - 4 - 4 - 11 - 71}
+                height={height - 30 - 46 - 4 - 4 - 11 - 63}
                 language='json'
                 disableFind
                 value={JSON.stringify(itemProps, null, 2)}
