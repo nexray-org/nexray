@@ -54,6 +54,7 @@ export default function nexrayPage(componentGenerator: (props: NextAppServerComp
         }
 
         function captureFetchResponseSuccess(fetchId: string, response: Response) {
+            _consoles.log("response", JSON.stringify(response))
             const time = Date.now();
             requestData.fetches[fetchId] = {
                 ...requestData.fetches[fetchId],
