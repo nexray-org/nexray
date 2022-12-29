@@ -13,7 +13,7 @@ export type ServerComponentRequest = {
     time: number;
     id: string;
     props: Record<string, any>;
-    fetches: Record<string, CapturedFetchInitialized | CapturedFetchFinished | CapturedFetchErrored>;
+    fetches: Record<string, CapturedFetchFinished | CapturedFetchErrored>;
     timeline: { type: "log" | "event", content: string, time: number; }[];
     durationMs: number;
     error?: any;
@@ -35,11 +35,13 @@ export type CapturedFetchInitialized = {
 export type CapturedFetchFinished = {
     duration: number;
     response: Response;
+    error: undefined;
 } & CapturedFetchInitialized;
 
 export type CapturedFetchErrored = {
     duration: number;
-    error: any;
+    response: undefined;
+    error: NonNullable<any>;
 } & CapturedFetchInitialized;
 
 export type OptionalExcept<T, K extends keyof T> = Partial<T> & Pick<T, K>;

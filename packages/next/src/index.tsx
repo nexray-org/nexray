@@ -45,7 +45,7 @@ export default function nexrayPage(componentGenerator: (props: NextAppServerComp
                 url,
                 requestInit: init,
                 id: fetchId,
-            };
+            } as any;
             requestData.timeline.push({
                 content: `${time} - Fetch ${requestId} initiated to ${url}${init ? '' + JSON.stringify(init) : ''}`,
                 type: "event",
