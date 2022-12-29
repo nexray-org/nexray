@@ -135,7 +135,7 @@ export default function nexrayPage(componentGenerator: (props: NextAppServerComp
             requestData.error = error || true;
             Promise.all(fetchReadPromises).then(_ => ops.captureRequest(requestData as ServerComponentRequest));
         }
-
+        
         if (!(global as any).fetch['NEXRAY_ATTACHED']) {
             // Next fetch implementation: https://github.com/vercel/next.js/blob/canary/packages/next/server/node-polyfill-fetch.js
             global.fetch = async (...args) => {

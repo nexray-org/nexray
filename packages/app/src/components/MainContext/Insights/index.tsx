@@ -8,7 +8,7 @@ import ControlSnippet from '../ControlSnippet';
 import { MainContentContext } from '../../../context/MainContentContext';
 import numbro from 'numbro';
 
-export default function Insight() {
+export default function Insights() {
     const { config, setIsInsightsSettingsDialogOpen } = useContext(UiContext);
     const { jumpTo, insightFilter, setInsightFilter, selectedDiscoveredIndex, setSelectedDiscoveredIndex, discoveredObjs, setActiveTab } = useContext(MainContentContext);
 

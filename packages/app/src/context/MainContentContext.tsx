@@ -21,6 +21,10 @@ interface IMainContentContext {
     enabledTimelineTypes: Record<ServerComponentRequest['timeline'][number]['type'], boolean>;
     setEnabledTimelineTypes: React.Dispatch<React.SetStateAction<Record<ServerComponentRequest['timeline'][number]['type'], boolean>>>;
     selectedContentString: ServerComponentRequest['timeline'][number]['type'] | "combined" | undefined;
+    selectedRequestsTab: "table" | "insights";
+    setSelectedRequestsTab: React.Dispatch<React.SetStateAction<"table" | "insights">>;
+    selectedRequestForInsightId: string; 
+    setSelectedRequestForInsightId: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export type DiscoveredObject = [number, number, Record<any, any> | any[]];
@@ -34,6 +38,8 @@ export function MainContentProvider({ children }: { children: React.ReactNode | 
     const [outputMonacoEditor, setOutputMonacoEditor] = useState<editor.IStandaloneCodeEditor>();
     const [scrollOutputToTuple, setScrollOutputToTuple] = useState<[number, number]>();
     const [insightFilter, setInsightFilter] = useState<string>('');
+    const [selectedRequestsTab, setSelectedRequestsTab] = useState<"table" | "insights">('table');
+    const [selectedRequestForInsightId, setSelectedRequestForInsightId] = useState<string>('');
     const [enabledTimelineTypes, setEnabledTimelineTypes] = useState<Record<ServerComponentRequest['timeline'][number]['type'], boolean>>({
         event: true,
         log: true
@@ -101,7 +107,11 @@ export function MainContentProvider({ children }: { children: React.ReactNode | 
                 setSelectedDiscoveredIndex,
                 enabledTimelineTypes,
                 setEnabledTimelineTypes,
-                selectedContentString
+                selectedContentString,
+                selectedRequestsTab, 
+                setSelectedRequestsTab,
+                selectedRequestForInsightId, 
+                setSelectedRequestForInsightId,
             }}
         >
             {children}

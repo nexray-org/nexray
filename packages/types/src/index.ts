@@ -38,6 +38,8 @@ export type SerializedResponse = {
     redirected: boolean;
     headers: Headers;
     text: string;
+    statusText: string;
+    size: number;
 }
 
 export type CapturedFetchFinished = {
