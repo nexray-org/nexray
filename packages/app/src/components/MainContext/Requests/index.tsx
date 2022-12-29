@@ -1,89 +1,90 @@
-import { CapturedFetchErrored, CapturedFetchFinished } from "@basis/types";
 import clsx from "clsx";
 import { Fragment, useContext, useMemo, useState } from "react";
 import { UiContext } from "../../../context/UiContext";
 import { BiChevronRight } from 'react-icons/bi';
-import useAsyncEffect from "use-async-effect";
 import DisplayCheck from '../../DisplayCheck';
+import { Scrollbars } from 'react-custom-scrollbars-2';
+import { thumbRenderer } from '../../QuickList';
+import useDeviceSize from "../../../hooks/useDeviceSize";
+
+// https://stackoverflow.com/a/23329386
+function byteLength(str: string) {
+    // returns the byte length of an utf8 string
+    let s = str.length;
+    for (let i = str.length - 1; i >= 0; i--) {
+        const code = str.charCodeAt(i);
+        if (code > 0x7f && code <= 0x7ff) s++;
+        else if (code > 0x7ff && code <= 0xffff) s += 2;
+        if (code >= 0xDC00 && code <= 0xDFFF) i--; //trail surrogate
+    }
+    return s;
+}
+
+function formatBytes(bytes: number, decimals = 2) {
+    // https://stackoverflow.com/a/18650828
+    if (!+bytes) return '0 Bytes'
+
+    const k = 1024
+    const dm = decimals < 0 ? 0 : decimals
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k))
+
+    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
+}
 
 export default function Requests() {
     const { activeItem } = useContext(UiContext);
-    const [itemSizes, setItemSizes] = useState<Record<string, number>>({});
-
-    useAsyncEffect(async isActive => {
-        const idToSize: Record<string, number> = {};
-        if (activeItem?.fetches) {
-            for (const fet of Object.values(activeItem.fetches)) {
-                if (fet.response && fet.response.blob) {
-                    const currFetBlob = await fet.response.blob();
-                    if (currFetBlob) {
-                        idToSize[fet.id] = currFetBlob.size;
-                    }
-                }
-            }
-        }
-        if (!isActive()) {
-            return;
-        }
-        setItemSizes(idToSize)
-    }, [])
-
-    function formatBytes(bytes: number, decimals = 2) {
-        // https://stackoverflow.com/a/18650828
-        if (!+bytes) return '0 Bytes'
-    
-        const k = 1024
-        const dm = decimals < 0 ? 0 : decimals
-        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
-    
-        const i = Math.floor(Math.log(bytes) / Math.log(k))
-    
-        return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
-    }
 
     const headerClassName = "px-4 py-2 tracking-wide text-xs font-semibold text-g-primary-300 uppercase";
-    const rowClassName = "px-4 py-2 whitespace-nowrap overflow-ellipsis text-sm cursor-pointer transition-colors group-hover:bg-g-primary-700 whitespace-nowrap";
+    const rowClassName = "px-4 py-2 overflow-ellipsis text-sm cursor-pointer transition-colors group-hover:bg-g-primary-700";
+
+    const { height } = useDeviceSize();
 
     return (
         <div className='relative'>
-            <table className="min-w-full divide-y divide-g-primary-700">
-                <thead>
-                    <tr>
-                        <th scope="col" className={clsx(headerClassName, "text-left")}>URL</th>
-                        <th scope="col" className={clsx(headerClassName, "text-center")}>OK</th>
-                        <th scope="col" className={clsx(headerClassName, "text-center")}>Type</th>
-                        <th scope="col" className={clsx(headerClassName, "text-center")}>Size</th>
-                        <th scope="col" className={clsx(headerClassName, "text-right")}></th>
-                    </tr>
-                </thead>
-                <tbody className="divide-y divide-g-primary-700">
-                    {Object.values(activeItem!.fetches).map(ele => (
-                        <Fragment key={ele.id}>
-                            <tr className={clsx("group")}>
-                                <td className={clsx(rowClassName, "text-left")}>{ele.url}</td>
-                                <td className={clsx(rowClassName, "text-center")}>{<DisplayCheck checked={ele.response?.ok || false} className="mx-auto" />}</td>
-                                <td className={clsx(rowClassName, "text-center")}>
-                                    <div className="flex-center">
-                                        <span className="uppercase text-[10px] tracking-wide leading-[10px] font-bold flex-center py-1 px-1.5 bg-g-success-300 text-white rounded-sm">{ele.requestInit?.method || "GET"}</span>
-                                    </div>
-                                </td>
-                                <td className={clsx(rowClassName, "text-center")}>{itemSizes[ele.id] ? formatBytes(itemSizes[ele.id], ) : ""}</td>
-                                <td
-                                    onClick={() => { }}
-                                    className={clsx(rowClassName, "pl-2 pr-0 text-right")}
-                                >
-                                    <BiChevronRight size={20} className="text-g-success-50 group-hover:text-g-success-100" />
-                                </td>
-                            </tr>
-                        </Fragment>
-                    ))}
-                </tbody>
-            </table>
-            {/* {Object.values(activeItem!.fetches).map(ele => (
-                <div key={ele.} className="flex items-center">
-                    <span className="text-sm tracking-tight">{ele.url}</span>
-                </div>
-            ))} */}
+            <Scrollbars
+                style={{ height: height - 46 - 10 - 30 }}
+                renderThumbVertical={thumbRenderer}
+                renderThumbHorizontal={thumbRenderer}
+                width={200}
+            >
+                <table className="w-full table-fixed">
+                    <thead className="sticky top-0 bg-g-primary-900 after:absolute after:left-0 after:w-full after:border-b after:border-b-g-primary-700">
+                        <tr>
+                            <th scope="col" colSpan={6} className={clsx(headerClassName, "text-left")}>URL</th>
+                            <th scope="col" colSpan={2} className={clsx(headerClassName, "text-center")}>OK</th>
+                            <th scope="col" colSpan={2} className={clsx(headerClassName, "text-center")}>Type</th>
+                            <th scope="col" colSpan={3} className={clsx(headerClassName, "text-center")}>Size</th>
+                            <th scope="col" colSpan={1} className={clsx(headerClassName, "text-right")}></th>
+                        </tr>
+                    </thead>
+
+                    <tbody className="divide-y divide-g-primary-700">
+                        {Object.values(activeItem!.fetches).map(ele => (
+                            <Fragment key={ele.id}>
+                                <tr className={clsx("group")}>
+                                    <td colSpan={6} className={clsx(rowClassName, "text-left whitespace-nowrap overflow-ellipsis overflow-hidden")}>{ele.url}{ele.url}{ele.url}</td>
+                                    <td colSpan={2} className={clsx(rowClassName, "text-center")}>{<DisplayCheck checked={ele.response?.ok || false} className="mx-auto" />}</td>
+                                    <td colSpan={2} className={clsx(rowClassName, "text-center")}>
+                                        <div className="flex-center">
+                                            <span className="uppercase text-[10px] tracking-wide leading-[10px] font-bold flex-center py-1 px-1.5 bg-g-success-300 text-white rounded-sm">{ele.requestInit?.method || "GET"}</span>
+                                        </div>
+                                    </td>
+                                    <td colSpan={3} className={clsx(rowClassName, "text-center")}>{ele.response?.text ? formatBytes(byteLength(ele.response.text)) : ""}</td>
+                                    <td
+                                        onClick={() => { }}
+                                        className={clsx(rowClassName, "pl-2 pr-0 text-right")}
+                                        colSpan={1}
+                                    >
+                                        <BiChevronRight size={20} className="text-g-success-50 group-hover:text-g-success-100" />
+                                    </td>
+                                </tr>
+                            </Fragment>
+                        ))}
+                    </tbody>
+                </table>
+            </Scrollbars>
         </div>
     )
 }

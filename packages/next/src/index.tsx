@@ -7,6 +7,7 @@ import path from 'path';
 import { _fetch, _consoles } from './globalCache';
 import { deepMap } from 'react-children-utilities';
 import * as reactIs from 'react-is';
+import serializeResponse from './serializeResponse';
 
 let inDevEnvironment = false;
 let endpoint = process.env['BASIS_ENDPOINT'] || "";
@@ -30,6 +31,7 @@ export default function nexrayPage(componentGenerator: (props: NextAppServerComp
     const relativeFsUrl = absoluteFsUrl.includes("/app/") ? absoluteFsUrl.split("/app").pop()! : absoluteFsUrl;
 
     return async (props: NextAppServerComponentProps) => {
+        const fetchReadPromises: Promise<any>[] = [];
         const requestId = nanoid();
         const requestData: OptionalExcept<ServerComponentRequest, 'id' | 'timeline' | 'fetches' | 'url'> = {
             id: requestId,
@@ -54,15 +56,19 @@ export default function nexrayPage(componentGenerator: (props: NextAppServerComp
         }
 
         function captureFetchResponseSuccess(fetchId: string, response: Response) {
-            _consoles.log("response", JSON.stringify(response))
             const time = Date.now();
-            requestData.fetches[fetchId] = {
-                ...requestData.fetches[fetchId],
-                duration: time - requestData.fetches[fetchId].time,
-                response,
-            };
+            const responseClone = response.clone();
+            const serializeResponsePromise = async () => {
+                const serializedResponse = await serializeResponse(responseClone);
+                requestData.fetches[fetchId] = {
+                    ...requestData.fetches[fetchId],
+                    duration: time - requestData.fetches[fetchId].time,
+                    response: serializedResponse,
+                };
+            }
+            fetchReadPromises.push(serializeResponsePromise());
             requestData.timeline.push({
-                content: `${time} - Fetch ${requestId} responded ${JSON.stringify(response)}`,
+                content: `${time} - Fetch ${requestId} responded ${JSON.stringify(responseClone)}`,
                 type: "event",
                 time
             });
@@ -111,13 +117,12 @@ export default function nexrayPage(componentGenerator: (props: NextAppServerComp
             const diff = time - renderStartTime!;
             requestData.durationMs = diff;
             requestData.children = children;
-            console.log(JSON.stringify(requestData, null, 2))
             requestData.timeline.push({
                 content: `${time} - Transferring HTML to client. Render time: ${diff}`,
                 type: "event",
                 time
             });
-            ops.captureRequest(requestData as ServerComponentRequest);
+            Promise.all(fetchReadPromises).then(_ => ops.captureRequest(requestData as ServerComponentRequest));
         }
 
         function captureRenderError(error: any) {
@@ -128,7 +133,7 @@ export default function nexrayPage(componentGenerator: (props: NextAppServerComp
                 time
             });
             requestData.error = error || true;
-            ops.captureRequest(requestData as ServerComponentRequest);
+            Promise.all(fetchReadPromises).then(_ => ops.captureRequest(requestData as ServerComponentRequest));
         }
 
         if (!(global as any).fetch['NEXRAY_ATTACHED']) {

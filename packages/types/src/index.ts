@@ -32,9 +32,17 @@ export type CapturedFetchInitialized = {
     requestInit: RequestInit | undefined;
 };
 
+export type SerializedResponse = {
+    ok: boolean;
+    status: number;
+    redirected: boolean;
+    headers: Headers;
+    text: string;
+}
+
 export type CapturedFetchFinished = {
     duration: number;
-    response: Response;
+    response: SerializedResponse;
     error: undefined;
 } & CapturedFetchInitialized;
 
