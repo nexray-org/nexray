@@ -36,7 +36,7 @@ export type SerializedResponse = {
     ok: boolean;
     status: number;
     redirected: boolean;
-    headers: Headers;
+    headers: Record<string, string>;
     text: string;
     statusText: string;
     size: number;

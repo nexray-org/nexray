@@ -1,5 +1,13 @@
 import useBasis from '../../../../../';
 
+const wtry = async (func: () => Promise<any>) => {
+  try {
+    await func();
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 // Integration options:
 // 1: use like a _hook_ in the Server component
 // 2: wrap the default export and generateStaticParams
@@ -20,7 +28,16 @@ async function getData() {
 
 async function HomeServerSibling() {
   console.log("This is another async server component")
-  const data = await getData();
+
+  await Promise.all([
+    // Successful fetch
+    getData(),
+    // Simulate a 404 fetch
+    wtry(() => fetch("https://google.com/error")),
+    // Simulate a failed fetch
+    wtry(() => fetch("https://notadomain.helloworld")),
+  ])
+
   return (
     <main>
       <h2>This is another component in the nested route</h2>
@@ -48,20 +65,20 @@ export default useBasis(async function Home() {
       </code>
       {homeServerSibling}
       <span>Span component with {"Multiple"}&nbsp;{"Text"}&nbsp;{"Children"} and a {"\n"} new line</span>
-      <SyncFunctionWithAnyProps 
-        number={1} 
-        string={"Hello"} 
+      <SyncFunctionWithAnyProps
+        number={1}
+        string={"Hello"}
         function={(a: string) => console.log(a)}
         array={[
-          1, 
-          "Hello", 
-          (a: string) => console.log(a), 
-          {}, 
+          1,
+          "Hello",
+          (a: string) => console.log(a),
+          {},
           []
         ]}
-        object={{ 
-          number: 1, 
-          string: "hello", 
+        object={{
+          number: 1,
+          string: "hello",
           function: (a: string) => console.log(a),
           object: {},
           array: []

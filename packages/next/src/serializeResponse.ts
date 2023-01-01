@@ -15,8 +15,10 @@ function byteLength(str: string) {
 
 export default async function serializeResponse(response: Response): Promise<SerializedResponse> {
     const text = await response.text();
+    // https://alexewerlof.medium.com/converting-fetchs-response-headers-to-a-plain-serializable-javascript-object-51fd3ee0e090
+    const strHeaders = Object.fromEntries(response.headers.entries());
     return {
-        headers: response.headers,
+        headers: strHeaders,
         ok: response.ok,
         redirected: response.redirected,
         status: response.status,

@@ -23,8 +23,10 @@ interface IMainContentContext {
     selectedContentString: ServerComponentRequest['timeline'][number]['type'] | "combined" | undefined;
     selectedRequestsTab: "table" | "insights";
     setSelectedRequestsTab: React.Dispatch<React.SetStateAction<"table" | "insights">>;
-    selectedRequestForInsightId: string; 
+    selectedRequestForInsightId: string;
     setSelectedRequestForInsightId: React.Dispatch<React.SetStateAction<string>>;
+    requestInsightFilter: string;
+    setRequestInsightFilter: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export type DiscoveredObject = [number, number, Record<any, any> | any[]];
@@ -40,6 +42,7 @@ export function MainContentProvider({ children }: { children: React.ReactNode | 
     const [insightFilter, setInsightFilter] = useState<string>('');
     const [selectedRequestsTab, setSelectedRequestsTab] = useState<"table" | "insights">('table');
     const [selectedRequestForInsightId, setSelectedRequestForInsightId] = useState<string>('');
+    const [requestInsightFilter, setRequestInsightFilter] = useState<string>('');
     const [enabledTimelineTypes, setEnabledTimelineTypes] = useState<Record<ServerComponentRequest['timeline'][number]['type'], boolean>>({
         event: true,
         log: true
@@ -108,10 +111,12 @@ export function MainContentProvider({ children }: { children: React.ReactNode | 
                 enabledTimelineTypes,
                 setEnabledTimelineTypes,
                 selectedContentString,
-                selectedRequestsTab, 
+                selectedRequestsTab,
                 setSelectedRequestsTab,
-                selectedRequestForInsightId, 
+                selectedRequestForInsightId,
                 setSelectedRequestForInsightId,
+                requestInsightFilter,
+                setRequestInsightFilter,
             }}
         >
             {children}
