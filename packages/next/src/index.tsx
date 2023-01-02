@@ -1,8 +1,8 @@
 import { headers } from 'next/headers';
 import { nanoid } from 'nanoid';
 import { ReactNode } from 'react';
-import type { ServerComponentRequest, OptionalExcept, NextAppServerComponentProps, Child } from '@basis/types';
-import BasisAPIClient from '@basis/api-client';
+import type { ServerComponentRequest, OptionalExcept, NextAppServerComponentProps, Child } from '@nexray/types';
+import NexrayAPIClient from '@nexray/api-client';
 import path from 'path';
 import { _fetch, _consoles } from './globalCache';
 import { deepMap } from 'react-children-utilities';
@@ -10,7 +10,7 @@ import * as reactIs from 'react-is';
 import serializeResponse from './serializeResponse';
 
 let inDevEnvironment = false;
-let endpoint = process.env['BASIS_ENDPOINT'] || "";
+let endpoint = process.env['NEXRAY_ENDPOINT'] || "";
 
 if (process && process.env.NODE_ENV === 'development') {
     inDevEnvironment = true;
@@ -19,10 +19,10 @@ if (process && process.env.NODE_ENV === 'development') {
         endpoint = "http://localhost:4694"
     }
 } else {
-    // Check for remote db config with process.env.BASIS_KEY;
+    // Check for remote db config with process.env.NEXRAY_KEY;
 }
 
-const ops = new BasisAPIClient(_fetch, endpoint)
+const ops = new NexrayAPIClient(_fetch, endpoint)
 ops.testEndpoint().then(res => _consoles.log(`Tested local endpoint with response: ${res}`))
 
 export default function nexrayPage(componentGenerator: (props: NextAppServerComponentProps) => Promise<JSX.Element> | JSX.Element) {

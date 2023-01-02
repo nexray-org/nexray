@@ -42,7 +42,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var execa_1 = require("@esm2cjs/execa");
 var path_1 = __importDefault(require("path"));
-var server_1 = __importDefault(require("@basis/server"));
+var server_1 = __importDefault(require("@nexray/server"));
 var currentNodeVersion = process.versions.node;
 var semver = currentNodeVersion.split('.');
 var major = semver[0];
@@ -51,7 +51,7 @@ if (+major < 14) {
     console.error('You are running Node ' +
         currentNodeVersion +
         '.\n' +
-        'Basis requires Node 14 or higher. Please update\n' +
+        'Nexray requires Node 14 or higher. Please update\n' +
         'or switch installations to continue.');
     process.exit(1);
 }
@@ -61,7 +61,7 @@ function main() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             if (process.env['IS_DEV']) {
-                console.log("Running basis in dev mode");
+                console.log("Running nexray in dev mode");
                 console.log("CWD:", cwd);
                 (0, server_1.default)("local");
                 (0, execa_1.execa)("pnpm tauri dev", { cwd: path_1.default.join(cwd, "../", "app"), shell: true });

@@ -1,7 +1,7 @@
 {
-  "name": "basis",
+  "name": "nexray",
   "version": "1.0.0",
-  "description": "\"# Basis\"",
+  "description": "\"# Nexray\"",
   "workspaces": [
     "packages/*"
   ],

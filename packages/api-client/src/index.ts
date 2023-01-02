@@ -1,6 +1,6 @@
-import { ServerComponentRequest } from '@basis/types';
+import { ServerComponentRequest } from '@nexray/types';
 
-export default class BasisAPIClient {
+export default class NexrayAPIClient {
     isEndpointUp: boolean | undefined = undefined;
     constructor(
         private _fetch: (input: RequestInfo | URL, init?: RequestInit | undefined) => Promise<Response>,

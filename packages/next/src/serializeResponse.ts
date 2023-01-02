@@ -1,4 +1,4 @@
-import { SerializedResponse } from "@basis/types";
+import { SerializedResponse } from "@nexray/types";
 
 // https://stackoverflow.com/a/23329386
 function byteLength(str: string) {

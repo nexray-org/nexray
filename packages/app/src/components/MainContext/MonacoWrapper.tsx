@@ -106,7 +106,7 @@ export default function MonacoWrapper(props: Omit<EditorProps, 'onMount' | 'them
             {monacoEditor === undefined && <MonacoPlaceholder />}
             <Editor
                 width={'100%'}
-                theme={'basistheme'}
+                theme={'nexraytheme'}
                 {...props}
                 onMount={(_editor, _monaco) => {
                     onMonacoMount(_editor, _monaco);

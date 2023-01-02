@@ -1,7 +1,7 @@
 import { useTabs } from '@geist-ui/core';
 import React, { createContext, useEffect, useMemo, useState } from 'react';
 import type { editor } from 'monaco-editor';
-import type { ServerComponentRequest } from '@basis/types';
+import type { ServerComponentRequest } from '@nexray/types';
 
 interface IMainContentContext {
     setActiveTab: React.Dispatch<React.SetStateAction<string>>;

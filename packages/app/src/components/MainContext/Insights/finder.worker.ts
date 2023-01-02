@@ -1,4 +1,4 @@
-import { jsonfinder } from '@basis/json-finder';
+import { jsonfinder } from '@nexray/json-finder';
 import type { DiscoveredObject } from '../../../context/MainContentContext';
 
 addEventListener('message', (event: MessageEvent<string>) => {

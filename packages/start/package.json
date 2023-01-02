@@ -1,5 +1,5 @@
 {
-  "name": "@basis/start",
+  "name": "@nexray/start",
   "version": "1.0.0",
   "main": "build/index.js",
   "scripts": {
@@ -14,10 +14,10 @@
     "typescript": "^4.7.4"
   },
   "bin": {
-    "basis": "bin/index.js"
+    "nexray": "bin/index.js"
   },
   "dependencies": {
-    "@basis/server": "workspace:^1.0.0",
+    "@nexray/server": "workspace:^1.0.0",
     "@esm2cjs/execa": "6.1.1-cjs.1",
     "sqlite3": "^5.1.4"
   }

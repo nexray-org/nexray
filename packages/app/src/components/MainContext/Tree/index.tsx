@@ -5,7 +5,7 @@ import QuickList from '../../QuickList';
 import { FlatChildrenWithInitData } from './types';
 import { nanoid } from 'nanoid';
 import cloneDeep from 'lodash.clonedeep';
-import { Child } from '@basis/types';
+import { Child } from '@nexray/types';
 import clsx from 'clsx';
 import useDeviceSize from '../../../hooks/useDeviceSize';
 import KeyValue from './KeyValue';

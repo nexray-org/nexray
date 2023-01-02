@@ -1,4 +1,4 @@
-import { ServerComponentRequest } from '@basis/types';
+import { ServerComponentRequest } from '@nexray/types';
 import { useContext } from 'react';
 import type { RawEvent, DebouncedEvent } from 'tauri-plugin-fs-watch-api';
 import useAsyncEffect from 'use-async-effect';
@@ -20,7 +20,7 @@ export default function useWatchLocalDb() {
             ]);
 
             const homeDirPath = await path.homeDir();
-            const dbPath = await path.join(homeDirPath, '.basis', 'dev-logs', 'nedb');
+            const dbPath = await path.join(homeDirPath, '.nexray', 'dev-logs', 'nedb');
             const dbDirname = await path.dirname(dbPath);
             const localDbFolderExists = await fs.exists(dbDirname);
 

@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import { FixedSizeListProps } from 'react-window';
 import { UiContext } from '../../context/UiContext';
 import numbro from 'numbro';
-import { ServerComponentRequest } from '@basis/types';
+import { ServerComponentRequest } from '@nexray/types';
 
 export const itemSize = 140;
 

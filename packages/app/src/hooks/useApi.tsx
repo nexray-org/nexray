@@ -1,7 +1,7 @@
 import { useContext, useRef } from 'react';
 import useAsyncEffect from 'use-async-effect';
 import { UiContext } from '../context/UiContext';
-import APIClient from '@basis/api-client';
+import APIClient from '@nexray/api-client';
 
 export default function useApi(endpoint: string, refreshInterval: number) {
     // Can't directly pass fetch to api-client on safari

@@ -23,6 +23,9 @@
         },
         "start:env": {
             "dependsOn": ["build"]
+        },
+        "clean": {
+            "cache": false
         }
     }
 }

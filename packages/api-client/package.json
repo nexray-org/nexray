@@ -1,5 +1,5 @@
 {
-  "name": "@basis/api-client",
+  "name": "@nexray/api-client",
   "version": "1.0.0",
   "main": "build/index.js",
   "scripts": {
@@ -9,6 +9,6 @@
     "clean": "shx rm -rf build pnpm-lock.yaml node_modules tsconfig.package.tsbuildinfo"
   },
   "devDependencies": {
-    "@basis/types": "workspace:^1.0.0"
+    "@nexray/types": "workspace:^1.0.0"
   }
 }

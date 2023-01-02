@@ -10,7 +10,7 @@ import statusRoute from './routes/status';
 import cors from '@fastify/cors';
 
 async function initLocalDb(provider: "local" | "remote"): Promise<GenericDB> {
-    const db = new Datastore({ filename: path.join(homedir(), '.basis', 'dev-logs', 'nedb') })
+    const db = new Datastore({ filename: path.join(homedir(), '.nexray', 'dev-logs', 'nedb') })
     try {
         await db.loadDatabaseAsync()
     } catch (error) {

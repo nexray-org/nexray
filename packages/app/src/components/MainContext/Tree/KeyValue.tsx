@@ -1,4 +1,4 @@
-import { ChildProps } from "@basis/types";
+import { ChildProps } from "@nexray/types";
 import useDeviceSize from "../../../hooks/useDeviceSize";
 import MonacoWrapper from '../MonacoWrapper';
 import Image from "next/image";

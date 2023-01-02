@@ -12,12 +12,12 @@ import useApi from '../hooks/useApi';
 import { Allotment } from "allotment";
 import "allotment/dist/style.css";
 import Sidebar from '../components/Sidebar';
-import { ServerComponentRequest } from '@basis/types';
+import { ServerComponentRequest } from '@nexray/types';
 
 export default function Analyze() {
     const { height } = useDeviceSize();
     const { selectedCategoryId, data } = useContext(UiContext);
-    useApi(process.env['BASIS_ENDPOINT'] || "http://localhost:4694", 1000);
+    useApi(process.env['NEXRAY_ENDPOINT'] || "http://localhost:4694", 1000);
 
     return (
         <HeadlessRoot>

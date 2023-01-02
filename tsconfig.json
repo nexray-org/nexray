@@ -4,7 +4,7 @@
         "baseUrl": ".",
         "noEmit": true,
         "paths": {
-            "@basis/*": [
+            "@nexray/*": [
                 "./packages/*/src"
             ]
         }

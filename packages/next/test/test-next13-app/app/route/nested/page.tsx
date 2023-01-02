@@ -1,4 +1,4 @@
-import useBasis from '../../../../../';
+import useNexray from '../../../../../';
 
 const wtry = async (func: () => Promise<any>) => {
   try {
@@ -52,7 +52,7 @@ function SyncFunctionWithAnyProps(props: Record<string | number | symbol, any>) 
 SyncFunctionWithAnyProps.nexrayName = "Passthrough Component"
 SyncFunctionWithAnyProps.displayName = "Passthrough Component"
 
-export default useBasis(async function Home() {
+export default useNexray(async function Home() {
   console.log("This is a server component")
   const data = await getData();
   const homeServerSibling = await HomeServerSibling();

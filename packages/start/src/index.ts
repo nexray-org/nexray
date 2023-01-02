@@ -2,7 +2,7 @@
 
 import { execa } from "@esm2cjs/execa";
 import path from 'path';
-import startServer from '@basis/server';
+import startServer from '@nexray/server';
 
 const currentNodeVersion = process.versions.node;
 const semver = currentNodeVersion.split('.');
@@ -14,7 +14,7 @@ if (+major < 14) {
     'You are running Node ' +
       currentNodeVersion +
       '.\n' +
-      'Basis requires Node 14 or higher. Please update\n' +
+      'Nexray requires Node 14 or higher. Please update\n' +
       'or switch installations to continue.'
   );
   process.exit(1);
@@ -25,7 +25,7 @@ if (+major < 14) {
 
 async function main() {
     if (process.env['IS_DEV']) {
-        console.log("Running basis in dev mode");
+        console.log("Running nexray in dev mode");
         console.log("CWD:", cwd);
         startServer("local")
         execa("pnpm tauri dev", { cwd: path.join(cwd, "../", "app"), shell: true })

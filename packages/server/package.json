@@ -1,5 +1,5 @@
 {
-  "name": "@basis/server",
+  "name": "@nexray/server",
   "version": "1.0.0",
   "main": "build/index.js",
   "scripts": {
@@ -16,6 +16,7 @@
     "fastify": "^4.10.2"
   },
   "devDependencies": {
-    "@basis/types": "workspace:^1.0.0"
+    "@nexray/types": "workspace:^1.0.0",
+    "@types/node": "^18.7.11"
   }
 }

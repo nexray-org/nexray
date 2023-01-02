@@ -35,7 +35,7 @@ export default function Output() {
             />
             <MonacoWrapper
                 height={`calc(100vh - 88px)`}
-                language='basislog'
+                language='nexraylog'
                 value={(itemContentStrings && selectedContentString) ? itemContentStrings[selectedContentString] : ""}
                 safeOnMount={onMonacoMount}
                 beforeMount={onBeforeMonacoMount}

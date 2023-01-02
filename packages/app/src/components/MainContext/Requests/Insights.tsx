@@ -131,7 +131,7 @@ export default function Insights() {
                                     />
                                     <MonacoWrapper
                                         height={`calc(100vh - 88px - 43px)`}
-                                        language='basislog'
+                                        language='nexraylog'
                                         value={activeRequest.response?.text}
                                         options={{
                                             minimap: {

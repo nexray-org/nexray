@@ -1,6 +1,6 @@
 import React, { createContext, useMemo, useState } from 'react';
 import useConfig from '../hooks/useConfig';
-import { ServerComponentRequest } from '@basis/types';
+import { ServerComponentRequest } from '@nexray/types';
 
 interface IUiContext {
     selectedCategoryId: string;

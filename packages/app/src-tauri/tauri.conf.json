@@ -7,7 +7,7 @@
     "withGlobalTauri": false
   },
   "package": {
-    "productName": "basis",
+    "productName": "nexray",
     "version": "0.0.0"
   },
   "tauri": {
@@ -71,7 +71,7 @@
         "fullscreen": false,
         "height": 600,
         "resizable": true,
-        "title": "basis",
+        "title": "nexray",
         "hiddenTitle": true,
         "width": 1040,
         "titleBarStyle": "Overlay"

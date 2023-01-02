@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { Static, Type } from '@sinclair/typebox'
 import type { GenericDB } from "../types";
-import { ServerComponentRequest } from '@basis/types';
+import { ServerComponentRequest } from '@nexray/types';
 
 const Query = Type.Object({
     after: Type.Optional(Type.Number())

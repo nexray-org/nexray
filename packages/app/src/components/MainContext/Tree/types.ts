@@ -1,4 +1,4 @@
-import { ChildProps } from "@basis/types";
+import { ChildProps } from "@nexray/types";
 
 export type FlatChildrenWithInitData = {
     type: string; 

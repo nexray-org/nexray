@@ -23,22 +23,22 @@ export default function logLanguage(monaco: Monaco) {
         // {name: 'red-alert', regex: '', style: {foreground: '#FF0000', fontStyle: 'bold'}}
     ];
 
-    monaco.languages.register({ id: 'basislog' });
+    monaco.languages.register({ id: 'nexraylog' });
 
     const logCustomRules: [RegExp, string][] = [];
     const themeRules: editor.ITokenThemeRule[] = [];
     for (let i = 0; i < typeCustomTokenizer.length; i++) {
         try {
             logCustomRules.push([new RegExp(typeCustomTokenizer[i].regex), typeCustomTokenizer[i].name]);
-            themeRules.push(extendDefaults({ token: typeCustomTokenizer[i].name + '.basislog' }, typeCustomTokenizer[i].style));
+            themeRules.push(extendDefaults({ token: typeCustomTokenizer[i].name + '.nexraylog' }, typeCustomTokenizer[i].style));
         } catch (e) {
             console.error('error', e);
         }
     }
 
-    monaco.languages.setMonarchTokensProvider('basislog', {
+    monaco.languages.setMonarchTokensProvider('nexraylog', {
         defaultToken: '',
-        tokenPostfix: '.basislog',
+        tokenPostfix: '.nexraylog',
         tokenizer: {
             root: [
                 // Custom rules
@@ -101,15 +101,15 @@ export default function logLanguage(monaco: Monaco) {
     });
 
     // https://github.com/brijeshb42/monaco-themes/blob/master/themes/GitHub%20Dark.json
-    monaco.editor.defineTheme('basistheme', {
+    monaco.editor.defineTheme('nexraytheme', {
         base: 'vs-dark',
         inherit: true,
         rules: [
-            { token: 'info.basislog', foreground: '4b71ca' },
-            { token: 'error.basislog', foreground: 'ff0000', fontStyle: 'bold' },
-            { token: 'warning.basislog', foreground: 'FFA500' },
-            { token: 'date.basislog', foreground: '008800' },
-            { token: 'exceptiontype.basislog', foreground: '808080' },
+            { token: 'info.nexraylog', foreground: '4b71ca' },
+            { token: 'error.nexraylog', foreground: 'ff0000', fontStyle: 'bold' },
+            { token: 'warning.nexraylog', foreground: 'FFA500' },
+            { token: 'date.nexraylog', foreground: '008800' },
+            { token: 'exceptiontype.nexraylog', foreground: '808080' },
             ...themeRules,
         ],
         colors: {
