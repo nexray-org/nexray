@@ -112,6 +112,26 @@ export default function MonacoWrapper(props: Omit<EditorProps, 'onMount' | 'them
                     onMonacoMount(_editor, _monaco);
                     props.safeOnMount && props.safeOnMount(_editor, _monaco);
                 }}
+                options={{
+                    // https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.IStandaloneEditorConstructionOptions.html#emptySelectionClipboard
+                    readOnly: true,
+                    domReadOnly: true,
+                    links: false,
+                    renderWhitespace: 'none',
+                    lightbulb: {
+                        enabled: false,
+                    },
+                    contextmenu: false,
+                    find: {
+                        // https://github.com/microsoft/vscode/issues/28390#issuecomment-470797061
+                        addExtraSpaceOnTop: false,
+                    },
+                    scrollbar: {
+                        useShadows: false,
+                    },
+                    scrollBeyondLastLine: false,
+                    ...props.options,
+                }}
             />
         </>
     );

@@ -27,29 +27,12 @@ export default function KeyValue({ itemProps }: IKeyValue) {
                 disableFind
                 value={JSON.stringify(itemProps, null, 2)}
                 options={{
-                    // https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.IStandaloneEditorConstructionOptions.html#emptySelectionClipboard
-                    readOnly: true,
                     minimap: { enabled: false },
                     padding: { top: 10, bottom: 10 },
-                    domReadOnly: true,
                     fontSize: 12,
-                    lightbulb: {
-                        enabled: false,
-                    },
                     wordWrap: 'on',
                     lineNumbers: 'off',
-                    scrollBeyondLastLine: false,
-                    scrollbar: {
-                        useShadows: false,
-                    },
-                    contextmenu: false,
-                    find: {
-                        // https://github.com/microsoft/vscode/issues/28390#issuecomment-470797061
-                        addExtraSpaceOnTop: false,
-                    },
-                    renderWhitespace: 'none',
                     showFoldingControls: 'always',
-                    links: false,
                 }}
             />
         )

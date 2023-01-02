@@ -79,30 +79,16 @@ export default function Insights() {
                 language='json'
                 value={insightFilter || JSON.stringify(discoveredObjs[selectedDiscoveredIndex][2], null, 2)}
                 options={{
-                    // https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.IStandaloneEditorConstructionOptions.html#emptySelectionClipboard
-                    readOnly: true,
                     minimap: { enabled: false },
                     padding: { top: 0, bottom: 33 },
-                    domReadOnly: true,
                     fontSize: config.get('insightsFontSize'),
-                    lightbulb: {
-                        enabled: false,
-                    },
                     wordWrap: config.get('insightsWordWrapEnabled') ? 'on' : 'off',
                     lineNumbers: 'off',
-                    scrollBeyondLastLine: false,
                     scrollbar: {
                         useShadows: false,
                         horizontalSliderSize: 33 + 46 /** Arbitrary Value */,
                     },
-                    contextmenu: false,
-                    find: {
-                        // https://github.com/microsoft/vscode/issues/28390#issuecomment-470797061
-                        addExtraSpaceOnTop: false,
-                    },
-                    renderWhitespace: 'none',
                     showFoldingControls: 'always',
-                    links: false,
                 }}
             />
             <OutputSearch mode='json' searchingObject={discoveredObjs[selectedDiscoveredIndex][2]} />

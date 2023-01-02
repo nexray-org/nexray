@@ -7,6 +7,7 @@ import { UiContext } from '../../../context/UiContext';
 import MonacoWrapper from '../MonacoWrapper';
 import OutputSearch from './OutputSearch';
 import { formatBytes } from './utils';
+import Headers from './Headers';
 
 export default function Insights() {
     const { activeItem, config } = useContext(UiContext);
@@ -33,7 +34,13 @@ export default function Insights() {
     const statBadgeErrorClassName = "bg-g-error-300";
 
     return (
-        <div className={clsx('relative group', responseJSON ? "monaco-json-view" : "monaco-request-log-view")}>
+        <div 
+            className={clsx(
+                'relative group', 
+                (responseJSON && !isShowingHeaders) && "monaco-json-view",
+                (!responseJSON && !isShowingHeaders) &&  "monaco-request-log-view"
+            )}
+        >
             <div className='h-[43px] border-b border-b-gray-700 w-full flex items-center space-x-3 px-3 pb-0.5'>
                 <Button icon={<BsChevronLeft />} auto h='30px' type='default' pr={'7px'} pl={'6px'} className='!flex' onClick={() => setSelectedRequestsTab('table')}>
                     <span className='text-[10px] tracking-tight'>BACK</span>
@@ -57,14 +64,14 @@ export default function Insights() {
                         </Select.Option>
                     ))}
                 </Select>
-                <Button 
-                    h='30px' 
+                <Button
+                    h='30px'
                     className={clsx("!mr-auto")}
-                    width={"74px"} 
-                    px="0" 
-                    scale={0.6} 
-                    type={isShowingHeaders ? "default" : "warning"}
-                    ghost 
+                    width={"68px"}
+                    px="0"
+                    scale={0.4}
+                    type={isShowingHeaders ? "warning" : "default"}
+                    ghost
                     onClick={() => setIsShowingHeaders(prev => !prev)}
                 >
                     <span className='font-semibold'>HEADERS</span>
@@ -80,79 +87,60 @@ export default function Insights() {
                     <span className={clsx(statBadgeClassName, statBadgeErrorClassName)}>Request Failed</span>
                 )}
             </div>
-            {activeRequest.response && (
+            {isShowingHeaders ? (
+                <Headers 
+                    request={activeRequest.requestInit?.headers ? Object.fromEntries((activeRequest.requestInit.headers.entries as () => IterableIterator<[string, string]>)()) : undefined} 
+                    response={activeRequest.response?.headers} 
+                />
+            ) : (
                 <>
-                    {responseJSON ? (
+                    {activeRequest.response && (
                         <>
-                            <MonacoWrapper
-                                // Full screen - header - find bar - json path bar
-                                height={`calc(100vh - 88px - 43px - 33px)`}
-                                language='json'
-                                value={requestInsightFilter || JSON.stringify(responseJSON, null, 2)}
-                                options={{
-                                    // https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.IStandaloneEditorConstructionOptions.html#emptySelectionClipboard
-                                    readOnly: true,
-                                    minimap: { enabled: false },
-                                    padding: { top: 0, bottom: 33 },
-                                    domReadOnly: true,
-                                    fontSize: config.get('insightsFontSize'),
-                                    lightbulb: {
-                                        enabled: false,
-                                    },
-                                    wordWrap: config.get('insightsWordWrapEnabled') ? 'on' : 'off',
-                                    lineNumbers: 'off',
-                                    scrollBeyondLastLine: false,
-                                    scrollbar: {
-                                        useShadows: false,
-                                        horizontalSliderSize: 33 + 46 /** Arbitrary Value */,
-                                    },
-                                    contextmenu: false,
-                                    find: {
-                                        // https://github.com/microsoft/vscode/issues/28390#issuecomment-470797061
-                                        addExtraSpaceOnTop: false,
-                                    },
-                                    renderWhitespace: 'none',
-                                    showFoldingControls: 'always',
-                                    links: false,
-                                }}
-                            />
-                            <OutputSearch mode='json' searchingObject={responseJSON} />
+                            {responseJSON ? (
+                                <>
+                                    <MonacoWrapper
+                                        // Full screen - header - find bar - json path bar
+                                        height={`calc(100vh - 88px - 43px - 33px)`}
+                                        language='json'
+                                        value={requestInsightFilter || JSON.stringify(responseJSON, null, 2)}
+                                        options={{
+                                            minimap: { enabled: false },
+                                            padding: { top: 0, bottom: 33 },
+                                            fontSize: config.get('insightsFontSize'),
+                                            wordWrap: config.get('insightsWordWrapEnabled') ? 'on' : 'off',
+                                            lineNumbers: 'off',
+                                            scrollbar: {
+                                                useShadows: false,
+                                                horizontalSliderSize: 33 + 46 /** Arbitrary Value */,
+                                            },
+                                            showFoldingControls: 'always',
+                                        }}
+                                    />
+                                    <OutputSearch mode='json' searchingObject={responseJSON} />
+                                </>
+                            ) : (
+                                <MonacoWrapper
+                                    height={`calc(100vh - 88px - 43px)`}
+                                    language='basislog'
+                                    value={activeRequest.response?.text}
+                                    options={{
+                                        minimap: {
+                                            showSlider: 'mouseover',
+                                            enabled: config.get('editorMinimapEnabled'),
+                                            renderCharacters: false,
+                                        },
+                                        padding: { top: 0, bottom: 33 },
+                                        fontSize: config.get('editorFontSize'),
+                                        wordWrap: config.get('editorWordWrapEnabled') ? 'on' : 'off',
+                                        lineNumbers: 'off',
+                                        scrollbar: {
+                                            useShadows: false,
+                                            horizontalSliderSize: 33 + 46 /** Arbitrary Value */,
+                                        },
+                                    }}
+                                />
+                            )}
                         </>
-                    ) : (
-                        <MonacoWrapper
-                            height={`calc(100vh - 88px - 43px)`}
-                            language='basislog'
-                            value={activeRequest.response?.text}
-                            options={{
-                                // https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.IStandaloneEditorConstructionOptions.html#emptySelectionClipboard
-                                readOnly: true,
-                                minimap: {
-                                    showSlider: 'mouseover',
-                                    enabled: config.get('editorMinimapEnabled'),
-                                    renderCharacters: false,
-                                },
-                                padding: { top: 0, bottom: 33 },
-                                domReadOnly: true,
-                                fontSize: config.get('editorFontSize'),
-                                lightbulb: {
-                                    enabled: false,
-                                },
-                                wordWrap: config.get('editorWordWrapEnabled') ? 'on' : 'off',
-                                lineNumbers: 'off',
-                                scrollBeyondLastLine: false,
-                                scrollbar: {
-                                    useShadows: false,
-                                    horizontalSliderSize: 33 + 46 /** Arbitrary Value */,
-                                },
-                                contextmenu: false,
-                                find: {
-                                    // https://github.com/microsoft/vscode/issues/28390#issuecomment-470797061
-                                    addExtraSpaceOnTop: false,
-                                },
-                                renderWhitespace: 'none',
-                                links: false,
-                            }}
-                        />
                     )}
                 </>
             )}

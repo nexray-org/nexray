@@ -41,33 +41,19 @@ export default function Output() {
                 safeOnMount={onMonacoMount}
                 beforeMount={onBeforeMonacoMount}
                 options={{
-                    // https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.IStandaloneEditorConstructionOptions.html#emptySelectionClipboard
-                    readOnly: true,
                     minimap: {
                         showSlider: 'mouseover',
                         enabled: config.get('editorMinimapEnabled'),
                         renderCharacters: false,
                     },
                     padding: { top: 0, bottom: 33 },
-                    domReadOnly: true,
                     fontSize: config.get('editorFontSize'),
-                    lightbulb: {
-                        enabled: false,
-                    },
                     wordWrap: config.get('editorWordWrapEnabled') ? 'on' : 'off',
                     lineNumbers: 'off',
-                    scrollBeyondLastLine: false,
                     scrollbar: {
                         useShadows: false,
                         horizontalSliderSize: 33 + 46 /** Arbitrary Value */,
                     },
-                    contextmenu: false,
-                    find: {
-                        // https://github.com/microsoft/vscode/issues/28390#issuecomment-470797061
-                        addExtraSpaceOnTop: false,
-                    },
-                    renderWhitespace: 'none',
-                    links: false,
                 }}
             />
         </div>
