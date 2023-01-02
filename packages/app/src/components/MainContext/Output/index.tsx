@@ -7,7 +7,7 @@ import MonacoWrapper, { focusFindAndClear } from '../MonacoWrapper';
 import { MainContentContext } from '../../../context/MainContentContext';
 
 export default function Output() {
-    const { selectedCategoryId, config, itemContentStrings, setIsOutputSettingsDialogOpen } = useContext(UiContext);
+    const { selectedCategoryId, config, itemContentStrings } = useContext(UiContext);
     const { outputMonacoEditor, setOutputMonacoEditor, selectedContentString } = useContext(MainContentContext);
 
     useEffect(() => {
@@ -31,8 +31,7 @@ export default function Output() {
         <div className='relative group monaco-log-view'>
             <ControlSnippet 
                 copyText={(itemContentStrings && selectedContentString) ? itemContentStrings[selectedContentString] : ""} 
-                className="top-3"
-                onSettingClick={() => setIsOutputSettingsDialogOpen(true)}
+                top={12}
             />
             <MonacoWrapper
                 height={`calc(100vh - 88px)`}

@@ -4,12 +4,12 @@ import Insights from './Insights';
 import { UiContext } from '../../context/UiContext';
 import { useContext, useRef, useEffect } from 'react';
 import { MainContentProvider, MainContentContext, DiscoveredObject } from '../../context/MainContentContext';
-import OutputSettings from '../../modals/OutputSettings';
-import InsightSettings from '../../modals/InsightSettings';
+import MainContentSettings from '../../modals/MainContentSettings';
 import JsonFilterHelp from '../../modals/JsonFilterHelp';
 import Headers from './Headers';
 import Requests from './Requests';
 import Tree from './Tree';
+import MainControls from './MainControls';
 
 function MainContent() {
     const { selectedCategoryId, activeItem, config, itemContentStrings } = useContext(UiContext);
@@ -44,7 +44,8 @@ function MainContent() {
     }, [selectedCategoryId, enabledTimelineTypes]);
 
     return (
-        <div className='w-full h-full'>
+        <div className='w-full h-full relative'>
+            <MainControls />
             <Tabs {...tabsBindings} hideDivider>
                 <Tabs.Item
                     label={
@@ -89,8 +90,7 @@ function MainContent() {
                     <Tree />
                 </Tabs.Item>
             </Tabs>
-            <OutputSettings />
-            <InsightSettings />
+            <MainContentSettings />
             <JsonFilterHelp />
         </div>
     );

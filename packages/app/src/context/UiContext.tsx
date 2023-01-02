@@ -9,10 +9,8 @@ interface IUiContext {
     setData: React.Dispatch<React.SetStateAction<ServerComponentRequest[]>>;
     config: ReturnType<typeof useConfig>;
     activeItem: ServerComponentRequest | undefined;
-    isOutputSettingsDialogOpen: boolean;
-    setIsOutputSettingsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    isInsightsSettingsDialogOpen: boolean;
-    setIsInsightsSettingsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    isMainContentSettingsDialogOpen: boolean;
+    setIsMainContentSettingsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
     isInsightFilterDialogOpen: boolean;
     setIsInsightFilterDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
     isFilterGroupDialogOpen: boolean;
@@ -23,8 +21,7 @@ interface IUiContext {
 export const UiContext = createContext<IUiContext>({} as IUiContext);
 
 export function UiProvider({ children }: { children: React.ReactNode | JSX.Element | JSX.Element[] }) {
-    const [isOutputSettingsDialogOpen, setIsOutputSettingsDialogOpen] = useState<boolean>(false);
-    const [isInsightsSettingsDialogOpen, setIsInsightsSettingsDialogOpen] = useState<boolean>(false);
+    const [isMainContentSettingsDialogOpen, setIsMainContentSettingsDialogOpen] = useState<boolean>(false);
     const [isInsightFilterDialogOpen, setIsInsightFilterDialogOpen] = useState<boolean>(false);
     const [isFilterGroupDialogOpen, setIsFilterGroupDialogOpen] = useState<boolean>(false);
     const [selectedCategoryId, setSelectedCategoryId] = useState<string>('');
@@ -81,10 +78,8 @@ export function UiProvider({ children }: { children: React.ReactNode | JSX.Eleme
                 setData,
                 config,
                 activeItem,
-                isOutputSettingsDialogOpen,
-                setIsOutputSettingsDialogOpen,
-                isInsightsSettingsDialogOpen,
-                setIsInsightsSettingsDialogOpen,
+                isMainContentSettingsDialogOpen, 
+                setIsMainContentSettingsDialogOpen,
                 isInsightFilterDialogOpen,
                 setIsInsightFilterDialogOpen,
                 isFilterGroupDialogOpen,

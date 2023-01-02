@@ -37,10 +37,10 @@ export default function Table() {
                         </tr>
                     </thead>
 
-                    <tbody className="divide-y divide-g-primary-700">
+                    <tbody>
                         {Object.values(activeItem!.fetches).map(ele => (
                             <Fragment key={ele.id}>
-                                <tr className={clsx("group")} onClick={() => { setSelectedRequestsTab('insights'); setSelectedRequestForInsightId(ele.id); }}>
+                                <tr className={clsx("group border-b border-b-g-primary-700")} onClick={() => { setSelectedRequestsTab('insights'); setSelectedRequestForInsightId(ele.id); }}>
                                     <td colSpan={6} className={clsx(rowClassName, "text-left whitespace-nowrap overflow-ellipsis overflow-hidden")}>{ele.url}{ele.url}{ele.url}</td>
                                     <td colSpan={2} className={clsx(rowClassName, "text-center")}>{<DisplayCheck checked={ele.response?.ok || false} className="mx-auto" />}</td>
                                     <td colSpan={2} className={clsx(rowClassName, "text-center")}>

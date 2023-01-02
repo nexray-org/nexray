@@ -8,6 +8,7 @@ import MonacoWrapper from '../MonacoWrapper';
 import OutputSearch from './OutputSearch';
 import { formatBytes } from './utils';
 import Headers from './Headers';
+import ControlSnippet from '../ControlSnippet';
 
 export default function Insights() {
     const { activeItem, config } = useContext(UiContext);
@@ -34,11 +35,11 @@ export default function Insights() {
     const statBadgeErrorClassName = "bg-g-error-300";
 
     return (
-        <div 
+        <div
             className={clsx(
-                'relative group', 
+                'relative group',
                 (responseJSON && !isShowingHeaders) && "monaco-json-view",
-                (!responseJSON && !isShowingHeaders) &&  "monaco-request-log-view"
+                (!responseJSON && !isShowingHeaders) && "monaco-request-log-view"
             )}
         >
             <div className='h-[43px] border-b border-b-gray-700 w-full flex items-center space-x-3 px-3 pb-0.5'>
@@ -88,9 +89,9 @@ export default function Insights() {
                 )}
             </div>
             {isShowingHeaders ? (
-                <Headers 
-                    request={activeRequest.requestInit?.headers ? Object.fromEntries((activeRequest.requestInit.headers.entries as () => IterableIterator<[string, string]>)()) : undefined} 
-                    response={activeRequest.response?.headers} 
+                <Headers
+                    request={activeRequest.requestInit?.headers ? Object.fromEntries((activeRequest.requestInit.headers.entries as () => IterableIterator<[string, string]>)()) : undefined}
+                    response={activeRequest.response?.headers}
                 />
             ) : (
                 <>
@@ -98,6 +99,10 @@ export default function Insights() {
                         <>
                             {responseJSON ? (
                                 <>
+                                    <ControlSnippet
+                                        copyText={requestInsightFilter || JSON.stringify(responseJSON, null, 2)}
+                                        top={56}
+                                    />
                                     <MonacoWrapper
                                         // Full screen - header - find bar - json path bar
                                         height={`calc(100vh - 88px - 43px - 33px)`}
@@ -119,26 +124,32 @@ export default function Insights() {
                                     <OutputSearch mode='json' searchingObject={responseJSON} />
                                 </>
                             ) : (
-                                <MonacoWrapper
-                                    height={`calc(100vh - 88px - 43px)`}
-                                    language='basislog'
-                                    value={activeRequest.response?.text}
-                                    options={{
-                                        minimap: {
-                                            showSlider: 'mouseover',
-                                            enabled: config.get('editorMinimapEnabled'),
-                                            renderCharacters: false,
-                                        },
-                                        padding: { top: 0, bottom: 33 },
-                                        fontSize: config.get('editorFontSize'),
-                                        wordWrap: config.get('editorWordWrapEnabled') ? 'on' : 'off',
-                                        lineNumbers: 'off',
-                                        scrollbar: {
-                                            useShadows: false,
-                                            horizontalSliderSize: 33 + 46 /** Arbitrary Value */,
-                                        },
-                                    }}
-                                />
+                                <>
+                                    <ControlSnippet
+                                        copyText={activeRequest.response?.text}
+                                        top={56}
+                                    />
+                                    <MonacoWrapper
+                                        height={`calc(100vh - 88px - 43px)`}
+                                        language='basislog'
+                                        value={activeRequest.response?.text}
+                                        options={{
+                                            minimap: {
+                                                showSlider: 'mouseover',
+                                                enabled: config.get('editorMinimapEnabled'),
+                                                renderCharacters: false,
+                                            },
+                                            padding: { top: 0, bottom: 33 },
+                                            fontSize: config.get('editorFontSize'),
+                                            wordWrap: config.get('editorWordWrapEnabled') ? 'on' : 'off',
+                                            lineNumbers: 'off',
+                                            scrollbar: {
+                                                useShadows: false,
+                                                horizontalSliderSize: 33 + 46 /** Arbitrary Value */,
+                                            },
+                                        }}
+                                    />
+                                </>
                             )}
                         </>
                     )}
