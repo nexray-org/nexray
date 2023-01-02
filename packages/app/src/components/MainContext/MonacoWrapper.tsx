@@ -29,7 +29,7 @@ export function focusFindAndClear(_editor: editor.IStandaloneCodeEditor) {
     }
 }
 
-export default function MonacoWrapper(props: Omit<EditorProps, 'onMount' | 'theme' | 'width'> & { safeOnMount?: OnMount, disableFind?: boolean; }) {
+export default function MonacoWrapper(props: Omit<EditorProps, 'onMount' | 'theme' | 'width'> & { safeOnMount?: OnMount; disableFind?: boolean }) {
     const [monacoEditor, setMonacoEditor] = useState<editor.IStandaloneCodeEditor>();
 
     useEffect(() => {

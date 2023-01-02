@@ -9,15 +9,15 @@ import Image from 'next/image';
 import MainContent from '../components/MainContext';
 import FilterGroups from '../modals/FilterGroups';
 import useApi from '../hooks/useApi';
-import { Allotment } from "allotment";
-import "allotment/dist/style.css";
+import { Allotment } from 'allotment';
+import 'allotment/dist/style.css';
 import Sidebar from '../components/Sidebar';
 import { ServerComponentRequest } from '@nexray/types';
 
 export default function Analyze() {
     const { height } = useDeviceSize();
     const { selectedCategoryId, data } = useContext(UiContext);
-    useApi(process.env['NEXRAY_ENDPOINT'] || "http://localhost:4694", 1000);
+    useApi(process.env['NEXRAY_ENDPOINT'] || 'http://localhost:4694', 1000);
 
     return (
         <HeadlessRoot>
@@ -27,19 +27,19 @@ export default function Analyze() {
                 </div>
                 <div className='flex w-full'>
                     <Allotment>
-                        <Allotment.Pane preferredSize={"35%"} minSize={250}>
+                        <Allotment.Pane preferredSize={'35%'} minSize={250}>
                             <div className='flex flex-col border-l border-l-g-primary-700'>
                                 <SearchBar />
-                                <QuickList<ServerComponentRequest[]> 
+                                <QuickList<ServerComponentRequest[]>
                                     height={height - 30 - 36}
-                                    itemCount={data.length} 
-                                    itemSize={listElements.itemSize} 
-                                    rowRenderer={listElements.CategoryListButton} 
-                                    itemKey={index => data[index].id}
+                                    itemCount={data.length}
+                                    itemSize={listElements.itemSize}
+                                    rowRenderer={listElements.CategoryListButton}
+                                    itemKey={(index) => data[index].id}
                                 />
                             </div>
                         </Allotment.Pane>
-                        <Allotment.Pane preferredSize={"65%"}>
+                        <Allotment.Pane preferredSize={'65%'}>
                             <div className='overflow-hidden h-full'>
                                 {!selectedCategoryId ? (
                                     <div className='flex-center flex-col text-center w-full h-full pb-[10vh] pointer-events-none select-none'>

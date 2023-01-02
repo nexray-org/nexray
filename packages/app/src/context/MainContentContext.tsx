@@ -20,9 +20,9 @@ interface IMainContentContext {
     setSelectedDiscoveredIndex: React.Dispatch<React.SetStateAction<number>>;
     enabledTimelineTypes: Record<ServerComponentRequest['timeline'][number]['type'], boolean>;
     setEnabledTimelineTypes: React.Dispatch<React.SetStateAction<Record<ServerComponentRequest['timeline'][number]['type'], boolean>>>;
-    selectedContentString: ServerComponentRequest['timeline'][number]['type'] | "combined" | undefined;
-    selectedRequestsTab: "table" | "insights";
-    setSelectedRequestsTab: React.Dispatch<React.SetStateAction<"table" | "insights">>;
+    selectedContentString: ServerComponentRequest['timeline'][number]['type'] | 'combined' | undefined;
+    selectedRequestsTab: 'table' | 'insights';
+    setSelectedRequestsTab: React.Dispatch<React.SetStateAction<'table' | 'insights'>>;
     selectedRequestForInsightId: string;
     setSelectedRequestForInsightId: React.Dispatch<React.SetStateAction<string>>;
     requestInsightFilter: string;
@@ -40,23 +40,23 @@ export function MainContentProvider({ children }: { children: React.ReactNode | 
     const [outputMonacoEditor, setOutputMonacoEditor] = useState<editor.IStandaloneCodeEditor>();
     const [scrollOutputToTuple, setScrollOutputToTuple] = useState<[number, number]>();
     const [insightFilter, setInsightFilter] = useState<string>('');
-    const [selectedRequestsTab, setSelectedRequestsTab] = useState<"table" | "insights">('table');
+    const [selectedRequestsTab, setSelectedRequestsTab] = useState<'table' | 'insights'>('table');
     const [selectedRequestForInsightId, setSelectedRequestForInsightId] = useState<string>('');
     const [requestInsightFilter, setRequestInsightFilter] = useState<string>('');
     const [enabledTimelineTypes, setEnabledTimelineTypes] = useState<Record<ServerComponentRequest['timeline'][number]['type'], boolean>>({
         event: true,
-        log: true
-    })
+        log: true,
+    });
 
-    const selectedContentString = useMemo<ServerComponentRequest['timeline'][number]['type'] | "combined" | undefined>(() => {
-        if (Object.values(enabledTimelineTypes).every(ele => !!ele)) {
-            return "combined"
-        } else if (Object.values(enabledTimelineTypes).every(ele => !ele)) {
+    const selectedContentString = useMemo<ServerComponentRequest['timeline'][number]['type'] | 'combined' | undefined>(() => {
+        if (Object.values(enabledTimelineTypes).every((ele) => !!ele)) {
+            return 'combined';
+        } else if (Object.values(enabledTimelineTypes).every((ele) => !ele)) {
             return undefined;
         } else {
             return Object.entries(enabledTimelineTypes).find(([k, v]) => !!v)![0] as ServerComponentRequest['timeline'][number]['type'];
         }
-    }, [enabledTimelineTypes])
+    }, [enabledTimelineTypes]);
 
     function jumpTo(start: number, end: number) {
         if (outputMonacoEditor) {

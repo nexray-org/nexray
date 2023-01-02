@@ -25,26 +25,30 @@ export const CategoryListButton: FixedSizeListProps<ServerComponentRequest[]>['c
                 'cursor-pointer',
                 selectedCategoryId === item.id && 'bg-g-primary-800',
             )}
-            onContextMenu={e => { e.preventDefault() }}
+            onContextMenu={(e) => {
+                e.preventDefault();
+            }}
         >
             <div className='flex items-center justify-between tracking-tight'>
                 <span className='text-g-primary-100 text-xs font-semibold capitalize'>{`Server component`}</span>
-                <div className={clsx(
-                    'font-mono ml-2 rounded leading-none font-bold px-1.5 py-1 text-xs text-g-primary-50',
-                    item.error ? "bg-red-500" : "bg-green-600"
-                )}>
-                    {item.error ? "ERROR" : "SUCCESS"}
+                <div
+                    className={clsx(
+                        'font-mono ml-2 rounded leading-none font-bold px-1.5 py-1 text-xs text-g-primary-50',
+                        item.error ? 'bg-red-500' : 'bg-green-600',
+                    )}
+                >
+                    {item.error ? 'ERROR' : 'SUCCESS'}
                 </div>
             </div>
             <span className='text-g-primary-50 font-semibold mt-1'>{item.url}</span>
             <div className='min-h-[45px] max-h-[45px] mt-1 overflow-hidden'>
-                <span className='text-xs text-g-primary-400 tracking-normal leading-normal line-clamp-2'>&#8230;{item.timeline[item.timeline.length - 1].content}</span>
+                <span className='text-xs text-g-primary-400 tracking-normal leading-normal line-clamp-2'>
+                    &#8230;{item.timeline[item.timeline.length - 1].content}
+                </span>
             </div>
             <div className='flex items-center justify-between tracking-tight'>
                 <span className='text-xs font-semibold text-g-primary-200'>{dayjs(item.time).format('MM/DD/YYYY h:mm:ss A')}</span>
-                <span className='flex items-center font-mono text-[10px]'>
-                    {numbro(item.durationMs).format({ thousandSeparated: true })} MS
-                </span>
+                <span className='flex items-center font-mono text-[10px]'>{numbro(item.durationMs).format({ thousandSeparated: true })} MS</span>
             </div>
         </div>
     );

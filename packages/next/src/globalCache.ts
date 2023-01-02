@@ -17,7 +17,4 @@ const _consoles = {
     dir: _trueDir,
 } as const;
 
-export {
-    _fetch,
-    _consoles
-}
+export { _fetch, _consoles };

@@ -1,11 +1,11 @@
-import { ChildProps } from "@nexray/types";
+import { ChildProps } from '@nexray/types';
 
 export type FlatChildrenWithInitData = {
-    type: string; 
-    id: string; 
-    depth: number; 
+    type: string;
+    id: string;
+    depth: number;
     hasChildren: boolean;
-    is: "component" | "string";
+    is: 'component' | 'string';
     path: string[];
-    propsWithoutChildren: Omit<ChildProps, "children"> | undefined;
-}
+    propsWithoutChildren: Omit<ChildProps, 'children'> | undefined;
+};

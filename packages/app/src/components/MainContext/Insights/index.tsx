@@ -10,7 +10,8 @@ import numbro from 'numbro';
 
 export default function Insights() {
     const { config } = useContext(UiContext);
-    const { jumpTo, insightFilter, setInsightFilter, selectedDiscoveredIndex, setSelectedDiscoveredIndex, discoveredObjs, setActiveTab } = useContext(MainContentContext);
+    const { jumpTo, insightFilter, setInsightFilter, selectedDiscoveredIndex, setSelectedDiscoveredIndex, discoveredObjs, setActiveTab } =
+        useContext(MainContentContext);
 
     useEffect(
         () => () => {
@@ -23,10 +24,7 @@ export default function Insights() {
     if (!discoveredObjs || discoveredObjs.length === 0) return <></>;
     return (
         <div className='relative group monaco-json-view'>
-            <ControlSnippet 
-                copyText={insightFilter || JSON.stringify(discoveredObjs[selectedDiscoveredIndex][2], null, 2)}
-                top={56}
-            />
+            <ControlSnippet copyText={insightFilter || JSON.stringify(discoveredObjs[selectedDiscoveredIndex][2], null, 2)} top={56} />
             <div className='h-[43px] border-b border-b-gray-700 w-full flex items-center space-x-3 pl-3 pb-0.5'>
                 <Button icon={<BsChevronLeft />} auto h='30px' type='default' pr={'7px'} pl={'6px'} className='!flex' onClick={() => setActiveTab('output')}>
                     <span className='text-[10px] tracking-tight'>BACK</span>

@@ -9,39 +9,45 @@ export default function useApi(endpoint: string, refreshInterval: number) {
     const { setData } = useContext(UiContext);
     const apiClientRef = useRef(new APIClient(fetchWrapper, endpoint));
 
-    useAsyncEffect(async isActive => {
-        const apiUp = await apiClientRef.current.testEndpoint();
-        if (!apiUp) {
-            // TODO: alert user of dead api
-        }
-        
-        let _lastTimeCache: number;
-        const _data = await apiClientRef.current.readRequests();
-        _lastTimeCache = _data[0].time;
-        if (!isActive()) {
-            return;
-        }
-        setData(_data)
+    useAsyncEffect(
+        async (isActive) => {
+            const apiUp = await apiClientRef.current.testEndpoint();
+            if (!apiUp) {
+                // TODO: alert user of dead api
+            }
 
-        let intervalLock = false;
-        const dataInterval = setInterval(() => {
-            if (intervalLock) {
+            let _lastTimeCache: number;
+            const _data = await apiClientRef.current.readRequests();
+            _lastTimeCache = _data[0].time;
+            if (!isActive()) {
                 return;
             }
-            intervalLock = true;
-            (async () => {
-                try {
-                    const _data = await apiClientRef.current.readRequests(_lastTimeCache);
-                    _lastTimeCache = _data[0].time;
-                    setData(prev => [..._data, ...prev]);
-                } catch (error) {
-                    null;
-                } finally {
-                    intervalLock = false;
-                }
-            })()
-        }, refreshInterval);
+            setData(_data);
 
-        return dataInterval;
-    }, (result) => { result && clearTimeout(result); }, [])
+            let intervalLock = false;
+            const dataInterval = setInterval(() => {
+                if (intervalLock) {
+                    return;
+                }
+                intervalLock = true;
+                (async () => {
+                    try {
+                        const _data = await apiClientRef.current.readRequests(_lastTimeCache);
+                        _lastTimeCache = _data[0].time;
+                        setData((prev) => [..._data, ...prev]);
+                    } catch (error) {
+                        null;
+                    } finally {
+                        intervalLock = false;
+                    }
+                })();
+            }, refreshInterval);
+
+            return dataInterval;
+        },
+        (result) => {
+            result && clearTimeout(result);
+        },
+        [],
+    );
 }

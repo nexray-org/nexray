@@ -31,30 +31,30 @@ export default function MainContentSettings() {
         config.set('insightsFontSize', Math.round(debouncedInsightFontSize));
     }, [debouncedInsightFontSize]);
 
-    const rootTabClassName = "mt-0 px-4"
+    const rootTabClassName = 'mt-0 px-4';
 
     return (
         <Modal visible={isMainContentSettingsDialogOpen} onClose={() => setIsMainContentSettingsDialogOpen(false)} width='400px' pt={0}>
             <Modal.Content className='!px-0 !pt-0'>
-                <Tabs initialValue="1">
-                    <Tabs.Item label="Log Viewer" value="1">
+                <Tabs initialValue='1'>
+                    <Tabs.Item label='Log Viewer' value='1'>
                         <div className={rootTabClassName}>
                             <div className='mb-5'>
                                 <span className='text-sm'>Enabled output categories</span>
                                 <div className='items-center flex ml-4 mt-2 space-x-3'>
                                     <Checkbox
                                         checked={enabledTimelineTypes['event']}
-                                        onChange={e => setEnabledTimelineTypes(prev => ({ ...prev, event: e.target.checked }))}
+                                        onChange={(e) => setEnabledTimelineTypes((prev) => ({ ...prev, event: e.target.checked }))}
                                         scale={0.75}
-                                        type="success"
+                                        type='success'
                                     >
                                         Events
                                     </Checkbox>
                                     <Checkbox
                                         checked={enabledTimelineTypes['log']}
-                                        onChange={e => setEnabledTimelineTypes(prev => ({ ...prev, log: e.target.checked }))}
+                                        onChange={(e) => setEnabledTimelineTypes((prev) => ({ ...prev, log: e.target.checked }))}
                                         scale={0.75}
-                                        type="success"
+                                        type='success'
                                     >
                                         Logs
                                     </Checkbox>
@@ -87,7 +87,7 @@ export default function MainContentSettings() {
                             </div>
                         </div>
                     </Tabs.Item>
-                    <Tabs.Item label="Insight Viewer" value="2">
+                    <Tabs.Item label='Insight Viewer' value='2'>
                         <div className={rootTabClassName}>
                             <div className='items-center flex mb-5'>
                                 <Toggle
@@ -97,7 +97,13 @@ export default function MainContentSettings() {
                                 <span className='text-sm ml-2.5 -mb-1.5'>Wrap lines</span>
                             </div>
                             <div className='items-center flex mb-5'>
-                                <NumberInput value={insightFontSizeVal} onChange={setInsightFontSizeVal} fallback={0} className='max-w-[80px]' height={'30px'} />
+                                <NumberInput
+                                    value={insightFontSizeVal}
+                                    onChange={setInsightFontSizeVal}
+                                    fallback={0}
+                                    className='max-w-[80px]'
+                                    height={'30px'}
+                                />
                                 <span className='text-sm ml-2.5'>Font size</span>
                             </div>
                             <div className='items-center flex '>
@@ -110,7 +116,6 @@ export default function MainContentSettings() {
                         </div>
                     </Tabs.Item>
                 </Tabs>
-
             </Modal.Content>
             <Modal.Action passive onClick={() => setIsMainContentSettingsDialogOpen(false)}>
                 Close

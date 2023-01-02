@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 
-import { execa } from "@esm2cjs/execa";
+import { execa } from '@esm2cjs/execa';
 import path from 'path';
 import startServer from '@nexray/server';
 
@@ -10,14 +10,10 @@ const major = semver[0];
 const cwd = (process && process.cwd()) || __dirname;
 
 if (+major < 14) {
-  console.error(
-    'You are running Node ' +
-      currentNodeVersion +
-      '.\n' +
-      'Nexray requires Node 14 or higher. Please update\n' +
-      'or switch installations to continue.'
-  );
-  process.exit(1);
+    console.error(
+        'You are running Node ' + currentNodeVersion + '.\n' + 'Nexray requires Node 14 or higher. Please update\n' + 'or switch installations to continue.',
+    );
+    process.exit(1);
 }
 
 // Boot up dev server
@@ -25,12 +21,12 @@ if (+major < 14) {
 
 async function main() {
     if (process.env['IS_DEV']) {
-        console.log("Running nexray in dev mode");
-        console.log("CWD:", cwd);
-        startServer("local")
-        execa("pnpm tauri dev", { cwd: path.join(cwd, "../", "app"), shell: true })
+        console.log('Running nexray in dev mode');
+        console.log('CWD:', cwd);
+        startServer('local');
+        execa('pnpm tauri dev', { cwd: path.join(cwd, '../', 'app'), shell: true });
     } else {
-        console.log("IS PROD");
+        console.log('IS PROD');
         // TODO: load to cross-platform app dir, exec from there
     }
 }

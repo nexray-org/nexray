@@ -23,27 +23,36 @@ export default function Insights() {
         }
 
         try {
-            const ob = JSON.parse(activeRequest.response.text)
+            const ob = JSON.parse(activeRequest.response.text);
             return ob;
         } catch (error) {
             return false;
         }
-    }, [activeRequest])
+    }, [activeRequest]);
 
     const statBadgeClassName = 'flex-center px-2 h-[30px] font-mono text-xs rounded-md';
-    const statBadgeSuccessClassName = "bg-g-primary-700";
-    const statBadgeErrorClassName = "bg-g-error-300";
+    const statBadgeSuccessClassName = 'bg-g-primary-700';
+    const statBadgeErrorClassName = 'bg-g-error-300';
 
     return (
         <div
             className={clsx(
                 'relative group',
-                (responseJSON && !isShowingHeaders) && "monaco-json-view",
-                (!responseJSON && !isShowingHeaders) && "monaco-request-log-view"
+                responseJSON && !isShowingHeaders && 'monaco-json-view',
+                !responseJSON && !isShowingHeaders && 'monaco-request-log-view',
             )}
         >
             <div className='h-[43px] border-b border-b-gray-700 w-full flex items-center space-x-3 px-3 pb-0.5'>
-                <Button icon={<BsChevronLeft />} auto h='30px' type='default' pr={'7px'} pl={'6px'} className='!flex' onClick={() => setSelectedRequestsTab('table')}>
+                <Button
+                    icon={<BsChevronLeft />}
+                    auto
+                    h='30px'
+                    type='default'
+                    pr={'7px'}
+                    pl={'6px'}
+                    className='!flex'
+                    onClick={() => setSelectedRequestsTab('table')}
+                >
                     <span className='text-[10px] tracking-tight'>BACK</span>
                 </Button>
                 <Select
@@ -67,21 +76,32 @@ export default function Insights() {
                 </Select>
                 <Button
                     h='30px'
-                    className={clsx("!mr-auto")}
-                    width={"68px"}
-                    px="0"
+                    className={clsx('!mr-auto')}
+                    width={'68px'}
+                    px='0'
                     scale={0.4}
-                    type={isShowingHeaders ? "warning" : "default"}
+                    type={isShowingHeaders ? 'warning' : 'default'}
                     ghost
-                    onClick={() => setIsShowingHeaders(prev => !prev)}
+                    onClick={() => setIsShowingHeaders((prev) => !prev)}
                 >
                     <span className='font-semibold'>HEADERS</span>
                 </Button>
                 {activeRequest.response ? (
                     <>
-                        {activeRequest.response.redirected && <span className={clsx(statBadgeClassName, "bg-g-warning-300")}>Redirected</span>}
-                        <span className={clsx(statBadgeClassName, activeRequest.response.status <= 299 && activeRequest.response.status >= 200 ? statBadgeSuccessClassName : statBadgeErrorClassName)}>{activeRequest.response.status} {activeRequest.response.statusText}</span>
-                        <span className={clsx(statBadgeClassName, statBadgeSuccessClassName)}>{activeRequest.response.size ? formatBytes(activeRequest.response?.size) : ""}</span>
+                        {activeRequest.response.redirected && <span className={clsx(statBadgeClassName, 'bg-g-warning-300')}>Redirected</span>}
+                        <span
+                            className={clsx(
+                                statBadgeClassName,
+                                activeRequest.response.status <= 299 && activeRequest.response.status >= 200
+                                    ? statBadgeSuccessClassName
+                                    : statBadgeErrorClassName,
+                            )}
+                        >
+                            {activeRequest.response.status} {activeRequest.response.statusText}
+                        </span>
+                        <span className={clsx(statBadgeClassName, statBadgeSuccessClassName)}>
+                            {activeRequest.response.size ? formatBytes(activeRequest.response?.size) : ''}
+                        </span>
                         <span className={clsx(statBadgeClassName, statBadgeSuccessClassName)}>{activeRequest.duration} ms</span>
                     </>
                 ) : (
@@ -90,7 +110,11 @@ export default function Insights() {
             </div>
             {isShowingHeaders ? (
                 <Headers
-                    request={activeRequest.requestInit?.headers ? Object.fromEntries((activeRequest.requestInit.headers.entries as () => IterableIterator<[string, string]>)()) : undefined}
+                    request={
+                        activeRequest.requestInit?.headers
+                            ? Object.fromEntries((activeRequest.requestInit.headers.entries as () => IterableIterator<[string, string]>)())
+                            : undefined
+                    }
                     response={activeRequest.response?.headers}
                 />
             ) : (
@@ -99,10 +123,7 @@ export default function Insights() {
                         <>
                             {responseJSON ? (
                                 <>
-                                    <ControlSnippet
-                                        copyText={requestInsightFilter || JSON.stringify(responseJSON, null, 2)}
-                                        top={56}
-                                    />
+                                    <ControlSnippet copyText={requestInsightFilter || JSON.stringify(responseJSON, null, 2)} top={56} />
                                     <MonacoWrapper
                                         // Full screen - header - find bar - json path bar
                                         height={`calc(100vh - 88px - 43px - 33px)`}
@@ -125,10 +146,7 @@ export default function Insights() {
                                 </>
                             ) : (
                                 <>
-                                    <ControlSnippet
-                                        copyText={activeRequest.response?.text}
-                                        top={56}
-                                    />
+                                    <ControlSnippet copyText={activeRequest.response?.text} top={56} />
                                     <MonacoWrapper
                                         height={`calc(100vh - 88px - 43px)`}
                                         language='nexraylog'
@@ -156,5 +174,5 @@ export default function Insights() {
                 </>
             )}
         </div>
-    )
+    );
 }

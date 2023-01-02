@@ -1,10 +1,10 @@
-import { ChildProps } from "@nexray/types";
-import useDeviceSize from "../../../hooks/useDeviceSize";
+import { ChildProps } from '@nexray/types';
+import useDeviceSize from '../../../hooks/useDeviceSize';
 import MonacoWrapper from '../MonacoWrapper';
-import Image from "next/image";
+import Image from 'next/image';
 
 interface IKeyValue {
-    itemProps: Omit<ChildProps, "children"> | undefined;
+    itemProps: Omit<ChildProps, 'children'> | undefined;
 }
 
 export default function KeyValue({ itemProps }: IKeyValue) {
@@ -18,7 +18,7 @@ export default function KeyValue({ itemProps }: IKeyValue) {
                 </div>
                 <span className='text-g-primary-600 font-semibold text-sm mt-3'>No props passed to this component</span>
             </div>
-        )
+        );
     } else {
         return (
             <MonacoWrapper
@@ -35,6 +35,6 @@ export default function KeyValue({ itemProps }: IKeyValue) {
                     showFoldingControls: 'always',
                 }}
             />
-        )
+        );
     }
 }

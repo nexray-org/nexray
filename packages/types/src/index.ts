@@ -2,19 +2,19 @@ export type ChildProps = {
     [x: string | number | symbol]: any;
     className: string | undefined;
     children: string | number | boolean | null | undefined | (string | Child)[];
-}
+};
 
 export type Child = {
     type: string;
     props: ChildProps;
-}
+};
 
 export type ServerComponentRequest = {
     time: number;
     id: string;
     props: Record<string, any>;
     fetches: Record<string, CapturedFetchFinished | CapturedFetchErrored>;
-    timeline: { type: "log" | "event", content: string, time: number; }[];
+    timeline: { type: 'log' | 'event'; content: string; time: number }[];
     durationMs: number;
     error?: any;
     headers: [string, string][];
@@ -40,7 +40,7 @@ export type SerializedResponse = {
     text: string;
     statusText: string;
     size: number;
-}
+};
 
 export type CapturedFetchFinished = {
     duration: number;

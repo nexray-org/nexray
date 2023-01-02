@@ -1,6 +1,6 @@
-import { FastifyInstance } from "fastify";
-import { Static, Type } from '@sinclair/typebox'
-import type { GenericDB } from "../types";
+import { FastifyInstance } from 'fastify';
+import { Static, Type } from '@sinclair/typebox';
+import type { GenericDB } from '../types';
 
 const Reply = Type.Boolean();
 
@@ -10,7 +10,7 @@ const route = (db: GenericDB) => async (server: FastifyInstance) => {
         {
             schema: {
                 response: {
-                    '2xx': Reply
+                    '2xx': Reply,
                 },
             },
         },
@@ -18,6 +18,6 @@ const route = (db: GenericDB) => async (server: FastifyInstance) => {
             res.send(true);
         },
     );
-}
+};
 
 export default route;

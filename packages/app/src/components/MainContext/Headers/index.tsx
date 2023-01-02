@@ -6,14 +6,11 @@ import { useContext } from 'react';
 export default function Headers() {
     const { activeItem, config } = useContext(UiContext);
 
-    const formattedHeaders = activeItem?.headers ? JSON.stringify(Object.fromEntries(activeItem.headers), null, 2) : "";
+    const formattedHeaders = activeItem?.headers ? JSON.stringify(Object.fromEntries(activeItem.headers), null, 2) : '';
 
     return (
         <div className='relative group monaco-log-view'>
-            <ControlSnippet 
-                copyText={formattedHeaders}
-                top={12}
-            />
+            <ControlSnippet copyText={formattedHeaders} top={12} />
             <MonacoWrapper
                 // Full screen - header - find bar - json path bar
                 height={`calc(100vh - 88px)`}
@@ -33,5 +30,5 @@ export default function Headers() {
                 }}
             />
         </div>
-    )
+    );
 }

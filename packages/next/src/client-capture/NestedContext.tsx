@@ -1,10 +1,10 @@
-"use client"
+'use client';
 
 import React, { createContext, useEffect, useRef } from 'react';
 import { nanoid } from 'nanoid';
 
 interface INexrayNestedContext {
-    id: string
+    id: string;
 }
 
 export const NexrayNestedContext = createContext<INexrayNestedContext>({} as INexrayNestedContext);
@@ -19,7 +19,7 @@ export function NexrayNestedProvider({ children }: { children: React.ReactNode |
     return (
         <NexrayNestedContext.Provider
             value={{
-                id: idRef.current
+                id: idRef.current,
             }}
         >
             {children}

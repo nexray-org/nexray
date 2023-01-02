@@ -18,12 +18,7 @@ function MainContent() {
 
     useEffect(() => {
         setDiscoveredObjs(false);
-        if (
-            activeItem &&
-            config.get('parseFindJsonEnabled') &&
-            selectedContentString &&
-            itemContentStrings
-        ) {
+        if (activeItem && config.get('parseFindJsonEnabled') && selectedContentString && itemContentStrings) {
             workerRef.current = new Worker(new URL('./Insights/finder.worker.ts', import.meta.url));
             workerRef.current.postMessage(itemContentStrings[selectedContentString]);
             workerRef.current.onmessage = (event: MessageEvent<DiscoveredObject[]>) => {

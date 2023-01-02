@@ -10,25 +10,25 @@ import * as reactIs from 'react-is';
 import serializeResponse from './serializeResponse';
 
 let inDevEnvironment = false;
-let endpoint = process.env['NEXRAY_ENDPOINT'] || "";
+let endpoint = process.env['NEXRAY_ENDPOINT'] || '';
 
 if (process && process.env.NODE_ENV === 'development') {
     inDevEnvironment = true;
     if (!endpoint) {
         // check dev endpoint
-        endpoint = "http://localhost:4694"
+        endpoint = 'http://localhost:4694';
     }
 } else {
     // Check for remote db config with process.env.NEXRAY_KEY;
 }
 
-const ops = new NexrayAPIClient(_fetch, endpoint)
-ops.testEndpoint().then(res => _consoles.log(`Tested local endpoint with response: ${res}`))
+const ops = new NexrayAPIClient(_fetch, endpoint);
+ops.testEndpoint().then((res) => _consoles.log(`Tested local endpoint with response: ${res}`));
 
 export default function nexrayPage(componentGenerator: (props: NextAppServerComponentProps) => Promise<JSX.Element> | JSX.Element) {
     // .next/server/app/...
     const absoluteFsUrl = path.relative(process.cwd(), __dirname);
-    const relativeFsUrl = absoluteFsUrl.includes("/app/") ? absoluteFsUrl.split("/app").pop()! : absoluteFsUrl;
+    const relativeFsUrl = absoluteFsUrl.includes('/app/') ? absoluteFsUrl.split('/app').pop()! : absoluteFsUrl;
 
     return async (props: NextAppServerComponentProps) => {
         const fetchReadPromises: Promise<any>[] = [];
@@ -50,8 +50,8 @@ export default function nexrayPage(componentGenerator: (props: NextAppServerComp
             } as any;
             requestData.timeline.push({
                 content: `${time} - Fetch ${requestId} initiated to ${url}${init ? '' + JSON.stringify(init) : ''}`,
-                type: "event",
-                time
+                type: 'event',
+                time,
             });
         }
 
@@ -65,27 +65,26 @@ export default function nexrayPage(componentGenerator: (props: NextAppServerComp
                     duration: time - requestData.fetches[fetchId].time,
                     response: serializedResponse,
                 };
-            }
+            };
             fetchReadPromises.push(serializeResponsePromise());
             requestData.timeline.push({
                 content: `${time} - Fetch ${requestId} responded ${JSON.stringify(responseClone)}`,
-                type: "event",
-                time
+                type: 'event',
+                time,
             });
         }
-
 
         function captureFetchResponseError(fetchId: string, error: any) {
             const time = Date.now();
             requestData.fetches[fetchId] = {
                 ...requestData.fetches[fetchId],
                 duration: time - requestData.fetches[fetchId].time,
-                error
+                error,
             };
             requestData.timeline.push({
                 content: `${time} - Fetch ${requestId} errored ${JSON.stringify(error)}`,
-                type: "event",
-                time
+                type: 'event',
+                time,
             });
         }
 
@@ -93,8 +92,8 @@ export default function nexrayPage(componentGenerator: (props: NextAppServerComp
             const time = Date.now();
             requestData.timeline.push({
                 content: `${time} - ${level.toUpperCase()} - ${consoleParams.join(' ')}`,
-                type: "log",
-                time
+                type: 'log',
+                time,
             });
         }
 
@@ -107,8 +106,8 @@ export default function nexrayPage(componentGenerator: (props: NextAppServerComp
             requestData.time = time;
             requestData.timeline.push({
                 content: `${time} - Component request initiated`,
-                type: "event",
-                time
+                type: 'event',
+                time,
             });
         }
 
@@ -119,23 +118,23 @@ export default function nexrayPage(componentGenerator: (props: NextAppServerComp
             requestData.children = children;
             requestData.timeline.push({
                 content: `${time} - Transferring HTML to client. Render time: ${diff}`,
-                type: "event",
-                time
+                type: 'event',
+                time,
             });
-            Promise.all(fetchReadPromises).then(_ => ops.captureRequest(requestData as ServerComponentRequest));
+            Promise.all(fetchReadPromises).then((_) => ops.captureRequest(requestData as ServerComponentRequest));
         }
 
         function captureRenderError(error: any) {
             const time = Date.now();
             requestData.timeline.push({
                 content: `${time} - ERROR - ${JSON.stringify(error)}`,
-                type: "event",
-                time
+                type: 'event',
+                time,
             });
             requestData.error = error || true;
-            Promise.all(fetchReadPromises).then(_ => ops.captureRequest(requestData as ServerComponentRequest));
+            Promise.all(fetchReadPromises).then((_) => ops.captureRequest(requestData as ServerComponentRequest));
         }
-        
+
         if (!(global as any).fetch['NEXRAY_ATTACHED']) {
             // Next fetch implementation: https://github.com/vercel/next.js/blob/canary/packages/next/server/node-polyfill-fetch.js
             global.fetch = async (...args) => {
@@ -145,10 +144,10 @@ export default function nexrayPage(componentGenerator: (props: NextAppServerComp
                 } else {
                     url = (args[0] as Request).url;
                 }
-    
+
                 const fetchId = nanoid();
                 captureFetch(fetchId, url, args[1]);
-    
+
                 try {
                     const _rawRes = await _fetch(...args);
                     captureFetchResponseSuccess(fetchId, _rawRes);
@@ -177,8 +176,8 @@ export default function nexrayPage(componentGenerator: (props: NextAppServerComp
             component = await maybePromise;
             const childrenProps = deepMap(component, (child) => {
                 if (reactIs.isElement(child)) {
-                    if (typeof child.type === "function") {
-                        return { type: (child as any)['nexrayName'] || "Component", props: child.props } as ReactNode;
+                    if (typeof child.type === 'function') {
+                        return { type: (child as any)['nexrayName'] || 'Component', props: child.props } as ReactNode;
                     } else {
                         return { type: child.type, props: child.props } as ReactNode;
                     }

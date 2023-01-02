@@ -2,10 +2,7 @@ import { ServerComponentRequest } from '@nexray/types';
 
 export default class NexrayAPIClient {
     isEndpointUp: boolean | undefined = undefined;
-    constructor(
-        private _fetch: (input: RequestInfo | URL, init?: RequestInit | undefined) => Promise<Response>,
-        private endpoint: string,
-    ) {}
+    constructor(private _fetch: (input: RequestInfo | URL, init?: RequestInit | undefined) => Promise<Response>, private endpoint: string) {}
 
     async testEndpoint() {
         try {
@@ -22,16 +19,16 @@ export default class NexrayAPIClient {
 
     async captureRequest(data: ServerComponentRequest) {
         await this._fetch(`${this.endpoint}/capture-request`, {
-            method: "POST",
+            method: 'POST',
             headers: {
-                'Content-Type': "application/json"
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ data })
+            body: JSON.stringify({ data }),
         });
     }
 
     async readRequests(afterTime?: number) {
-        const _res = await this._fetch(`${this.endpoint}/requests${afterTime ? "?after=" + afterTime : ""}`);
+        const _res = await this._fetch(`${this.endpoint}/requests${afterTime ? '?after=' + afterTime : ''}`);
         return _res.json() as Promise<ServerComponentRequest[]>;
     }
 }

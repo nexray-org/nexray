@@ -29,14 +29,11 @@ export default function Output() {
 
     return (
         <div className='relative group monaco-log-view'>
-            <ControlSnippet 
-                copyText={(itemContentStrings && selectedContentString) ? itemContentStrings[selectedContentString] : ""} 
-                top={12}
-            />
+            <ControlSnippet copyText={itemContentStrings && selectedContentString ? itemContentStrings[selectedContentString] : ''} top={12} />
             <MonacoWrapper
                 height={`calc(100vh - 88px)`}
                 language='nexraylog'
-                value={(itemContentStrings && selectedContentString) ? itemContentStrings[selectedContentString] : ""}
+                value={itemContentStrings && selectedContentString ? itemContentStrings[selectedContentString] : ''}
                 safeOnMount={onMonacoMount}
                 beforeMount={onBeforeMonacoMount}
                 options={{

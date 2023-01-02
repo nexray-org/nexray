@@ -9,22 +9,22 @@ import requestsRoute from './routes/requests';
 import statusRoute from './routes/status';
 import cors from '@fastify/cors';
 
-async function initLocalDb(provider: "local" | "remote"): Promise<GenericDB> {
-    const db = new Datastore({ filename: path.join(homedir(), '.nexray', 'dev-logs', 'nedb') })
+async function initLocalDb(provider: 'local' | 'remote'): Promise<GenericDB> {
+    const db = new Datastore({ filename: path.join(homedir(), '.nexray', 'dev-logs', 'nedb') });
     try {
-        await db.loadDatabaseAsync()
+        await db.loadDatabaseAsync();
     } catch (error) {
         // loading has failed
     }
     return db;
 }
 
-export default async function launch(provider: "local" | "remote") {
-    const db = await initLocalDb("local");
-    const server = fastify({ trustProxy: true }).withTypeProvider<TypeBoxTypeProvider>()
+export default async function launch(provider: 'local' | 'remote') {
+    const db = await initLocalDb('local');
+    const server = fastify({ trustProxy: true }).withTypeProvider<TypeBoxTypeProvider>();
     const port = 4694;
 
-    server.register(cors)
+    server.register(cors);
     server.register(captureRoute(db));
     server.register(requestsRoute(db));
     server.register(statusRoute(db));
@@ -32,4 +32,3 @@ export default async function launch(provider: "local" | "remote") {
     await server.listen({ port });
     return server;
 }
-

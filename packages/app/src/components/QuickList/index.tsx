@@ -24,7 +24,7 @@ export default function QuickList<T extends any>({ rowRenderer, height, ...props
             renderThumbVertical={thumbRenderer}
             renderThumbHorizontal={thumbRenderer}
         >
-            <FixedSizeList<T> {...props} ref={listRef} height={height} width='100%' style={{ overflow: "visible" }}>
+            <FixedSizeList<T> {...props} ref={listRef} height={height} width='100%' style={{ overflow: 'visible' }}>
                 {rowRenderer}
             </FixedSizeList>
         </Scrollbars>

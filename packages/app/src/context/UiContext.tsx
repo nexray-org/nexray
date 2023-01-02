@@ -15,7 +15,7 @@ interface IUiContext {
     setIsInsightFilterDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
     isFilterGroupDialogOpen: boolean;
     setIsFilterGroupDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    itemContentStrings: Record<ServerComponentRequest['timeline'][number]['type'] | "combined", string> | undefined;
+    itemContentStrings: Record<ServerComponentRequest['timeline'][number]['type'] | 'combined', string> | undefined;
 }
 
 export const UiContext = createContext<IUiContext>({} as IUiContext);
@@ -55,19 +55,19 @@ export function UiProvider({ children }: { children: React.ReactNode | JSX.Eleme
             return;
         }
 
-        const _itemContentStrings: Record<ServerComponentRequest['timeline'][number]['type'] | "combined", string> = {
-            log: "",
-            event: "",
-            combined: ""
-        }
+        const _itemContentStrings: Record<ServerComponentRequest['timeline'][number]['type'] | 'combined', string> = {
+            log: '',
+            event: '',
+            combined: '',
+        };
 
         for (const item of activeItem.timeline) {
-            _itemContentStrings[item.type] += item.content + "\n";
-            _itemContentStrings.combined += item.content + "\n";
+            _itemContentStrings[item.type] += item.content + '\n';
+            _itemContentStrings.combined += item.content + '\n';
         }
 
         return _itemContentStrings;
-    }, [activeItem])
+    }, [activeItem]);
 
     return (
         <UiContext.Provider
@@ -78,13 +78,13 @@ export function UiProvider({ children }: { children: React.ReactNode | JSX.Eleme
                 setData,
                 config,
                 activeItem,
-                isMainContentSettingsDialogOpen, 
+                isMainContentSettingsDialogOpen,
                 setIsMainContentSettingsDialogOpen,
                 isInsightFilterDialogOpen,
                 setIsInsightFilterDialogOpen,
                 isFilterGroupDialogOpen,
                 setIsFilterGroupDialogOpen,
-                itemContentStrings
+                itemContentStrings,
             }}
         >
             {children}

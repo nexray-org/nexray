@@ -1,4 +1,4 @@
-import { SerializedResponse } from "@nexray/types";
+import { SerializedResponse } from '@nexray/types';
 
 // https://stackoverflow.com/a/23329386
 function byteLength(str: string) {
@@ -8,7 +8,7 @@ function byteLength(str: string) {
         const code = str.charCodeAt(i);
         if (code > 0x7f && code <= 0x7ff) s++;
         else if (code > 0x7ff && code <= 0xffff) s += 2;
-        if (code >= 0xDC00 && code <= 0xDFFF) i--; //trail surrogate
+        if (code >= 0xdc00 && code <= 0xdfff) i--; //trail surrogate
     }
     return s;
 }
@@ -24,6 +24,6 @@ export default async function serializeResponse(response: Response): Promise<Ser
         status: response.status,
         statusText: response.statusText,
         text,
-        size: byteLength(text)
-    }
+        size: byteLength(text),
+    };
 }
