@@ -27,7 +27,7 @@ export default function MainControls() {
             'absolute right-3 top-0 z-20 space-x-1 max-h-[46px] h-full flex-center overflow-hidden',
         )}>
             <Button icon={<AiOutlineSetting />} width={0.25} px={0} scale={0.4} onClick={() => setIsMainContentSettingsDialogOpen(true)} />
-            <Button icon={<AiOutlineLink />} width={0.25} px={0} scale={0.4} onClick={permaHandler} />
+            {/* <Button icon={<AiOutlineLink />} width={0.25} px={0} scale={0.4} onClick={permaHandler} /> */}
         </div>
     )
 }
