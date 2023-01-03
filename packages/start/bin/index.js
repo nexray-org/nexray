@@ -48,11 +48,7 @@ var semver = currentNodeVersion.split('.');
 var major = semver[0];
 var cwd = (process && process.cwd()) || __dirname;
 if (+major < 14) {
-    console.error('You are running Node ' +
-        currentNodeVersion +
-        '.\n' +
-        'Nexray requires Node 14 or higher. Please update\n' +
-        'or switch installations to continue.');
+    console.error('You are running Node ' + currentNodeVersion + '.\n' + 'Nexray requires Node 14 or higher. Please update\n' + 'or switch installations to continue.');
     process.exit(1);
 }
 // Boot up dev server
@@ -61,13 +57,13 @@ function main() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             if (process.env['IS_DEV']) {
-                console.log("Running nexray in dev mode");
-                console.log("CWD:", cwd);
-                (0, server_1.default)("local");
-                (0, execa_1.execa)("pnpm tauri dev", { cwd: path_1.default.join(cwd, "../", "app"), shell: true });
+                console.log('Running nexray in dev mode');
+                console.log('CWD:', cwd);
+                (0, server_1.default)('local');
+                (0, execa_1.execa)('pnpm tauri dev', { cwd: path_1.default.join(cwd, '../', 'app'), shell: true });
             }
             else {
-                console.log("IS PROD");
+                console.log('IS PROD');
                 // TODO: load to cross-platform app dir, exec from there
             }
             return [2 /*return*/];
