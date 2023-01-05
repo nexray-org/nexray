@@ -82,6 +82,7 @@ export default function Welcome() {
                                 selected={selectedDataSource === "remote"}
                                 title='Hosted Server'
                                 onSelect={() => setSelectedDataSource("remote")}
+                                disabled
                             >
                                 <ul className='text-inherit ml-3'>
                                     <li>Good for production</li>
@@ -109,12 +110,13 @@ interface IDataSourceButton {
     children?: React.ReactNode;
     onSelect: () => any;
     className?: string;
+    disabled?: boolean;
 }
 
-function DataSourceButton({ selected, title, children, onSelect, className }: IDataSourceButton) {
+function DataSourceButton({ selected, title, children, onSelect, className, disabled }: IDataSourceButton) {
     const dataSourceClassName = [
         "w-full bg-g-primary-900 h-[200px] rounded-md",
-        'px-4 py-3 text-left',
+        'relative px-4 py-3 text-left',
         "ring-offset-2 ring-offset-g-primary-900",
         "transition-all outline-none cursor-pointer",
         "hover:ring-4 hover:bg-g-primary-800",
@@ -124,8 +126,18 @@ function DataSourceButton({ selected, title, children, onSelect, className }: ID
 
     return (
         <div className='flex basis-1/2'>
-            <button className={clsx(...dataSourceClassName, className)} onClick={onSelect}>
-                <div className='w-full flex items-center justify-between mb-4'>
+            <button
+                className={clsx(...dataSourceClassName, className, disabled && "pointer-events-none")}
+                onClick={onSelect}
+            >
+                {disabled && (
+                    <>
+                        <div className='absolute top-0 left-0 bottom-0 right-0 flex-center z-20'>
+                            <span className='text-g-primary-50 tracking-tight font-semibold text-sm'>Coming Soon</span>
+                        </div>
+                    </>
+                )}
+                <div className={clsx('w-full flex items-center justify-between mb-4', disabled && "brightness-50")}>
                     <span
                         className={clsx(
                             "text-inherit tracking-tight font-bold"
@@ -137,12 +149,12 @@ function DataSourceButton({ selected, title, children, onSelect, className }: ID
                     <div
                         className={clsx(
                             'h-[10px] w-[10px] rounded-full',
-                            'ring-1 ring-offset-1 ring-offset-g-primary-900',
+                            'ring-2 ring-offset-2 ring-offset-g-primary-900',
                             selected ? "bg-indigo-600 ring-indigo-600" : "ring-g-primary-600 bg-transparent"
                         )}
                     />
                 </div>
-                <div className='w-full h-full block text-sm'>
+                <div className={clsx('w-full h-full block text-sm', disabled && "brightness-50")}>
                     {children}
                 </div>
             </button>
