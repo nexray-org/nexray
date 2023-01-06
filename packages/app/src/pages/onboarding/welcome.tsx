@@ -1,29 +1,40 @@
 import { HeadlessRoot } from '../../components/Root';
-import { Snippet, Divider, Loading } from '@geist-ui/core';
+import { Snippet, Divider, Loading, Code } from '@geist-ui/core';
 import { Disclosure } from '@headlessui/react'
 import { BsChevronUp } from 'react-icons/bs';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import { Scrollbars } from 'react-custom-scrollbars-2';
-import useDeviceSize from '../../hooks/useDeviceSize';
 import { thumbRenderer } from '../../components/QuickList';
+import WrapPages from '../../snippets/WrapPages';
 
 export default function Welcome() {
     const [selectedDataSource, setSelectedDataSource] = useState<"local" | "remote">("local");
-    const { height } = useDeviceSize();
 
     const steps = [
         {
             panel: "Step 1. Install package",
             children: (
-                <div className='tracking-normal'>
-                    <Snippet text="npm i @nexray/next" width="300px" toastType='default' />
-                </div>
+                <>
+                    <div className='mb-3'><span>In your Next.js 13 project, install the Nexray library with your preferred package manager. The provided snippets use <Code>npm</Code>.</span></div>
+                    <div className='tracking-normal'>
+                        <Snippet text="npm i @nexray/next" width="300px" toastType='default' />
+                    </div>
+                </>
             ),
-            defaultOpen: false
+            defaultOpen: true
         },
         {
             panel: "Step 2. Wrap pages",
+            children: (
+                <>
+                    <div className='mb-3'><span>For each <em>page</em> file in your <Code>app/</Code> directory, wrap the default export with <Code>nexray</Code>.</span></div>
+                    <WrapPages />
+                </>
+            )
+        },
+        {
+            panel: "Step 3. (Optional) Configure methods",
             children: <span>Hello WOrld</span>
         }
     ]
@@ -37,10 +48,7 @@ export default function Welcome() {
             >
                 <div className='flex-center py-[30px]'>
                     <div className='w-full max-w-[500px]'>
-                        <h2 className='text-xl font-semibold text-g-primary-400 mb-8'>Observability for Next.js 13 server components</h2>
-                        <div className='mb-3'>
-                            <span className='font-semibold text-g-primary-400'>Data Storage</span>
-                        </div>
+                        <h2 className='text-xl font-semibold text-g-primary-400 mb-6'>Observability for Next.js 13 server components</h2>
                         <div className='flex space-x-6'>
                             <DataSourceButton
                                 selected={selectedDataSource === "local"}
@@ -69,7 +77,7 @@ export default function Welcome() {
                         <div className='mt-10 mb-8'>
                             <Divider />
                         </div>
-                                                {steps.map((ele) => (
+                        {steps.map((ele) => (
                             <Disclosure defaultOpen={!!ele.defaultOpen}>
                                 {({ open }) => (
                                     <>
@@ -84,14 +92,17 @@ export default function Welcome() {
                                                 className={clsx('transform h-4 w-4 my-auto', !open && 'rotate-180')}
                                             />
                                         </Disclosure.Button>
-                                        <Disclosure.Panel className="px-4 pt-4 text-sm text-gray-500">
+                                        <Disclosure.Panel className="px-1 pt-4 text-sm text-g-primary-200 tracking-tight">
                                             {ele.children}
                                         </Disclosure.Panel>
                                     </>
                                 )}
                             </Disclosure>
                         ))}
-                        <div className='flex items-center mt-2'>
+                        <div className='mt-4'>
+                            <span className='text-g-primary-300 font-semibold tracking-tight text-sm'><span className='text-g-primary-50'>You're all set.</span> Start the development server on this machine and navigate to a page. Traces will automatically appear here.</span>
+                        </div>
+                        <div className='flex items-center mt-4'>
                             <span className='text-g-primary-300 font-semibold tracking-tight text-sm'>Waiting for logs</span>
                             <div className='h-[40px] w-[40px]'>
                                 <Loading type="warning" />
@@ -138,7 +149,7 @@ function DataSourceButton({ selected, title, children, onSelect, className, disa
                             <span className='text-g-primary-50 tracking-tight font-semibold text-sm'>Coming Soon</span>
                             <div
                                 className='absolute bottom-0 left-0 h-[40%] w-[40%]'
-                                style={{ 
+                                style={{
                                     background: `linear-gradient(
                                         to top left,
                                         rgba(0,0,0,0) 0%,
@@ -148,12 +159,12 @@ function DataSourceButton({ selected, title, children, onSelect, className, disa
                                         rgba(175,175,175,0.5) calc(50% + 1.3px),
                                         rgba(0,0,0,0) calc(50% + 1.8px),
                                         rgba(0,0,0,0) 100%
-                                    )` 
+                                    )`
                                 }}
                             />
                             <div
                                 className='absolute top-0 right-0 h-[40%] w-[40%]'
-                                style={{ 
+                                style={{
                                     background: `linear-gradient(
                                         to top left,
                                         rgba(0,0,0,0) 0%,
@@ -163,7 +174,7 @@ function DataSourceButton({ selected, title, children, onSelect, className, disa
                                         rgba(175,175,175,0.5) calc(50% + 1.3px),
                                         rgba(0,0,0,0) calc(50% + 1.8px),
                                         rgba(0,0,0,0) 100%
-                                    )` 
+                                    )`
                                 }}
                             />
                         </div>
