@@ -38,7 +38,38 @@ export default function Welcome() {
                 <div className='flex-center py-[30px]'>
                     <div className='w-full max-w-[500px]'>
                         <h2 className='text-xl font-semibold text-g-primary-400 mb-8'>Observability for Next.js 13 server components</h2>
-                        {steps.map((ele) => (
+                        <div className='mb-3'>
+                            <span className='font-semibold text-g-primary-400'>Data Storage</span>
+                        </div>
+                        <div className='flex space-x-6'>
+                            <DataSourceButton
+                                selected={selectedDataSource === "local"}
+                                title='Local Server'
+                                onSelect={() => setSelectedDataSource("local")}
+                            >
+                                <ul className='text-inherit ml-3'>
+                                    <li>Ideal for development</li>
+                                    <li>Works with local instance</li>
+                                    <li>Built-in support</li>
+                                </ul>
+                            </DataSourceButton>
+                            <DataSourceButton
+                                selected={selectedDataSource === "remote"}
+                                title='Hosted Server'
+                                onSelect={() => setSelectedDataSource("remote")}
+                                disabled
+                            >
+                                <ul className='text-inherit ml-3'>
+                                    <li>Ideal for production</li>
+                                    <li>Works the Vercel & Netlify</li>
+                                    <li>Self-deployed Docker</li>
+                                </ul>
+                            </DataSourceButton>
+                        </div>
+                        <div className='mt-10 mb-8'>
+                            <Divider />
+                        </div>
+                                                {steps.map((ele) => (
                             <Disclosure defaultOpen={!!ele.defaultOpen}>
                                 {({ open }) => (
                                     <>
@@ -60,37 +91,6 @@ export default function Welcome() {
                                 )}
                             </Disclosure>
                         ))}
-                        <div className='mt-10 mb-8'>
-                            <Divider />
-                        </div>
-                        <div className='mb-3'>
-                            <span className='font-semibold text-g-primary-400'>Data Storage</span>
-                        </div>
-                        <div className='flex space-x-6'>
-                            <DataSourceButton
-                                selected={selectedDataSource === "local"}
-                                title='Local Server'
-                                onSelect={() => setSelectedDataSource("local")}
-                            >
-                                <ul className='text-inherit ml-3'>
-                                    <li>Good for local development</li>
-                                    <li>No setup</li>
-                                    <li>No setup</li>
-                                </ul>
-                            </DataSourceButton>
-                            <DataSourceButton
-                                selected={selectedDataSource === "remote"}
-                                title='Hosted Server'
-                                onSelect={() => setSelectedDataSource("remote")}
-                                disabled
-                            >
-                                <ul className='text-inherit ml-3'>
-                                    <li>Good for production</li>
-                                    <li>No setup</li>
-                                    <li>No setup</li>
-                                </ul>
-                            </DataSourceButton>
-                        </div>
                         <div className='flex items-center mt-2'>
                             <span className='text-g-primary-300 font-semibold tracking-tight text-sm'>Waiting for logs</span>
                             <div className='h-[40px] w-[40px]'>
@@ -132,8 +132,40 @@ function DataSourceButton({ selected, title, children, onSelect, className, disa
             >
                 {disabled && (
                     <>
-                        <div className='absolute top-0 left-0 bottom-0 right-0 flex-center z-20'>
+                        <div
+                            className='absolute top-0 left-0 bottom-0 right-0 flex-center z-20'
+                        >
                             <span className='text-g-primary-50 tracking-tight font-semibold text-sm'>Coming Soon</span>
+                            <div
+                                className='absolute bottom-0 left-0 h-[40%] w-[40%]'
+                                style={{ 
+                                    background: `linear-gradient(
+                                        to top left,
+                                        rgba(0,0,0,0) 0%,
+                                        rgba(0,0,0,0) calc(50% - 1.8px),
+                                        rgba(175,175,175,0.5) calc(50% - 1.3px),
+                                        rgba(175,175,175,1) 50%,
+                                        rgba(175,175,175,0.5) calc(50% + 1.3px),
+                                        rgba(0,0,0,0) calc(50% + 1.8px),
+                                        rgba(0,0,0,0) 100%
+                                    )` 
+                                }}
+                            />
+                            <div
+                                className='absolute top-0 right-0 h-[40%] w-[40%]'
+                                style={{ 
+                                    background: `linear-gradient(
+                                        to top left,
+                                        rgba(0,0,0,0) 0%,
+                                        rgba(0,0,0,0) calc(50% - 1.8px),
+                                        rgba(175,175,175,0.5) calc(50% - 1.3px),
+                                        rgba(175,175,175,1) 50%,
+                                        rgba(175,175,175,0.5) calc(50% + 1.3px),
+                                        rgba(0,0,0,0) calc(50% + 1.8px),
+                                        rgba(0,0,0,0) 100%
+                                    )` 
+                                }}
+                            />
                         </div>
                     </>
                 )}
