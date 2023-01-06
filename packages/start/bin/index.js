@@ -60,7 +60,7 @@ function main() {
                 console.log('Running nexray in dev mode');
                 console.log('CWD:', cwd);
                 (0, server_1.default)('local');
-                (0, execa_1.execa)('pnpm tauri dev', { cwd: path_1.default.join(cwd, '../', 'app'), shell: true });
+                (0, execa_1.execa)('pnpm run dev', { cwd: path_1.default.join(cwd, '../', 'app'), shell: true });
             }
             else {
                 console.log('IS PROD');

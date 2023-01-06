@@ -31,7 +31,7 @@ export default function Analyze() {
                             <div className='flex flex-col border-l border-l-g-primary-700'>
                                 <SearchBar />
                                 <QuickList<ServerComponentRequest[]>
-                                    height={height - 30 - 36}
+                                    height={height - 36}
                                     itemCount={data.length}
                                     itemSize={listElements.itemSize}
                                     rowRenderer={listElements.CategoryListButton}

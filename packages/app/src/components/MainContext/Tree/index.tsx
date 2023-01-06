@@ -92,7 +92,7 @@ export default function Tree() {
         <div className='flex border-t border-t-g-primary-700 mt-[4px]'>
             <div className={clsx('pt-[4px] flex w-full', selectedNodeId && 'basis-1/2')}>
                 <QuickList<FlatChildrenWithInitData[]>
-                    height={height - 30 - 46 - 4 - 4 - 11}
+                    height={height - 46 - 4 - 4 - 11}
                     itemCount={flatDataWithState.length}
                     itemSize={rowHeight}
                     itemKey={(index) => flatDataWithState[index].id}

@@ -24,7 +24,7 @@ async function main() {
         console.log('Running nexray in dev mode');
         console.log('CWD:', cwd);
         startServer('local');
-        execa('pnpm tauri dev', { cwd: path.join(cwd, '../', 'app'), shell: true });
+        execa('pnpm run dev', { cwd: path.join(cwd, '../', 'app'), shell: true });
     } else {
         console.log('IS PROD');
         // TODO: load to cross-platform app dir, exec from there

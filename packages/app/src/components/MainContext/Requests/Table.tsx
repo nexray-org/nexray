@@ -20,7 +20,7 @@ export default function Table() {
 
     return (
         <div className='relative'>
-            <Scrollbars style={{ height: height - 46 - 10 - 30 }} renderThumbVertical={thumbRenderer} renderThumbHorizontal={thumbRenderer} width={200}>
+            <Scrollbars style={{ height: height - 46 - 10 }} renderThumbVertical={thumbRenderer} renderThumbHorizontal={thumbRenderer} width={200}>
                 <table className='w-full table-fixed'>
                     <thead className='sticky top-0 bg-g-primary-900 after:absolute after:left-0 after:w-full after:border-b after:border-b-g-primary-700'>
                         <tr>
