@@ -57,13 +57,13 @@
 
 /* By monaco type */
 .monaco-log-view .monaco-editor .find-widget {
-    top: calc(100vh - 88px - 33px) !important;
+    top: calc(100vh - 58px - 33px) !important;
 }
 .monaco-json-view .monaco-editor .find-widget {
-    top: calc(100vh - 88px - 33px - 43px - 33px) !important;
+    top: calc(100vh - 58px - 33px - 43px - 33px) !important;
 }
 .monaco-request-log-view .monaco-editor .find-widget {
-    top: calc(100vh - 88px - 33px - 43px) !important;
+    top: calc(100vh - 58px - 33px - 43px) !important;
 }
 
 .monaco-highlight-block-inline {

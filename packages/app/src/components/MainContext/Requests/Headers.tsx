@@ -18,12 +18,12 @@ export default function Headers({ request, response }: IHeaders) {
     const { config } = useContext(UiContext);
 
     return (
-        <div style={{ height: `calc(100vh - 88px)` }}>
+        <div style={{ height: `calc(100vh - 58px)` }}>
             <Allotment>
                 <Allotment.Pane preferredSize={'50%'} minSize={0}>
                     <SectionHeader>Request Headers</SectionHeader>
                     <MonacoWrapper
-                        height={`calc(100vh - 88px - 28px)`}
+                        height={`calc(100vh - 58px - 28px)`}
                         disableFind
                         language='json'
                         value={request ? JSON.stringify(request, null, 2) : ''}
@@ -39,7 +39,7 @@ export default function Headers({ request, response }: IHeaders) {
                 <Allotment.Pane preferredSize={'50%'} minSize={0}>
                     <SectionHeader>Response Headers</SectionHeader>
                     <MonacoWrapper
-                        height={`calc(100vh - 88px - 28px)`}
+                        height={`calc(100vh - 58px - 28px)`}
                         disableFind
                         language='json'
                         value={response ? JSON.stringify(response, null, 2) : ''}

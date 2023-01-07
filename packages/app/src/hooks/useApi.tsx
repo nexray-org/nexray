@@ -16,13 +16,15 @@ export default function useApi(endpoint: string, refreshInterval: number) {
                 // TODO: alert user of dead api
             }
 
-            let _lastTimeCache: number;
+            let _lastTimeCache: number | undefined = undefined;
             const _data = await apiClientRef.current.readRequests();
-            _lastTimeCache = _data[0].time;
-            if (!isActive()) {
-                return;
+            if (_data.length > 0) {
+                _lastTimeCache = _data[0].time;
+                if (!isActive()) {
+                    return;
+                }
+                setData(_data);
             }
-            setData(_data);
 
             let intervalLock = false;
             const dataInterval = setInterval(() => {
@@ -33,8 +35,10 @@ export default function useApi(endpoint: string, refreshInterval: number) {
                 (async () => {
                     try {
                         const _data = await apiClientRef.current.readRequests(_lastTimeCache);
-                        _lastTimeCache = _data[0].time;
-                        setData((prev) => [..._data, ...prev]);
+                        if (_data.length > 0) {
+                            _lastTimeCache = _data[0].time;
+                            setData((prev) => [..._data, ...prev]);
+                        }
                     } catch (error) {
                         null;
                     } finally {

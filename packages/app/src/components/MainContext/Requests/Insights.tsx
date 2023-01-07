@@ -126,7 +126,7 @@ export default function Insights() {
                                     <ControlSnippet copyText={requestInsightFilter || JSON.stringify(responseJSON, null, 2)} top={56} />
                                     <MonacoWrapper
                                         // Full screen - header - find bar - json path bar
-                                        height={`calc(100vh - 88px - 43px - 33px)`}
+                                        height={`calc(100vh - 58px - 43px - 33px)`}
                                         language='json'
                                         value={requestInsightFilter || JSON.stringify(responseJSON, null, 2)}
                                         options={{
@@ -148,7 +148,7 @@ export default function Insights() {
                                 <>
                                     <ControlSnippet copyText={activeRequest.response?.text} top={56} />
                                     <MonacoWrapper
-                                        height={`calc(100vh - 88px - 43px)`}
+                                        height={`calc(100vh - 58px - 43px)`}
                                         language='nexraylog'
                                         value={activeRequest.response?.text}
                                         options={{

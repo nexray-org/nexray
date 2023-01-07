@@ -13,7 +13,7 @@ export default function Headers() {
             <ControlSnippet copyText={formattedHeaders} top={12} />
             <MonacoWrapper
                 // Full screen - header - find bar - json path bar
-                height={`calc(100vh - 88px)`}
+                height={`calc(100vh - 58px)`}
                 language='json'
                 value={formattedHeaders}
                 options={{

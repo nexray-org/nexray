@@ -72,7 +72,7 @@ export default function Insights() {
             </div>
             <MonacoWrapper
                 // Full screen - header - find bar - json path bar
-                height={`calc(100vh - 88px - 43px - 33px)`}
+                height={`calc(100vh - 58px - 43px - 33px)`}
                 language='json'
                 value={insightFilter || JSON.stringify(discoveredObjs[selectedDiscoveredIndex][2], null, 2)}
                 options={{

@@ -1,4 +1,4 @@
-import { HeadlessRoot } from '../../components/Root';
+import Root from '../../components/Root';
 import { Snippet, Divider, Loading, Code } from '@geist-ui/core';
 import { Disclosure } from '@headlessui/react'
 import { BsChevronUp } from 'react-icons/bs';
@@ -41,7 +41,7 @@ export default function Welcome() {
 
 
     return (
-        <HeadlessRoot>
+        <Root>
             <Scrollbars
                 renderThumbVertical={thumbRenderer}
                 renderThumbHorizontal={thumbRenderer}
@@ -111,7 +111,7 @@ export default function Welcome() {
                     </div>
                 </div>
             </Scrollbars>
-        </HeadlessRoot>
+        </Root>
     );
 }
 
