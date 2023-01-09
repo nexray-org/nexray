@@ -22,6 +22,7 @@ if (+major < 14) {
 async function main() {
     if (process.env['IS_DEV']) {
         console.log('Running nexray in dev mode');
+        require('./site/server')
         console.log('CWD:', cwd);
         startServer('local');
         execa('pnpm run dev', { cwd: path.join(cwd, '../', 'app'), shell: true });

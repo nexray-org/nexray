@@ -8,10 +8,11 @@
     "test": "true",
     "build": "echo \"Skip Next.js build\"",
     "deploy": "next build",
-    "export": "next export",
     "prebuild": "shx rm -f tsconfig.package.tsbuildinfo",
     "clean": "shx rm -rf build pnpm-lock.yaml node_modules tsconfig.package.tsbuildinfo",
-    "start:env": "next dev -p 1421"
+    "env:start": "next dev -p 1421",
+    "env:package-old": "next build && shx rm -rf ../app-slim && shx rm -rf ./.next/standalone/node_modules && shx cp -R ./.next/standalone ../app-slim && shx cp -R ./.next/static ../app-slim/.next/static && cd ../app-slim && pnpm i",
+    "env:package": "next build && shx rm -rf ../start/src/app && shx rm -rf ./.next/standalone/node_modules && shx cp -R ./.next/standalone ../start/src/app && shx cp -R ./.next/static ../start/src/app/.next/static"
   },
   "dependencies": {
     "@geist-ui/core": "^2.3.8",

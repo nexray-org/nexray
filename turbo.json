@@ -21,8 +21,11 @@
         "test:watch": {
             "cache": false
         },
-        "start:env": {
+        "env:start": {
             "dependsOn": ["build"]
+        },
+        "env:package": {
+            "dependsOn": ["^env:package"]
         },
         "clean": {
             "cache": false

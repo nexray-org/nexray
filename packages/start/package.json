@@ -7,7 +7,7 @@
     "prebuild": "shx rm -f tsconfig.package.tsbuildinfo",
     "build": "tsc -p ./tsconfig.json",
     "clean": "shx rm -rf build pnpm-lock.yaml node_modules tsconfig.package.tsbuildinfo",
-    "start:env": "IS_DEV=1 node bin/index.js"
+    "env:start": "IS_DEV=1 node bin/index.js"
   },
   "devDependencies": {
     "@types/node": "^18.7.11",
@@ -17,8 +17,10 @@
     "nexray": "bin/index.js"
   },
   "dependencies": {
-    "@nexray/server": "workspace:^1.0.0",
     "@esm2cjs/execa": "6.1.1-cjs.1",
+    "@nexray/app": "workspace:*",
+    "@nexray/json-finder": "workspace:^1.0.0",
+    "@nexray/server": "workspace:*",
     "sqlite3": "^5.1.4"
   }
 }
