@@ -3,6 +3,7 @@
 import { execa } from '@esm2cjs/execa';
 import path from 'path';
 import startServer from '@nexray/server';
+import open from 'open';
 
 const currentNodeVersion = process.versions.node;
 const semver = currentNodeVersion.split('.');
@@ -23,11 +24,10 @@ async function main() {
     if (process.env['IS_DEV']) {
         console.log('Running nexray in dev mode');
         await import('./app/server')
-        // require('./app/server')
-        console.log('CWD:', cwd);
         startServer('local');
         execa('pnpm run dev', { cwd: path.join(cwd, '../', 'app'), shell: true });
     } else {
+        open(`http://localhost:${parseInt(process.env.PORT || "", 10) || 3000}`);
         console.log('IS PROD');
         // TODO: load to cross-platform app dir, exec from there
     }

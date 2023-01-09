@@ -21,6 +21,7 @@
     "@nexray/app": "workspace:*",
     "@nexray/json-finder": "workspace:^1.0.0",
     "@nexray/server": "workspace:*",
+    "open": "^8.4.0",
     "sqlite3": "^5.1.4"
   }
 }
