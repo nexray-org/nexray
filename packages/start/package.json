@@ -7,7 +7,7 @@
     "prebuild": "shx rm -f tsconfig.package.tsbuildinfo",
     "build": "tsc -p ./tsconfig.json && shx rm -rf ./bin/app && shx cp -R ./src/app ./bin",
     "clean": "shx rm -rf build pnpm-lock.yaml node_modules tsconfig.package.tsbuildinfo",
-    "env:start": "IS_DEV=1 node bin/index.js"
+    "env:start": "IS_DEV=1 PORT=4295 node bin/index.js"
   },
   "devDependencies": {
     "@types/node": "^18.7.11",

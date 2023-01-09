@@ -1,15 +1,22 @@
-import Root from '../components/Root';
 import { useRouter } from 'next/router';
-import { Snippet, Button } from '@geist-ui/core';
-import { BsArrowRight } from 'react-icons/bs';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
+import { UiContext } from '../context/UiContext';
+import useApi from '../hooks/useApi';
 
 export default function Index() {
     const router = useRouter();
+    useApi(process.env['NEXRAY_ENDPOINT'] || 'http://localhost:4296', 1000);
+    const { didDataFirstRun, data } = useContext(UiContext);
 
     useEffect(() => {
-        router.push('/onboarding/welcome')
-    }, [router])
+        if (didDataFirstRun) {
+            if (data.length > 0) {
+                router.push('/analyze')
+            } else {
+                router.push('/onboarding/welcome')
+            }
+        }
+    }, [didDataFirstRun, data, router])
 
     return (
         <></>

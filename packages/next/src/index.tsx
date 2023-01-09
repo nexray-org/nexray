@@ -16,7 +16,7 @@ if (process && process.env.NODE_ENV === 'development') {
     inDevEnvironment = true;
     if (!endpoint) {
         // check dev endpoint
-        endpoint = 'http://localhost:4694';
+        endpoint = 'http://localhost:4296';
     }
 } else {
     // Check for remote db config with process.env.NEXRAY_KEY;

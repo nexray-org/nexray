@@ -6,7 +6,7 @@ import APIClient from '@nexray/api-client';
 export default function useApi(endpoint: string, refreshInterval: number) {
     // Can't directly pass fetch to api-client on safari
     const fetchWrapper = (input: RequestInfo | URL, init?: RequestInit | undefined) => window.fetch(input, init);
-    const { setData } = useContext(UiContext);
+    const { setData, setDidDataFirstRun } = useContext(UiContext);
     const apiClientRef = useRef(new APIClient(fetchWrapper, endpoint));
 
     useAsyncEffect(
@@ -18,14 +18,15 @@ export default function useApi(endpoint: string, refreshInterval: number) {
 
             let _lastTimeCache: number | undefined = undefined;
             const _data = await apiClientRef.current.readRequests();
+            if (!isActive()) {
+                return;
+            }
             if (_data.length > 0) {
                 _lastTimeCache = _data[0].time;
-                if (!isActive()) {
-                    return;
-                }
                 setData(_data);
             }
-
+            setDidDataFirstRun(true);
+            
             let intervalLock = false;
             const dataInterval = setInterval(() => {
                 if (intervalLock) {

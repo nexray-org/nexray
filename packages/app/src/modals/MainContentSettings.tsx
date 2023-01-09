@@ -1,13 +1,15 @@
 import NumberInput from '../components/NumberInput';
-import { Modal, Toggle, Checkbox, Tabs } from '@geist-ui/core';
+import { Modal, Toggle, Checkbox, Tabs, Button } from '@geist-ui/core';
 import { useContext, useEffect, useState } from 'react';
 import { UiContext } from '../context/UiContext';
 import useIsMounted from '../hooks/useIsMounted';
 import useDebounce from '../hooks/useDebounce';
 import { MainContentContext } from '../context/MainContentContext';
+import { Transition } from '@headlessui/react';
+import { useRouter } from 'next/router';
 
 export default function MainContentSettings() {
-    const { isMainContentSettingsDialogOpen, setIsMainContentSettingsDialogOpen, config } = useContext(UiContext);
+    const { isMainContentSettingsDialogOpen, setIsMainContentSettingsDialogOpen, config, setData } = useContext(UiContext);
     const { enabledTimelineTypes, setEnabledTimelineTypes } = useContext(MainContentContext);
     const isMounted = useIsMounted();
 
@@ -30,6 +32,9 @@ export default function MainContentSettings() {
         }
         config.set('insightsFontSize', Math.round(debouncedInsightFontSize));
     }, [debouncedInsightFontSize]);
+
+    const [areYouSureClear, setAreYouSureClear] = useState<boolean>(false);
+    const router = useRouter();
 
     const rootTabClassName = 'mt-0 px-4';
 
@@ -112,6 +117,44 @@ export default function MainContentSettings() {
                                     onChange={(e) => config.set('insightsIndexesEnabled', !config.get('insightsIndexesEnabled'))}
                                 />
                                 <span className='text-sm ml-2.5 -mb-1.5'>Show position indexes</span>
+                            </div>
+                        </div>
+                    </Tabs.Item>
+                    <Tabs.Item label='Data' value='3'>
+                        <div className={rootTabClassName}>
+                            <div className='mb-5 flex items-center'>
+                                <Button
+                                    type="error"
+                                    ghost
+                                    auto
+                                    scale={0.6}
+                                    onClick={() => setAreYouSureClear(prev => !prev)}
+                                    mr={1}
+                                >
+                                    Clear Local Data
+                                </Button>
+                                <Transition
+                                    show={areYouSureClear}
+                                    enter="transition-transform duration-[50ms]"
+                                    enterFrom="scale-x-0"
+                                    enterTo="scale-x-100"
+                                    leave="transition-transform duration-[50ms]"
+                                    leaveFrom="scale-x-100"
+                                    leaveTo="scale-x-0"
+                                >
+                                    <Button
+                                        type="error"
+                                        auto
+                                        scale={0.6}
+                                        onClick={() => {
+                                            console.log("Clear data");
+                                            setData([]);
+                                            router.push('/onboarding/welcome');
+                                        }}
+                                    >
+                                        Are you sure?
+                                    </Button>
+                                </Transition>
                             </div>
                         </div>
                     </Tabs.Item>

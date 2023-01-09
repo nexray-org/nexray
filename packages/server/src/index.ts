@@ -22,7 +22,7 @@ async function initLocalDb(provider: 'local' | 'remote'): Promise<GenericDB> {
 export default async function launch(provider: 'local' | 'remote') {
     const db = await initLocalDb('local');
     const server = fastify({ trustProxy: true }).withTypeProvider<TypeBoxTypeProvider>();
-    const port = 4694;
+    const port = 4296;
 
     server.register(cors);
     server.register(captureRoute(db));

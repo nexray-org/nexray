@@ -1,7 +1,5 @@
 #! /usr/bin/env node
 
-import { execa } from '@esm2cjs/execa';
-import path from 'path';
 import startServer from '@nexray/server';
 import open from 'open';
 
@@ -17,20 +15,17 @@ if (+major < 14) {
     process.exit(1);
 }
 
-// Boot up dev server
 // Based on devtools: https://github.com/facebook/react/blob/main/packages/react-devtools/bin.js
 
 async function main() {
     if (process.env['IS_DEV']) {
         console.log('Running nexray in dev mode');
-        await import('./app/server')
-        startServer('local');
-        execa('pnpm run dev', { cwd: path.join(cwd, '../', 'app'), shell: true });
     } else {
-        open(`http://localhost:${parseInt(process.env.PORT || "", 10) || 3000}`);
-        console.log('IS PROD');
-        // TODO: load to cross-platform app dir, exec from there
+        await import('./app/server');
     }
+
+    startServer('local');
+    open(`http://localhost:${parseInt(process.env.PORT || "", 10) || 3000}`);
 }
 
 main();

@@ -63,9 +63,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var execa_1 = require("@esm2cjs/execa");
-var path_1 = __importDefault(require("path"));
 var server_1 = __importDefault(require("@nexray/server"));
+var open_1 = __importDefault(require("open"));
 var currentNodeVersion = process.versions.node;
 var semver = currentNodeVersion.split('.');
 var major = semver[0];
@@ -74,27 +73,23 @@ if (+major < 14) {
     console.error('You are running Node ' + currentNodeVersion + '.\n' + 'Nexray requires Node 14 or higher. Please update\n' + 'or switch installations to continue.');
     process.exit(1);
 }
-// Boot up dev server
 // Based on devtools: https://github.com/facebook/react/blob/main/packages/react-devtools/bin.js
 function main() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    if (!process.env['IS_DEV']) return [3 /*break*/, 2];
+                    if (!process.env['IS_DEV']) return [3 /*break*/, 1];
                     console.log('Running nexray in dev mode');
-                    return [4 /*yield*/, Promise.resolve().then(function () { return __importStar(require('./app/server')); })];
-                case 1:
-                    _a.sent();
-                    // require('./app/server')
-                    console.log('CWD:', cwd);
-                    (0, server_1.default)('local');
-                    (0, execa_1.execa)('pnpm run dev', { cwd: path_1.default.join(cwd, '../', 'app'), shell: true });
                     return [3 /*break*/, 3];
+                case 1: return [4 /*yield*/, Promise.resolve().then(function () { return __importStar(require('./app/server')); })];
                 case 2:
-                    console.log('IS PROD');
+                    _a.sent();
                     _a.label = 3;
-                case 3: return [2 /*return*/];
+                case 3:
+                    (0, server_1.default)('local');
+                    (0, open_1.default)("http://localhost:".concat(parseInt(process.env.PORT || "", 10) || 3000));
+                    return [2 /*return*/];
             }
         });
     });

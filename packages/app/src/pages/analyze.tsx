@@ -17,7 +17,7 @@ import { ServerComponentRequest } from '@nexray/types';
 export default function Analyze() {
     const { height } = useDeviceSize();
     const { selectedCategoryId, data } = useContext(UiContext);
-    useApi(process.env['NEXRAY_ENDPOINT'] || 'http://localhost:4694', 1000);
+    useApi(process.env['NEXRAY_ENDPOINT'] || 'http://localhost:4296', 1000);
 
     return (
         <Root>
