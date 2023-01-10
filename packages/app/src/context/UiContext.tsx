@@ -16,8 +16,6 @@ interface IUiContext {
     isFilterGroupDialogOpen: boolean;
     setIsFilterGroupDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
     itemContentStrings: Record<ServerComponentRequest['timeline'][number]['type'] | 'combined', string> | undefined;
-    didDataFirstRun: boolean;
-    setDidDataFirstRun: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const UiContext = createContext<IUiContext>({} as IUiContext);
@@ -88,8 +86,6 @@ export function UiProvider({ children }: { children: React.ReactNode | JSX.Eleme
                 isFilterGroupDialogOpen,
                 setIsFilterGroupDialogOpen,
                 itemContentStrings,
-                didDataFirstRun, 
-                setDidDataFirstRun
             }}
         >
             {children}
