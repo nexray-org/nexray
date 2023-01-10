@@ -7,6 +7,7 @@ import { GenericDB } from './types';
 import captureRoute from './routes/capture';
 import requestsRoute from './routes/requests';
 import statusRoute from './routes/status';
+import deleteAllLogs from './routes/deleteAllLogs';
 import cors from '@fastify/cors';
 
 async function initLocalDb(provider: 'local' | 'remote'): Promise<GenericDB> {
@@ -28,6 +29,7 @@ export default async function launch(provider: 'local' | 'remote') {
     server.register(captureRoute(db));
     server.register(requestsRoute(db));
     server.register(statusRoute(db));
+    server.register(deleteAllLogs(db));
 
     await server.listen({ port });
     return server;

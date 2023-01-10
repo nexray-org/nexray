@@ -133,6 +133,7 @@ export default function MainContentSettings() {
                                     scale={0.6}
                                     onClick={() => setAreYouSureClear(prev => !prev)}
                                     mr={1}
+                                    disabled={areYouSureClear}
                                 >
                                     Clear Local Data
                                 </Button>

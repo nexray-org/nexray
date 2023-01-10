@@ -78,8 +78,8 @@ export default function Welcome() {
                         <div className='mt-10 mb-8'>
                             <Divider />
                         </div>
-                        {steps.map((ele) => (
-                            <Disclosure defaultOpen={!!ele.defaultOpen}>
+                        {steps.map((ele, i) => (
+                            <Disclosure defaultOpen={!!ele.defaultOpen} key={i}>
                                 {({ open }) => (
                                     <>
                                         <Disclosure.Button
