@@ -1,5 +1,5 @@
 import NumberInput from '../components/NumberInput';
-import { Modal, Toggle, Checkbox, Tabs, Button } from '@geist-ui/core';
+import { Modal, Toggle, Checkbox, Tabs, Button, useToasts } from '@geist-ui/core';
 import { useContext, useEffect, useState } from 'react';
 import { UiContext } from '../context/UiContext';
 import useIsMounted from '../hooks/useIsMounted';
@@ -7,10 +7,12 @@ import useDebounce from '../hooks/useDebounce';
 import { MainContentContext } from '../context/MainContentContext';
 import { Transition } from '@headlessui/react';
 import { useRouter } from 'next/router';
+import { ApiContext } from '../context/ApiContext';
 
 export default function MainContentSettings() {
     const { isMainContentSettingsDialogOpen, setIsMainContentSettingsDialogOpen, config, setData } = useContext(UiContext);
     const { enabledTimelineTypes, setEnabledTimelineTypes } = useContext(MainContentContext);
+    const { apiClient } = useContext(ApiContext);
     const isMounted = useIsMounted();
 
     const [editorFontSizeVal, setEditorFontSizeVal] = useState<number>(config.get('editorFontSize')!);
@@ -35,6 +37,7 @@ export default function MainContentSettings() {
 
     const [areYouSureClear, setAreYouSureClear] = useState<boolean>(false);
     const router = useRouter();
+    const { setToast } = useToasts();
 
     const rootTabClassName = 'mt-0 px-4';
 
@@ -147,9 +150,14 @@ export default function MainContentSettings() {
                                         auto
                                         scale={0.6}
                                         onClick={() => {
-                                            console.log("Clear data");
-                                            setData([]);
-                                            router.push('/onboarding/welcome');
+                                            apiClient?.deleteAllLogs()
+                                                .then(() => {
+                                                    setData([]);
+                                                    router.push('/onboarding/welcome');
+                                                })
+                                                .catch(() => {
+                                                    setToast({ text: 'Error clearing logs', type: "error" });
+                                                })
                                         }}
                                     >
                                         Are you sure?

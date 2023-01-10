@@ -31,4 +31,15 @@ export default class NexrayAPIClient {
         const _res = await this._fetch(`${this.endpoint}/requests${afterTime ? '?after=' + afterTime : ''}`);
         return _res.json() as Promise<ServerComponentRequest[]>;
     }
+
+    async deleteAllLogs() {
+        const deleteAllRes = await this._fetch(`${this.endpoint}/delete-all-logs`, {
+            method: 'POST',
+        });
+        if (await deleteAllRes.text()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

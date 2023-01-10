@@ -19,7 +19,6 @@ const route = (db: GenericDB) => async (server: FastifyInstance) => {
         },
         async (req, res) => {
             const { after } = req.query;
-            console.log('Captured request fetch');
             const docs = await db.findAsync(after ? { time: { $gt: after } } : {}).sort({ time: -1 });
             res.send(docs);
         },
