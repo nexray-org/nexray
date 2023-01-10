@@ -9,6 +9,8 @@ import { Child } from '@nexray/types';
 import clsx from 'clsx';
 import useDeviceSize from '../../../hooks/useDeviceSize';
 import KeyValue from './KeyValue';
+import { Button } from '@geist-ui/core';
+import { AiOutlineClose } from 'react-icons/ai';
 
 export default function Tree() {
     const { activeItem } = useContext(UiContext);
@@ -104,8 +106,13 @@ export default function Tree() {
                 <div className={clsx('flex basis-1/2 border-l border-l-g-primary-700 py-2')}>
                     <div className='w-full'>
                         <div className='border-b border-b-g-primary-700 px-4 pt-2'>
-                            <p className='text-lg font-bold leading-none m-0'>Component Props</p>
-                            <p className='text-[12px] text-g-primary-400 leading-none mt-2 mb-4'>*children prop is omitted</p>
+                            <div className='flex justify-between'>
+                                <div>
+                                    <p className='text-lg font-bold leading-none m-0'>Component Props</p>
+                                    <p className='text-[12px] text-g-primary-400 leading-none mt-2 mb-4'>*children prop is omitted</p>
+                                </div>
+                                <Button icon={<AiOutlineClose />} width={0.25} px={0} scale={1} onClick={() => setSelectedNodeId('')} />
+                            </div>
                         </div>
                         <KeyValue itemProps={flatDataWithState.find((ele) => ele.id === selectedNodeId)?.propsWithoutChildren} />
                     </div>
