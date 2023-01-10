@@ -13,7 +13,7 @@ import 'allotment/dist/style.css';
 import Sidebar from '../components/Sidebar';
 import { ServerComponentRequest } from '@nexray/types';
 
-export default function Analyze() {
+export default function Inspect() {
     const { height } = useDeviceSize();
     const { selectedCategoryId, data } = useContext(UiContext);
 
@@ -42,7 +42,7 @@ export default function Analyze() {
                                 {!selectedCategoryId ? (
                                     <div className='flex-center flex-col text-center w-full h-full pb-[4vh] pointer-events-none select-none'>
                                         <div className='max-w-[200px] brightness-[0.25]'>
-                                            <Image src={require('../assets/ring.png')} alt="Analyze placeholder" />
+                                            <Image src={require('../assets/ring.png')} alt="Inspect placeholder" />
                                         </div>
                                         <span className='text-g-primary-600 font-semibold text-sm mt-6'>Select a request log group on the left to begin</span>
                                     </div>

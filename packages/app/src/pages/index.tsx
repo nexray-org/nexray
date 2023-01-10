@@ -11,7 +11,7 @@ export default function Index() {
     useEffect(() => {
         if (didDataFirstRun) {
             if (data.length > 0) {
-                router.push('/analyze')
+                router.push('/inspect')
             } else {
                 router.push('/onboarding/welcome')
             }

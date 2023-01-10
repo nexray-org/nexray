@@ -11,8 +11,8 @@ export default function Sidebar() {
     const unactiveClassName = 'h-[38px] w-[38px] flex-center rounded-lg transition-colors hover:bg-g-primary-700 cursor-pointer text-g-primary-500';
     return (
         <div className='flex flex-col h-full justify-center items-center space-y-2 pb-4'>
-            <Link href={'/analyze'}>
-                <div className={clsx(asPath === '/analyze' && activeClassName, unactiveClassName)}>
+            <Link href={'/inspect'}>
+                <div className={clsx(asPath === '/inspect' && activeClassName, unactiveClassName)}>
                     <BsTerminalFill size={'22px'} className='text-inherit' />
                 </div>
             </Link>
