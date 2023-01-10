@@ -3,13 +3,24 @@ import { Snippet, Divider, Loading, Code } from '@geist-ui/core';
 import { Disclosure } from '@headlessui/react'
 import { BsChevronUp } from 'react-icons/bs';
 import clsx from 'clsx';
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import { thumbRenderer } from '../../components/QuickList';
 import WrapPages from '../../snippets/WrapPages';
+import { UiContext } from '../../context/UiContext';
+import { useRouter } from 'next/router';
 
 export default function Welcome() {
     const [selectedDataSource, setSelectedDataSource] = useState<"local" | "remote">("local");
+    const { data, setSelectedCategoryId } = useContext(UiContext);
+    const router = useRouter();
+
+    useEffect(() => {
+        if (data.length > 0) {
+            router.push('/inspect');
+            setSelectedCategoryId(data[0].id);
+        }
+    }, [data])
 
     const steps = [
         {
