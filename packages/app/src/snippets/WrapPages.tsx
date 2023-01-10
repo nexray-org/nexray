@@ -1,5 +1,5 @@
-import React from "react";
-import WrapperBase from "./base"
+import React from 'react';
+import WrapperBase from './base';
 
 const code = `import nexray from '@nexray/next';
 
@@ -12,15 +12,12 @@ export default nexray(async function Home() {
         </main>
     )
 })
-`
+`;
 
 export default function WrapPages() {
     return (
-        <WrapperBase
-            language="tsx"
-            name="app/route/page.tsx"
-        >
+        <WrapperBase language='tsx' name='app/route/page.tsx'>
             {code}
         </WrapperBase>
-    )
+    );
 }

@@ -21,7 +21,7 @@ export function ApiProvider({ children }: { children: React.ReactNode | JSX.Elem
     }, []);
 
     const fetchWrapper = (input: RequestInfo | URL, init?: RequestInit | undefined) => window.fetch(input, init);
-    
+
     async function _start(endpoint: string, refreshInterval: number) {
         apiClientRef.current = new APIClient(fetchWrapper, endpoint);
 
@@ -39,7 +39,7 @@ export function ApiProvider({ children }: { children: React.ReactNode | JSX.Elem
         setDidDataFirstRun(true);
 
         // Clear the old interval if it exists
-        intervalRef.current && clearInterval(intervalRef.current)
+        intervalRef.current && clearInterval(intervalRef.current);
         let intervalLock = false;
         intervalRef.current = setInterval(() => {
             if (intervalLock) {
@@ -62,16 +62,16 @@ export function ApiProvider({ children }: { children: React.ReactNode | JSX.Elem
         }, refreshInterval);
     }
 
-    const safeBoot = (endpoint: string) => !intervalRef.current && _start(endpoint, 1000)
+    const safeBoot = (endpoint: string) => !intervalRef.current && _start(endpoint, 1000);
 
     return (
         <ApiContext.Provider
             value={{
                 didDataFirstRun,
-                apiClient: apiClientRef.current
+                apiClient: apiClientRef.current,
             }}
         >
             {children}
         </ApiContext.Provider>
-    )
+    );
 }

@@ -18,6 +18,9 @@
         },
         {
             "path": "./packages/api-client",
+        },
+        {
+            "path": "./packages/app-playground",
         }
     ]
 }

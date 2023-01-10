@@ -14,7 +14,7 @@ export default function KeyValue({ itemProps }: IKeyValue) {
         return (
             <div className='flex-center flex-col text-center w-full h-full pb-[4vh] pointer-events-none select-none'>
                 <div className='max-w-[100px] brightness-[0.25]'>
-                    <Image src={require('../../../assets/cup.png')} alt="Empty tree kv placeholder" />
+                    <Image src={require('../../../assets/cup.png')} alt='Empty tree kv placeholder' />
                 </div>
                 <span className='text-g-primary-600 font-semibold text-sm mt-3'>No props passed to this component</span>
             </div>

@@ -35,7 +35,7 @@ export default function useConfig() {
             try {
                 _configCache = {
                     ...defaultConfig,
-                    ...JSON.parse(localStorage.getItem('nexray-options') || "{}"),
+                    ...JSON.parse(localStorage.getItem('nexray-options') || '{}'),
                 };
             } catch (error) {
                 _configCache = defaultConfig;

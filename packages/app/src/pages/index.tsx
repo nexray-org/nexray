@@ -11,14 +11,12 @@ export default function Index() {
     useEffect(() => {
         if (didDataFirstRun) {
             if (data.length > 0) {
-                router.push('/inspect')
+                router.push('/inspect');
             } else {
-                router.push('/onboarding/welcome')
+                router.push('/onboarding/welcome');
             }
         }
-    }, [didDataFirstRun, data, router])
+    }, [didDataFirstRun, data, router]);
 
-    return (
-        <></>
-    );
+    return <></>;
 }

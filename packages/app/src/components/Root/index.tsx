@@ -9,7 +9,5 @@ interface IRoot {
 export default function Root({ children, className }: IRoot) {
     const defaultStyles = 'w-screen h-screen tracking-tighter overflow-auto text-g-primary-50 bg-g-primary-900 box-border';
 
-    return (
-        <div className={clsx(defaultStyles, className)}>{children}</div>
-    );
+    return <div className={clsx(defaultStyles, className)}>{children}</div>;
 }

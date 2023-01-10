@@ -16,7 +16,7 @@ const route = (db: GenericDB) => async (server: FastifyInstance) => {
         },
         async (req, res) => {
             const { body } = req;
-            db.removeAsync({}, { multi: true })
+            db.removeAsync({}, { multi: true });
             res.send(true);
         },
     );

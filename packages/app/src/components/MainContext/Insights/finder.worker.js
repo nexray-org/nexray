@@ -2,7 +2,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-ignore
-var { jsonfinder } = require('@nexray/json-finder')
+var { jsonfinder } = require('@nexray/json-finder');
 
 addEventListener('message', (event) => {
     const data = [];

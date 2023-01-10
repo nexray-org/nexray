@@ -25,7 +25,7 @@ async function main() {
     }
 
     startServer('local');
-    open(`http://localhost:${parseInt(process.env.PORT || "", 10) || 3000}`);
+    open(`http://localhost:${parseInt(process.env.PORT || '', 10) || 3000}`);
 }
 
 main();

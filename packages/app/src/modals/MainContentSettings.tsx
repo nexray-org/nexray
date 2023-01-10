@@ -127,11 +127,11 @@ export default function MainContentSettings() {
                         <div className={rootTabClassName}>
                             <div className='mb-5 flex items-center'>
                                 <Button
-                                    type="error"
+                                    type='error'
                                     ghost
                                     auto
                                     scale={0.6}
-                                    onClick={() => setAreYouSureClear(prev => !prev)}
+                                    onClick={() => setAreYouSureClear((prev) => !prev)}
                                     mr={1}
                                     disabled={areYouSureClear}
                                 >
@@ -139,26 +139,27 @@ export default function MainContentSettings() {
                                 </Button>
                                 <Transition
                                     show={areYouSureClear}
-                                    enter="transition-transform duration-[50ms]"
-                                    enterFrom="scale-x-0"
-                                    enterTo="scale-x-100"
-                                    leave="transition-transform duration-[50ms]"
-                                    leaveFrom="scale-x-100"
-                                    leaveTo="scale-x-0"
+                                    enter='transition-transform duration-[50ms]'
+                                    enterFrom='scale-x-0'
+                                    enterTo='scale-x-100'
+                                    leave='transition-transform duration-[50ms]'
+                                    leaveFrom='scale-x-100'
+                                    leaveTo='scale-x-0'
                                 >
                                     <Button
-                                        type="error"
+                                        type='error'
                                         auto
                                         scale={0.6}
                                         onClick={() => {
-                                            apiClient?.deleteAllLogs()
+                                            apiClient
+                                                ?.deleteAllLogs()
                                                 .then(() => {
                                                     setData([]);
                                                     router.push('/onboarding/welcome');
                                                 })
                                                 .catch(() => {
-                                                    setToast({ text: 'Error clearing logs', type: "error" });
-                                                })
+                                                    setToast({ text: 'Error clearing logs', type: 'error' });
+                                                });
                                         }}
                                     >
                                         Are you sure?
