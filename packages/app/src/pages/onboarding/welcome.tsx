@@ -45,6 +45,7 @@ export default function Welcome() {
             <Scrollbars
                 renderThumbVertical={thumbRenderer}
                 renderThumbHorizontal={thumbRenderer}
+                universal
             >
                 <div className='flex-center py-[30px]'>
                     <div className='w-full max-w-[500px]'>

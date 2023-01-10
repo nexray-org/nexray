@@ -23,6 +23,7 @@ export default function QuickList<T extends any>({ rowRenderer, height, ...props
             }}
             renderThumbVertical={thumbRenderer}
             renderThumbHorizontal={thumbRenderer}
+            universal
         >
             <FixedSizeList<T> {...props} ref={listRef} height={height} width='100%' style={{ overflow: 'visible' }}>
                 {rowRenderer}

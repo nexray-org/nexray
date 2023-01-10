@@ -11,6 +11,7 @@ export default function OverflowHandler({ marginY, ...props }: ScrollbarProps & 
             style={{ height: height - marginY, width: '100%', ...props.style }}
             renderThumbVertical={thumbRenderer}
             renderThumbHorizontal={thumbRenderer}
+            universal
         />
     );
 }
