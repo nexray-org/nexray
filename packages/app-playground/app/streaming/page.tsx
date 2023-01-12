@@ -1,8 +1,9 @@
 import products from '#/lib/data/products';
 import { ExternalLink } from '#/ui/ExternalLink';
 import { ProductCard } from '#/ui/ProductCard';
+import nexrayPage from '@nexray/next';
 
-export default async function Page() {
+export default nexrayPage(async function Page() {
   return (
     <div className="space-y-8">
       <div className="space-y-4">
@@ -49,4 +50,4 @@ export default async function Page() {
       </div>
     </div>
   );
-}
+})

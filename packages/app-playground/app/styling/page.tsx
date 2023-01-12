@@ -1,6 +1,7 @@
 import { ExternalLink } from '#/ui/ExternalLink';
+import nexrayPage from '@nexray/next';
 
-export default function Page() {
+export default nexrayPage(function Page() {
   return (
     <div className="space-y-4">
       <h1 className="text-xl font-medium text-gray-400/80">Styling</h1>
@@ -16,4 +17,4 @@ export default function Page() {
       </div>
     </div>
   );
-}
+})

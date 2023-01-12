@@ -1,3 +1,5 @@
+import nexrayPage from '@nexray/next';
+
 async function fetchData(params: { id: string }) {
   const res = await fetch(
     `https://jsonplaceholder.typicode.com/posts/${params.id}`,
@@ -7,7 +9,7 @@ async function fetchData(params: { id: string }) {
   return data;
 }
 
-export default async function Page({
+export default nexrayPage(async function Page({
   params,
 }: {
   params?: any;
@@ -21,4 +23,4 @@ export default async function Page({
       <p className="font-medium text-gray-400">{data.body}</p>
     </div>
   );
-}
+})

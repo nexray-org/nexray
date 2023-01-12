@@ -1,3 +1,5 @@
+import nexrayPage from '@nexray/next';
+
 const SkeletonCard = () => (
   <div className="space-y-3 rounded-2xl bg-gray-900/80 p-4">
     <div className="h-14 rounded-lg bg-gray-700" />
@@ -7,7 +9,7 @@ const SkeletonCard = () => (
   </div>
 );
 
-export default function Page() {
+export default nexrayPage(function Page() {
   return (
     <div className="space-y-4">
       <h1 className="text-xl font-medium text-gray-400/80">
@@ -21,4 +23,4 @@ export default function Page() {
       </div>
     </div>
   );
-}
+})

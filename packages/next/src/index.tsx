@@ -8,6 +8,7 @@ import { _fetch, _consoles } from './globalCache';
 import { deepMap } from 'react-children-utilities';
 import * as reactIs from 'react-is';
 import serializeResponse from './serializeResponse';
+import { NexrayComponentReturnType } from './jsxTypes';
 
 let inDevEnvironment = false;
 let endpoint = process.env['NEXRAY_ENDPOINT'] || '';
@@ -25,7 +26,7 @@ if (process && process.env.NODE_ENV === 'development') {
 const ops = new NexrayAPIClient(_fetch, endpoint);
 ops.testEndpoint().then((res) => _consoles.log(`Tested local endpoint with response: ${res}`));
 
-export default function nexrayPage<T extends NextAppServerComponentProps | undefined>(componentGenerator: (props: T) => Promise<JSX.Element> | JSX.Element) {
+export default function nexrayPage<T extends NextAppServerComponentProps | undefined>(componentGenerator: (props: T) => NexrayComponentReturnType) {
     // .next/server/app/...
     const absoluteFsUrl = path.relative(process.cwd(), __dirname);
     const relativeFsUrl = absoluteFsUrl.includes('/app/') ? absoluteFsUrl.split('/app').pop()! : absoluteFsUrl;
@@ -124,6 +125,18 @@ export default function nexrayPage<T extends NextAppServerComponentProps | undef
             Promise.all(fetchReadPromises).then((_) => ops.captureRequest(requestData as ServerComponentRequest));
         }
 
+        function captureRenderEmpty(children: null | undefined) {
+            const time = Date.now();
+            const diff = time - renderStartTime!;
+            requestData.durationMs = diff;
+            requestData.timeline.push({
+                content: `${time} - Page returned ${children === null ? "null" : "undefined"}. No page to render to HTML and send to client Render time: ${diff}`,
+                type: 'event',
+                time,
+            });
+            Promise.all(fetchReadPromises).then((_) => ops.captureRequest(requestData as ServerComponentRequest));
+        }
+
         function captureRenderError(error: any) {
             const time = Date.now();
             requestData.timeline.push({
@@ -170,20 +183,24 @@ export default function nexrayPage<T extends NextAppServerComponentProps | undef
         // Forgetting cookies for now
         captureRenderRequest([...headers().entries()], props || {});
 
-        let component: undefined | JSX.Element;
+        let component: Exclude<NexrayComponentReturnType, Promise<JSX.Element>>;
         try {
             const maybePromise = componentGenerator(props);
             component = await maybePromise;
-            const childrenProps = deepMap(component, (child) => {
-                if (reactIs.isElement(child)) {
-                    if (typeof child.type === 'function') {
-                        return { type: (child as any)['nexrayName'] || 'Component', props: child.props } as ReactNode;
-                    } else {
-                        return { type: child.type, props: child.props } as ReactNode;
+            if (component === null || component === undefined) {
+                captureRenderEmpty(component);
+            } else {
+                const childrenProps = deepMap(component, (child) => {
+                    if (reactIs.isElement(child)) {
+                        if (typeof child.type === 'function') {
+                            return { type: (child as any)['nexrayName'] || 'Component', props: child.props } as ReactNode;
+                        } else {
+                            return { type: child.type, props: child.props } as ReactNode;
+                        }
                     }
-                }
-            }) as Child[];
-            captureRenderEnd(childrenProps);
+                }) as Child[];
+                captureRenderEnd(childrenProps);
+            }
         } catch (error) {
             captureRenderError(error);
             throw error;
