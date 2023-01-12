@@ -8,7 +8,7 @@ import { _fetch, _consoles } from './globalCache';
 import { deepMap } from 'react-children-utilities';
 import * as reactIs from 'react-is';
 import serializeResponse from './serializeResponse';
-import { NexrayComponentReturnType } from './jsxTypes';
+import { NexrayComponentReturnType, NexrayComponentReturnTypePromise } from './jsxTypes';
 
 let inDevEnvironment = false;
 let endpoint = process.env['NEXRAY_ENDPOINT'] || '';
@@ -183,7 +183,7 @@ export default function nexrayPage<T extends NextAppServerComponentProps | undef
         // Forgetting cookies for now
         captureRenderRequest([...headers().entries()], props || {});
 
-        let component: Exclude<NexrayComponentReturnType, Promise<JSX.Element>>;
+        let component: Exclude<NexrayComponentReturnType, NexrayComponentReturnTypePromise>;
         try {
             const maybePromise = componentGenerator(props);
             component = await maybePromise;
