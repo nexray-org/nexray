@@ -29,7 +29,7 @@ ops.testEndpoint().then((res) => _consoles.log(`Tested local endpoint with respo
 export default function nexrayPage<T extends NextAppServerComponentProps | undefined>(componentGenerator: (props: T) => NexrayComponentReturnType) {
     // .next/server/app/...
     const absoluteFsUrl = path.relative(process.cwd(), __dirname);
-    const relativeFsUrl = absoluteFsUrl.includes('/app/') ? absoluteFsUrl.split('/app').pop()! : absoluteFsUrl;
+    const relativeFsUrl = absoluteFsUrl.includes('/app/') ? absoluteFsUrl.split('/app').pop()! : "/";
 
     return async (props: T) => {
         const fetchReadPromises: Promise<any>[] = [];

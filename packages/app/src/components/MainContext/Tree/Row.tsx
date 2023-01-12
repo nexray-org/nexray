@@ -2,9 +2,12 @@ import { ListChildComponentProps } from 'react-window';
 import { FlatChildrenWithInitData } from './types';
 import { AiFillCaretDown, AiFillCaretRight } from 'react-icons/ai';
 import clsx from 'clsx';
-import { Code } from '@geist-ui/core';
 
 export const rowHeight = 22;
+
+const pathLeafName = (pathName: string) => pathName.split('\\').pop()!.split('/').pop();
+
+const AsyncBadge = () => <div className='font-mono text-[6px] bg-g-primary-700 rounded-full border border-g-primary-600 ml-1'>async</div>;
 
 const Row = ({
     index,
@@ -40,7 +43,13 @@ const Row = ({
                     }}
                     className='flex items-center'
                 >
+                    {typeof node.type === "string" ? (
                     <span className={clsx(rootTextClassName, 'font-mono pl-4')}>&#8220;{node.type}&#8221;</span>
+                    ) : (
+                        <>
+                            <span className={clsx(rootTextClassName, 'font-mono pl-4')}>{pathLeafName(node.type.filepath)}</span>
+                        </>
+                    )}
                 </div>
             ) : (
                 <div
@@ -68,7 +77,14 @@ const Row = ({
                             </>
                         )}
                     </div>
-                    <span className={clsx(rootTextClassName, 'text-[#79ffe1]')}>{node.type}</span>
+                    {typeof node.type === "string" ? (
+                        <span className={clsx(rootTextClassName, 'text-[#79ffe1]')}>{node.type}</span>
+                    ) : (
+                        <>
+                            <span className={clsx(rootTextClassName, 'text-[#79ffe1]')}>{pathLeafName(node.type.filepath)}</span>
+                            {node.type.async && <AsyncBadge />}
+                        </>
+                    )}
                 </div>
             )}
         </div>

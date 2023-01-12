@@ -1,7 +1,7 @@
-import { ChildProps } from '@nexray/types';
+import { ChildProps, DeepType } from '@nexray/types';
 
 export type FlatChildrenWithInitData = {
-    type: string;
+    type: string | DeepType;
     id: string;
     depth: number;
     hasChildren: boolean;

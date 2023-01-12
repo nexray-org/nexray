@@ -4,8 +4,15 @@ export type ChildProps = {
     children: string | number | boolean | null | undefined | (string | Child)[];
 };
 
+// Some complex elements that are loaded have a complex type. For example next/link.
+export type DeepType = {
+    filepath: string;
+    name: string;
+    async: boolean;
+}
+
 export type Child = {
-    type: string;
+    type: string | DeepType;
     props: ChildProps;
 };
 
