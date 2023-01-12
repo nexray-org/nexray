@@ -88,7 +88,7 @@ function main() {
                     _a.label = 3;
                 case 3:
                     (0, server_1.default)('local');
-                    (0, open_1.default)("http://localhost:".concat(parseInt(process.env.PORT || "", 10) || 3000));
+                    (0, open_1.default)("http://localhost:".concat(parseInt(process.env.PORT || '', 10) || 3000));
                     return [2 /*return*/];
             }
         });

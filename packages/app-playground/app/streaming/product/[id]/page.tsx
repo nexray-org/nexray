@@ -7,10 +7,11 @@ import {
   RecommendedProductsSkeleton,
 } from '../../RecommendedProducts';
 import { Reviews, ReviewsSkeleton } from '../../Reviews';
+import nexrayPage from '#/../next/build';
 
 export const runtime = 'experimental-edge';
 
-export default async function Page({ params }: { params: { id: string } }) {
+export default nexrayPage(async function Page({ params }: { params: { id: string } }) {
   // Get the cart count from the users cookies and pass it to the client
   // AddToCart component
   const cartCount = cookies().get('_cart_count')?.value || '0';
@@ -36,4 +37,4 @@ export default async function Page({ params }: { params: { id: string } }) {
       </Suspense>
     </div>
   );
-}
+})

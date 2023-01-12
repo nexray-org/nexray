@@ -25,12 +25,12 @@ if (process && process.env.NODE_ENV === 'development') {
 const ops = new NexrayAPIClient(_fetch, endpoint);
 ops.testEndpoint().then((res) => _consoles.log(`Tested local endpoint with response: ${res}`));
 
-export default function nexrayPage(componentGenerator: (props: NextAppServerComponentProps) => Promise<JSX.Element> | JSX.Element) {
+export default function nexrayPage<T extends NextAppServerComponentProps | undefined>(componentGenerator: (props: T) => Promise<JSX.Element> | JSX.Element) {
     // .next/server/app/...
     const absoluteFsUrl = path.relative(process.cwd(), __dirname);
     const relativeFsUrl = absoluteFsUrl.includes('/app/') ? absoluteFsUrl.split('/app').pop()! : absoluteFsUrl;
 
-    return async (props: NextAppServerComponentProps) => {
+    return async (props: T) => {
         const fetchReadPromises: Promise<any>[] = [];
         const requestId = nanoid();
         const requestData: OptionalExcept<ServerComponentRequest, 'id' | 'timeline' | 'fetches' | 'url'> = {

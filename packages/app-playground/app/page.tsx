@@ -1,7 +1,8 @@
 import { demos } from '#/lib/demos';
 import Link from 'next/link';
+import nexrayPage from '@nexray/next';
 
-export default function Page() {
+export default nexrayPage(function Page() {
   return (
     <div className="space-y-8">
       <h1 className="text-xl font-medium text-gray-300">Examples</h1>
@@ -41,4 +42,4 @@ export default function Page() {
       </div>
     </div>
   );
-}
+});
