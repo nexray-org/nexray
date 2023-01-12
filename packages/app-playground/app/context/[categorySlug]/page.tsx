@@ -1,8 +1,9 @@
 import { fetchCategoryBySlug, PageProps } from '#/lib/getCategories';
 import { Boundary } from '#/ui/Boundary';
 import { Counter } from '../ContextClickCounter';
+import nexrayPage from '@nexray/next';
 
-export default async function Page({ params }: PageProps) {
+export default nexrayPage(async function Page({ params }: PageProps) {
   const category = await fetchCategoryBySlug(params.categorySlug);
   if (!category) return null;
 
@@ -17,4 +18,4 @@ export default async function Page({ params }: PageProps) {
       </div>
     </Boundary>
   );
-}
+})

@@ -1,8 +1,9 @@
 import { fetchSubCategory, PageProps } from '#/lib/getCategories';
 import BuggyButton from '#/ui/BuggyButton';
 import { SkeletonCard } from '#/ui/SkeletonCard';
+import nexrayPage from '@nexray/next';
 
-export default async function Page({ params }: PageProps) {
+export default nexrayPage(async function Page({ params }: PageProps) {
   const category = await fetchSubCategory(
     params.categorySlug,
     params.subCategorySlug,
@@ -26,4 +27,4 @@ export default async function Page({ params }: PageProps) {
       </div>
     </div>
   );
-}
+})

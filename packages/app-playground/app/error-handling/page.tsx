@@ -1,7 +1,8 @@
 import BuggyButton from '#/ui/BuggyButton';
 import { ExternalLink } from '#/ui/ExternalLink';
+import nexrayPage from '@nexray/next';
 
-export default function Page() {
+export default nexrayPage(function Page() {
   return (
     <div className="space-y-4">
       <div className="flex justify-between gap-x-3">
@@ -31,4 +32,4 @@ export default function Page() {
       </div>
     </div>
   );
-}
+})

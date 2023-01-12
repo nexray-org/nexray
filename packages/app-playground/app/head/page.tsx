@@ -1,7 +1,8 @@
 import { ExternalLink } from '#/ui/ExternalLink';
 import { HeadInfo } from './HeadInfo';
+import nexrayPage from '@nexray/next';
 
-export default function Page() {
+export default nexrayPage(function Page() {
   return (
     <div className="space-y-6">
       <h1 className="text-xl font-medium text-gray-400/80">
@@ -39,4 +40,4 @@ export default function Page() {
       </div>
     </div>
   );
-}
+})

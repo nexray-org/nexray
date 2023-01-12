@@ -4,6 +4,7 @@ import {
   type Category,
 } from '#/lib/getCategories';
 import { SkeletonCard } from '#/ui/SkeletonCard';
+import nexrayPage from '@nexray/next';
 
 const fetchCategory = async (
   categorySlug: string | undefined,
@@ -16,7 +17,7 @@ const fetchCategory = async (
   return await fetchCategoryBySlug(categorySlug);
 };
 
-export default async function Page({ params }: PageProps) {
+export default nexrayPage(async function Page({ params }: PageProps) {
   const category = await fetchCategory(params.categorySlug);
   if (!category) return null;
 
@@ -31,4 +32,4 @@ export default async function Page({ params }: PageProps) {
       </div>
     </div>
   );
-}
+})
