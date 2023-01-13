@@ -44,10 +44,11 @@ const Row = ({
                     className='flex items-center'
                 >
                     {typeof node.type === "string" ? (
-                    <span className={clsx(rootTextClassName, 'font-mono pl-4')}>&#8220;{node.type}&#8221;</span>
+                        <span className={clsx(rootTextClassName, 'font-mono pl-4')}>&#8220;{node.type}&#8221;</span>
                     ) : (
                         <>
                             <span className={clsx(rootTextClassName, 'font-mono pl-4')}>{pathLeafName(node.type.filepath)}</span>
+                            {node.type.async && <AsyncBadge />}
                         </>
                     )}
                 </div>

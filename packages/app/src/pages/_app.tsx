@@ -5,6 +5,7 @@ import { ApiProvider } from '../context/ApiContext';
 import '../style.css';
 import '../monaco.css';
 import '../prism.css';
+import '../scroll.css';
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
