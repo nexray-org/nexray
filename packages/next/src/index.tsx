@@ -3,12 +3,13 @@ import { nanoid } from 'nanoid';
 import { ReactNode } from 'react';
 import type { ServerComponentRequest, OptionalExcept, NextAppServerComponentProps, Child } from '@nexray/types';
 import NexrayAPIClient from '@nexray/api-client';
-import path from 'path';
+import path from 'path'
 import { _fetch, _consoles } from './globalCache';
 import { deepMap } from 'react-children-utilities';
 import * as reactIs from 'react-is';
 import serializeResponse from './serializeResponse';
 import { NexrayComponentReturnType, NexrayComponentReturnTypePromise } from './jsxTypes';
+import { fileURLToPath } from 'url';
 
 let inDevEnvironment = false;
 let endpoint = process.env['NEXRAY_ENDPOINT'] || '';
@@ -27,11 +28,15 @@ const ops = new NexrayAPIClient(_fetch, endpoint);
 ops.testEndpoint().then((res) => _consoles.log(`Tested local endpoint with response: ${res}`));
 
 export default function nexrayPage<T extends NextAppServerComponentProps | undefined>(componentGenerator: (props: T) => NexrayComponentReturnType) {
-    // .next/server/app/...
-    const absoluteFsUrl = path.relative(process.cwd(), __dirname);
-    const relativeFsUrl = absoluteFsUrl.includes('/app/') ? absoluteFsUrl.split('/app').pop()! : "/";
-
     return async (props: T) => {
+
+        // .next/server/app/...
+        const absoluteFsUrl = path.relative(process.cwd(), __dirname);
+        const relativeFsUrl = absoluteFsUrl.includes(`${path.sep}app${path.sep}`) ?
+            absoluteFsUrl.split(`${path.sep}app`).pop()!
+            :
+            path.sep;
+
         const fetchReadPromises: Promise<any>[] = [];
         const requestId = nanoid();
         const requestData: OptionalExcept<ServerComponentRequest, 'id' | 'timeline' | 'fetches' | 'url'> = {

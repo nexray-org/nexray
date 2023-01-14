@@ -23,7 +23,7 @@ export const CategoryListButton: FixedSizeListProps<ServerComponentRequest[]>['c
             className={clsx(
                 'pl-2 pr-3.5 py-4 border-b border-b-g-primary-800 transition-colors hover:bg-g-primary-800 h-[140px]',
                 'cursor-pointer',
-                selectedCategoryId === item.id && 'bg-g-primary-800',
+                selectedCategoryId === item.id && 'bg-g-primary-700 hover:!bg-g-primary-700',
             )}
             onContextMenu={(e) => {
                 e.preventDefault();
