@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import type { NextRequest, NextFetchEvent } from "next/server";
 import { nanoid } from 'nanoid';
 
-export function middleware(request: NextRequest) {
+export function middleware(request: NextRequest, event: NextFetchEvent) {
 
     const requestHeaders = new Headers(request.headers);
     if (process.env.NODE_ENV === "development") { // TODO: optional prod
