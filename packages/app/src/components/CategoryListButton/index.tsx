@@ -1,28 +1,54 @@
 import clsx from 'clsx';
 import dayjs from 'dayjs';
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import { FixedSizeListProps } from 'react-window';
 import { UiContext } from '../../context/UiContext';
 import numbro from 'numbro';
 import { ServerComponentRequest } from '@nexray/types';
+import styles from './selection.module.css';
 
 export const itemSize = 140;
 
 export const CategoryListButton: FixedSizeListProps<ServerComponentRequest[]>['children'] = ({ index, style }) => {
-    const { selectedCategoryId, setSelectedCategoryId, data } = useContext(UiContext);
-    const item = data[index];
+    const {
+        selectedCategoryId,
+        setSelectedCategoryId,
+        data,
+        filteredData,
+        dataSearchVal
+    } = useContext(UiContext);
+    const item = dataSearchVal ? filteredData[index] : data[index];
 
     if (!item) {
         return <></>;
     }
+
+    function separateUrlForHighlight(itemRoute: string): React.ReactNode {
+        // https://stackoverflow.com/a/52747318
+        const escapedSearchString = dataSearchVal.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const searchRegex = new RegExp(escapedSearchString, 'i'); // Cannot use g because global match doesn't return indexes
+
+        const match = itemRoute.match(searchRegex)
+        if (match && match[0]) {
+            return [
+                itemRoute.slice(0, match.index),
+                // <mark>{itemRoute.slice(match.index, match[0].length)}</mark>,
+                <span className={clsx(styles['with-selection'])}>{itemRoute.slice(match.index, match[0].length)}</span>,
+                itemRoute.slice(match.index! + match[0].length)
+            ]
+        } else {
+            return itemRoute
+        }
+    }
+
 
     return (
         <div
             style={style}
             onClick={() => setSelectedCategoryId(item.id)}
             className={clsx(
-                'pl-2 pr-3.5 py-4 border-b border-b-g-primary-800 transition-colors hover:bg-g-primary-800 h-[140px]',
-                'cursor-pointer',
+                'pl-2 pr-3.5 py-4 border-b border-b-g-primary-800 transition-colors hover:bg-g-primary-800',
+                'cursor-pointer max-h-[140px] overflow-hidden h-full',
                 selectedCategoryId === item.id && 'bg-g-primary-700 hover:!bg-g-primary-700',
             )}
             onContextMenu={(e) => {
@@ -40,7 +66,7 @@ export const CategoryListButton: FixedSizeListProps<ServerComponentRequest[]>['c
                     {item.error ? 'ERROR' : 'SUCCESS'}
                 </div>
             </div>
-            <span className='text-g-primary-50 font-semibold mt-1'>{item.url}</span>
+            <span className='text-g-primary-50 font-semibold mt-1'>{dataSearchVal ? separateUrlForHighlight(item.url) : item.url}</span>
             <div className='min-h-[45px] max-h-[45px] mt-1 overflow-hidden'>
                 <span className='text-xs text-g-primary-400 tracking-normal leading-normal line-clamp-2'>
                     &#8230;{item.timeline[item.timeline.length - 1].content}

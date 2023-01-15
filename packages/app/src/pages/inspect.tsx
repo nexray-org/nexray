@@ -15,7 +15,12 @@ import { ServerComponentRequest } from '@nexray/types';
 
 export default function Inspect() {
     const { height } = useDeviceSize();
-    const { selectedCategoryId, data } = useContext(UiContext);
+    const {
+        selectedCategoryId,
+        data,
+        dataSearchVal, // is debounced in OutputSearch.tsx
+        filteredData
+    } = useContext(UiContext);
 
     return (
         <Root>
@@ -28,13 +33,24 @@ export default function Inspect() {
                         <Allotment.Pane preferredSize={'35%'} minSize={250}>
                             <div className='flex flex-col border-l border-l-g-primary-700'>
                                 <SearchBar />
-                                <QuickList<ServerComponentRequest[]>
-                                    height={height - 36}
-                                    itemCount={data.length}
-                                    itemSize={listElements.itemSize}
-                                    rowRenderer={listElements.CategoryListButton}
-                                    itemKey={(index) => data[index].id}
-                                />
+                                {
+                                    dataSearchVal ?
+                                        <QuickList<ServerComponentRequest[]>
+                                            height={height - 36}
+                                            itemCount={filteredData.length}
+                                            itemSize={listElements.itemSize}
+                                            rowRenderer={listElements.CategoryListButton}
+                                            itemKey={(index) => filteredData[index].id}
+                                        />
+                                        :
+                                        <QuickList<ServerComponentRequest[]>
+                                            height={height - 36}
+                                            itemCount={data.length}
+                                            itemSize={listElements.itemSize}
+                                            rowRenderer={listElements.CategoryListButton}
+                                            itemKey={(index) => data[index].id}
+                                        />
+                                }
                             </div>
                         </Allotment.Pane>
                         <Allotment.Pane preferredSize={'65%'}>

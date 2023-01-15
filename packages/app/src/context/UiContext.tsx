@@ -16,6 +16,9 @@ interface IUiContext {
     isFilterGroupDialogOpen: boolean;
     setIsFilterGroupDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
     itemContentStrings: Record<ServerComponentRequest['timeline'][number]['type'] | 'combined', string> | undefined;
+    dataSearchVal: string;
+    setDataSearchVal: React.Dispatch<React.SetStateAction<string>>;
+    filteredData: ServerComponentRequest[]
 }
 
 export const UiContext = createContext<IUiContext>({} as IUiContext);
@@ -25,31 +28,16 @@ export function UiProvider({ children }: { children: React.ReactNode | JSX.Eleme
     const [isInsightFilterDialogOpen, setIsInsightFilterDialogOpen] = useState<boolean>(false);
     const [isFilterGroupDialogOpen, setIsFilterGroupDialogOpen] = useState<boolean>(false);
     const [selectedCategoryId, setSelectedCategoryId] = useState<string>('');
-
-    // [...new Array(1000)].map((_) => ({
-    //     durationMs: faker.datatype.number({ min: 19, max: 1000000 }),
-    //     payloadSizeBytes: faker.datatype.number({ min: 19, max: 1000000 }),
-    //     requestIp: faker.internet.ipv4(),
-    //     status: {
-    //         code: faker.internet.httpStatusCode(),
-    //         // reason: getReasonPhrase(faker.internet.httpStatusCode())
-    //         reason: 'OK',
-    //     },
-    //     timestamp: faker.date.recent(100).toISOString(),
-    //     type: faker.internet.httpMethod(),
-    //     url: faker.internet.url(),
-    //     id: faker.datatype.uuid(),
-    //     contents: faker.helpers.arrayElement([
-    //         logfile,
-    //         'a{"hello": "world"}sdf[123, { "mif": null }]asdf[123, { "mif": null }]',
-    //         '12345{"hello": "world"}',
-    //     ]),
-    // })),
-
     const [data, setData] = useState<ServerComponentRequest[]>([]);
-    const [didDataFirstRun, setDidDataFirstRun] = useState<boolean>(false);
+    const [dataSearchVal, setDataSearchVal] = useState<string>("");
+    const filteredData = useMemo(() => {
+        if (!dataSearchVal) {
+            return data;
+        } else {
+            return data.filter(ele => ele.url.toLowerCase().includes(dataSearchVal.toLowerCase()))
+        }
+    }, [dataSearchVal, data])
 
-    const config = useConfig();
     const activeItem = useMemo(() => data.find((ele) => ele.id === selectedCategoryId), [data, selectedCategoryId]);
     const itemContentStrings = useMemo(() => {
         if (!activeItem) {
@@ -70,6 +58,8 @@ export function UiProvider({ children }: { children: React.ReactNode | JSX.Eleme
         return _itemContentStrings;
     }, [activeItem]);
 
+    const config = useConfig();
+
     return (
         <UiContext.Provider
             value={{
@@ -86,6 +76,9 @@ export function UiProvider({ children }: { children: React.ReactNode | JSX.Eleme
                 isFilterGroupDialogOpen,
                 setIsFilterGroupDialogOpen,
                 itemContentStrings,
+                dataSearchVal, 
+                setDataSearchVal,
+                filteredData
             }}
         >
             {children}

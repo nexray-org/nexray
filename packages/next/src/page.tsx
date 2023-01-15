@@ -155,7 +155,7 @@ export default function page<T extends NextAppServerComponentProps | undefined>(
         }
 
         if (!(global as any).fetch['NEXRAY_ATTACHED']) {
-            // Next fetch implementation: https://github.com/vercel/next.js/blob/canary/packages/next/server/node-polyfill-fetch.js
+            // Next fetch implementation: https://github.com/vercel/next.js/blob/canary/packages/next/src/server/node-polyfill-fetch.ts
             global.fetch = async (...args) => {
                 let url: string;
                 if (typeof args[0] === 'string') {

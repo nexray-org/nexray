@@ -23,7 +23,7 @@ export default function Sidebar() {
                 </div>
             </Link>
 
-            <a href='https://github.com/nexray/nexray' target={'_blank'} className='text-inherit'>
+            <a href='https://github.com/nexray-org/nexray' target={'_blank'} className='text-inherit'>
                 <div className={clsx(unactiveClassName)}>
                     <BsGithub size={'20px'} className='text-inherit' />
                 </div>
