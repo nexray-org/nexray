@@ -1,7 +1,7 @@
 # Roadmap
 
 | Feature | Supported | References |
-|-|-|-|
+|-|:-:|:-:|
 | Allow middleware custom passthrough | ✅ | |
 | Group requests by middleware id | 🏗️ | |
 | API for Permalinks | 🏗️ | |
