@@ -1,8 +1,21 @@
 import { ServerComponentRequest } from '@nexray/types';
 
+type FetchType = (input: RequestInfo | URL, init?: RequestInit | undefined) => Promise<Response>;
+
 export default class NexrayAPIClient {
     isEndpointUp: boolean | undefined = undefined;
-    constructor(private _fetch: (input: RequestInfo | URL, init?: RequestInit | undefined) => Promise<Response>, private endpoint: string) {}
+    constructor(private _fetch: FetchType, private endpoint: string) {}
+
+    fetchWithDetect: FetchType = async (...params) => {
+        try {
+            const res = await this._fetch(...params);
+            this.isEndpointUp = true;
+            return res;
+        } catch (error) {
+            this.isEndpointUp = false;
+            throw error;
+        }
+    }
 
     async testEndpoint() {
         try {
@@ -18,7 +31,7 @@ export default class NexrayAPIClient {
     }
 
     async captureRequest(data: ServerComponentRequest) {
-        await this._fetch(`${this.endpoint}/capture-request`, {
+        await this.fetchWithDetect(`${this.endpoint}/capture-request`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -28,12 +41,12 @@ export default class NexrayAPIClient {
     }
 
     async readRequests(afterTime?: number) {
-        const _res = await this._fetch(`${this.endpoint}/requests${afterTime ? '?after=' + afterTime : ''}`);
+        const _res = await this.fetchWithDetect(`${this.endpoint}/requests${afterTime ? '?after=' + afterTime : ''}`);
         return _res.json() as Promise<ServerComponentRequest[]>;
     }
 
     async deleteAllLogs() {
-        const deleteAllRes = await this._fetch(`${this.endpoint}/delete-all-logs`, {
+        const deleteAllRes = await this.fetchWithDetect(`${this.endpoint}/delete-all-logs`, {
             method: 'POST',
         });
         if (await deleteAllRes.text()) {

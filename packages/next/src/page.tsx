@@ -23,7 +23,6 @@ if (process && process.env.NODE_ENV === 'development') {
 }
 
 const ops = new NexrayAPIClient(_fetch, endpoint);
-ops.testEndpoint().then((res) => _consoles.log(`Tested local endpoint with response: ${res}`));
 
 export default function page<T extends NextAppServerComponentProps | undefined>(componentGenerator: (props: T) => NexrayComponentReturnType) {
     if (process.env.NODE_ENV !== "development") { // TODO: optional prod
@@ -33,7 +32,7 @@ export default function page<T extends NextAppServerComponentProps | undefined>(
     return async (props: T) => {
         const fetchReadPromises: Promise<any>[] = [];
         const requestId = headers().get('nexray-mw-id');
-        const requestUrl = headers().get('nexray-mw-ur');
+        const requestUrl = headers().get('nexray-mw-url');
         if (requestId === null || requestUrl === null) {
             throw new Error(
                 "Nexray could not find the required headers to process this request. " +
