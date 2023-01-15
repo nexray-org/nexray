@@ -7,7 +7,6 @@ import { useContext } from 'react';
 import { UiContext } from '../context/UiContext';
 import Image from 'next/image';
 import MainContent from '../components/MainContext';
-import FilterGroups from '../modals/FilterGroups';
 import { Allotment } from 'allotment';
 import 'allotment/dist/style.css';
 import Sidebar from '../components/Sidebar';
@@ -70,7 +69,6 @@ export default function Inspect() {
                     </Allotment>
                 </div>
             </div>
-            <FilterGroups />
         </Root>
     );
 }

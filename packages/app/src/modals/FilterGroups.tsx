@@ -7,6 +7,7 @@ import clsx from 'clsx';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 
+// This modal is not used yet
 export default function FilterGroups() {
     const { isFilterGroupDialogOpen, setIsFilterGroupDialogOpen } = useContext(UiContext);
     const [selectedFilterRange, setSelectedFilterRange] = useState<[Dayjs, Dayjs]>([dayjs().subtract(1, 'day'), dayjs()]);

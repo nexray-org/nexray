@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Input, InputProps } from '@geist-ui/core';
-import { BsFillCaretDownFill } from 'react-icons/bs';
 import clsx from 'clsx';
 import { UiContext } from '../../context/UiContext';
 import useDebounce from '../../hooks/useDebounce';
@@ -14,7 +13,7 @@ const EndAdornment = ({ children }: { children: React.ReactNode }) => (
             </div>
         </div>
 
-        <BsFillCaretDownFill className='text-g-primary-300 hover:text-g-primary-200' />
+        {/* <BsFillCaretDownFill className='text-g-primary-300 hover:text-g-primary-200' /> */}
     </div>
 );
 
@@ -59,8 +58,6 @@ export default function SearchBar(props: Partial<InputProps>) {
             ref={inputRef}
             placeholder='Search'
             iconRight={os ? <EndAdornment>{os === 'mac' ? '⌘' : 'ctrl'} + K</EndAdornment> : <></>}
-            iconClickable
-            onIconClick={() => setIsFilterGroupDialogOpen(true)}
             {...props}
             value={localSearchVal}
             onChange={e => setLocalSearchVal(e.target.value)}
