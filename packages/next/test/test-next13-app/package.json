@@ -1,7 +1,6 @@
 {
   "name": "test-next13-app",
   "version": "0.1.0",
-  "private": true,
   "scripts": {
     "dev": "next dev -p 4293",
     "build": "next build",
