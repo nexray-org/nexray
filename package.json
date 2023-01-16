@@ -1,5 +1,5 @@
 {
-  "name": "nexray",
+  "name": "@nexray/root",
   "version": "0.1.0-alpha",
   "description": "\"# Nexray\"",
   "workspaces": [
