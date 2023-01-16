@@ -9,8 +9,8 @@
     "clean": "pnpm --filter \"*\" clean && shx rm -rf pnpm-lock.yaml node_modules",
     "prettier-format": "prettier --config prettier.config.js 'packages/*/src/**/*{.ts,.tsx,.js,.jsx}' --write",
     "find-circular-deps": "pnpx madge --circular --extensions ts,tsx packages/",
-    "publish-packages": "turbo build && changeset version && changeset publish",
-    "publish-prerelease-packages": "turbo build && changeset version && git add . && git commit -m \"Version packages\" && changeset publish && git push --follow-tags"
+    "publish-commit": "git add . && git commit -m \"Version packages\"",
+    "publish-packages": "pnpm i && turbo build && changeset version && pnpm run publish-commit && pnpm publish -r && git push --follow-tags"
   },
   "author": "nexray-org",
   "devDependencies": {

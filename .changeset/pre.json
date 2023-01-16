@@ -9,7 +9,10 @@
     "@nexray/next": "0.1.0-alpha",
     "@nexray/server": "0.1.0-alpha",
     "@nexray/start": "0.1.0-alpha",
-    "@nexray/types": "0.1.0-alpha"
+    "@nexray/types": "0.1.0-alpha",
+    "nexray": "0.1.0-alpha"
   },
-  "changesets": []
+  "changesets": [
+    "great-carrots-cough"
+  ]
 }
