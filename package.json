@@ -12,6 +12,7 @@
   },
   "author": "dilan-dio4",
   "devDependencies": {
+    "@changesets/cli": "^2.26.0",
     "@next/eslint-plugin-next": "^13.0.7",
     "@types/expect": "^24.3.0",
     "@types/mocha": "^10.0.1",
