@@ -9,9 +9,10 @@
     "clean": "pnpm --filter \"*\" clean && shx rm -rf pnpm-lock.yaml node_modules",
     "prettier-format": "prettier --config prettier.config.js 'packages/*/src/**/*{.ts,.tsx,.js,.jsx}' --write",
     "find-circular-deps": "pnpx madge --circular --extensions ts,tsx packages/",
-    "publish-packages": "turbo build && changeset version && changeset publish"
+    "publish-packages": "turbo build && changeset version && changeset publish",
+    "publish-prerelease-packages": "turbo build && changeset version && git add . && git commit -m \"Enter prerelease mode and version packages\" && changeset publish && git push --follow-tags"
   },
-  "author": "dilan-dio4",
+  "author": "nexray-org",
   "devDependencies": {
     "@changesets/cli": "^2.26.0",
     "@next/eslint-plugin-next": "^13.0.7",
