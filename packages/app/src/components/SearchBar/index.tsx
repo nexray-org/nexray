@@ -7,7 +7,11 @@ import useIsMounted from '../../hooks/useIsMounted';
 
 const EndAdornment = ({ children }: { children: React.ReactNode }) => (
     <div className='relative'>
-        <div className='group-focus-within:opacity-0 transition-opacity opacity-100 absolute h-[20px] left-[-36px] my-auto top-0 bottom-0 cursor-default'>
+        <div className={clsx(
+                'group-focus-within:opacity-0 transition-opacity opacity-100 h-[20px] cursor-default',
+                // 'absolute left-[-36px] my-auto top-0 bottom-0', OLD POSITIONING
+                'mr-[30px]', // New positioning
+            )}>
             <div className='flex-center h-[20px]'>
                 <p className='text-g-primary-400 whitespace-nowrap text-xs m-0'>{children}</p>
             </div>
