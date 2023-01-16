@@ -10,13 +10,7 @@ import styles from './selection.module.css';
 export const itemSize = 140;
 
 export const CategoryListButton: FixedSizeListProps<ServerComponentRequest[]>['children'] = ({ index, style }) => {
-    const {
-        selectedCategoryId,
-        setSelectedCategoryId,
-        data,
-        filteredData,
-        dataSearchVal
-    } = useContext(UiContext);
+    const { selectedCategoryId, setSelectedCategoryId, data, filteredData, dataSearchVal } = useContext(UiContext);
     const item = dataSearchVal ? filteredData[index] : data[index];
 
     if (!item) {
@@ -28,19 +22,18 @@ export const CategoryListButton: FixedSizeListProps<ServerComponentRequest[]>['c
         const escapedSearchString = dataSearchVal.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         const searchRegex = new RegExp(escapedSearchString, 'i'); // Cannot use g because global match doesn't return indexes
 
-        const match = itemRoute.match(searchRegex)
+        const match = itemRoute.match(searchRegex);
         if (match && match[0]) {
             return [
                 itemRoute.slice(0, match.index),
                 // <mark>{itemRoute.slice(match.index, match[0].length)}</mark>,
                 <span className={clsx(styles['with-selection'])}>{itemRoute.slice(match.index, match[0].length)}</span>,
-                itemRoute.slice(match.index! + match[0].length)
-            ]
+                itemRoute.slice(match.index! + match[0].length),
+            ];
         } else {
-            return itemRoute
+            return itemRoute;
         }
     }
-
 
     return (
         <div

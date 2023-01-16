@@ -9,7 +9,7 @@ export type DeepType = {
     filepath: string;
     name: string;
     async: boolean;
-}
+};
 
 export type Child = {
     type: string | DeepType;

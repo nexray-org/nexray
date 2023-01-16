@@ -43,7 +43,7 @@ const Row = ({
                     }}
                     className='flex items-center'
                 >
-                    {typeof node.type === "string" ? (
+                    {typeof node.type === 'string' ? (
                         <span className={clsx(rootTextClassName, 'font-mono pl-4')}>&#8220;{node.type}&#8221;</span>
                     ) : (
                         <>
@@ -78,7 +78,7 @@ const Row = ({
                             </>
                         )}
                     </div>
-                    {typeof node.type === "string" ? (
+                    {typeof node.type === 'string' ? (
                         <span className={clsx(rootTextClassName, 'text-[#79ffe1]')}>{node.type}</span>
                     ) : (
                         <>

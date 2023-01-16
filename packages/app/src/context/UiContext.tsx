@@ -18,7 +18,7 @@ interface IUiContext {
     itemContentStrings: Record<ServerComponentRequest['timeline'][number]['type'] | 'combined', string> | undefined;
     dataSearchVal: string;
     setDataSearchVal: React.Dispatch<React.SetStateAction<string>>;
-    filteredData: ServerComponentRequest[]
+    filteredData: ServerComponentRequest[];
 }
 
 export const UiContext = createContext<IUiContext>({} as IUiContext);
@@ -29,14 +29,14 @@ export function UiProvider({ children }: { children: React.ReactNode | JSX.Eleme
     const [isFilterGroupDialogOpen, setIsFilterGroupDialogOpen] = useState<boolean>(false);
     const [selectedCategoryId, setSelectedCategoryId] = useState<string>('');
     const [data, setData] = useState<ServerComponentRequest[]>([]);
-    const [dataSearchVal, setDataSearchVal] = useState<string>("");
+    const [dataSearchVal, setDataSearchVal] = useState<string>('');
     const filteredData = useMemo(() => {
         if (!dataSearchVal) {
             return data;
         } else {
-            return data.filter(ele => ele.url.toLowerCase().includes(dataSearchVal.toLowerCase()))
+            return data.filter((ele) => ele.url.toLowerCase().includes(dataSearchVal.toLowerCase()));
         }
-    }, [dataSearchVal, data])
+    }, [dataSearchVal, data]);
 
     const activeItem = useMemo(() => data.find((ele) => ele.id === selectedCategoryId), [data, selectedCategoryId]);
     const itemContentStrings = useMemo(() => {
@@ -76,9 +76,9 @@ export function UiProvider({ children }: { children: React.ReactNode | JSX.Eleme
                 isFilterGroupDialogOpen,
                 setIsFilterGroupDialogOpen,
                 itemContentStrings,
-                dataSearchVal, 
+                dataSearchVal,
                 setDataSearchVal,
-                filteredData
+                filteredData,
             }}
         >
             {children}

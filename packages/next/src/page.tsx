@@ -25,7 +25,8 @@ if (process && process.env.NODE_ENV === 'development') {
 const ops = new NexrayAPIClient(_fetch, endpoint);
 
 export default function page<T extends NextAppServerComponentProps | undefined>(componentGenerator: (props: T) => NexrayComponentReturnType) {
-    if (process.env.NODE_ENV !== "development") { // TODO: optional prod
+    if (process.env.NODE_ENV !== 'development') {
+        // TODO: optional prod
         return componentGenerator;
     }
 
@@ -35,10 +36,10 @@ export default function page<T extends NextAppServerComponentProps | undefined>(
         const requestUrl = headers().get('nexray-mw-url');
         if (requestId === null || requestUrl === null) {
             throw new Error(
-                "Nexray could not find the required headers to process this request. " +
-                "Please make sure created file called `middleware.(j|t)s` in your project " +
-                "and add the line `export { middleware } from '@nexray/next'`."
-            )
+                'Nexray could not find the required headers to process this request. ' +
+                    'Please make sure created file called `middleware.(j|t)s` in your project ' +
+                    "and add the line `export { middleware } from '@nexray/next'`.",
+            );
         }
         const requestData: OptionalExcept<ServerComponentRequest, 'id' | 'timeline' | 'fetches' | 'url'> = {
             id: requestId,
@@ -136,7 +137,9 @@ export default function page<T extends NextAppServerComponentProps | undefined>(
             const diff = time - renderStartTime!;
             requestData.durationMs = diff;
             requestData.timeline.push({
-                content: `${time} - Page returned ${children === null ? "null" : "undefined"}. No page to render to HTML and send to client Render time: ${diff}`,
+                content: `${time} - Page returned ${
+                    children === null ? 'null' : 'undefined'
+                }. No page to render to HTML and send to client Render time: ${diff}`,
                 type: 'event',
                 time,
             });

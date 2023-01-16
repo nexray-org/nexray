@@ -15,7 +15,7 @@ export default class NexrayAPIClient {
             this.isEndpointUp = false;
             throw error;
         }
-    }
+    };
 
     async testEndpoint() {
         try {
