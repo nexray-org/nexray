@@ -1,6 +1,6 @@
 {
   "name": "@nexray/start",
-  "version": "1.0.0",
+  "version": "0.1.0-alpha",
   "main": "build/index.js",
   "scripts": {
     "test": "ts-mocha --paths test/**/*.spec.ts --timeout 50000",
@@ -19,7 +19,7 @@
   "dependencies": {
     "@esm2cjs/execa": "6.1.1-cjs.1",
     "@nexray/app": "workspace:*",
-    "@nexray/json-finder": "workspace:^1.0.0",
+    "@nexray/json-finder": "workspace:*",
     "@nexray/server": "workspace:*",
     "open": "^8.4.0",
     "sqlite3": "^5.1.4"

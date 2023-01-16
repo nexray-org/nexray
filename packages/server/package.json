@@ -1,6 +1,6 @@
 {
   "name": "@nexray/server",
-  "version": "1.0.0",
+  "version": "0.1.0-alpha",
   "main": "build/index.js",
   "scripts": {
     "test": "ts-mocha --paths test/**/*.spec.ts --timeout 50000",
@@ -16,7 +16,7 @@
     "fastify": "^4.10.2"
   },
   "devDependencies": {
-    "@nexray/types": "workspace:^1.0.0",
+    "@nexray/types": "workspace:*",
     "@types/node": "^18.7.11"
   }
 }

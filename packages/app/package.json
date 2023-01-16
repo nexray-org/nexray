@@ -1,6 +1,6 @@
 {
   "name": "@nexray/app",
-  "version": "1.0.0",
+  "version": "0.1.0-alpha",
   "main": "build/index.js",
   "scripts": {
     "dev": "next dev -p 4295",
@@ -17,8 +17,8 @@
     "@geist-ui/core": "^2.3.8",
     "@headlessui/react": "^1.7.4",
     "@monaco-editor/react": "^4.4.6",
-    "@nexray/api-client": "workspace:^1.0.0",
-    "@nexray/json-finder": "workspace:^1.0.0",
+    "@nexray/api-client": "workspace:*",
+    "@nexray/json-finder": "workspace:*",
     "allotment": "^1.17.1",
     "clsx": "^1.2.1",
     "date-fns": "^2.29.3",
@@ -44,7 +44,7 @@
     "use-async-effect": "^2.2.7"
   },
   "devDependencies": {
-    "@nexray/types": "workspace:^1.0.0",
+    "@nexray/types": "workspace:*",
     "@tailwindcss/line-clamp": "^0.4.2",
     "@types/lodash.clonedeep": "^4.5.7",
     "@types/node": "^18.7.11",

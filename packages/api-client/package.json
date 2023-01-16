@@ -1,6 +1,6 @@
 {
   "name": "@nexray/api-client",
-  "version": "1.0.0",
+  "version": "0.1.0-alpha",
   "main": "build/index.js",
   "scripts": {
     "test": "ts-mocha --paths test/**/*.spec.ts --timeout 50000",
@@ -9,6 +9,6 @@
     "clean": "shx rm -rf build pnpm-lock.yaml node_modules tsconfig.package.tsbuildinfo"
   },
   "devDependencies": {
-    "@nexray/types": "workspace:^1.0.0"
+    "@nexray/types": "workspace:*"
   }
 }
