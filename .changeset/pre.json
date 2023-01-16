@@ -4,6 +4,7 @@
   "initialVersions": {
     "@nexray/api-client": "0.1.0-alpha",
     "@nexray/app": "0.1.0-alpha",
+    "@nexray/app-playground": "0.1.0-alpha",
     "@nexray/json-finder": "0.1.0-alpha",
     "@nexray/next": "0.1.0-alpha",
     "@nexray/server": "0.1.0-alpha",

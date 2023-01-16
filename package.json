@@ -10,7 +10,7 @@
     "prettier-format": "prettier --config prettier.config.js 'packages/*/src/**/*{.ts,.tsx,.js,.jsx}' --write",
     "find-circular-deps": "pnpx madge --circular --extensions ts,tsx packages/",
     "publish-packages": "turbo build && changeset version && changeset publish",
-    "publish-prerelease-packages": "turbo build && changeset version && git add . && git commit -m \"Enter prerelease mode and version packages\" && changeset publish && git push --follow-tags"
+    "publish-prerelease-packages": "turbo build && changeset version && git add . && git commit -m \"Version packages\" && changeset publish && git push --follow-tags"
   },
   "author": "nexray-org",
   "devDependencies": {
