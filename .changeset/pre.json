@@ -13,6 +13,7 @@
     "nexray": "0.1.0-alpha"
   },
   "changesets": [
+    "bright-shrimps-fix",
     "great-carrots-cough"
   ]
 }
