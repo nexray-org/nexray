@@ -8,7 +8,6 @@ import * as reactIs from 'react-is';
 import serializeResponse from './serializeResponse';
 import { NexrayComponentReturnType, NexrayComponentReturnTypePromise } from './jsxTypes';
 import { nanoid } from 'nanoid';
-import "server-only";
 
 let endpoint = process.env['NEXRAY_ENDPOINT'] || '';
 
