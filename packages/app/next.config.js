@@ -5,9 +5,7 @@ const nextConfig = {
   swcMinify: true,
   images: {
     unoptimized: true
-  },
-  // https://nextjs.org/docs/advanced-features/output-file-tracing
-  output: "standalone",
+  }
 };
 
 module.exports = nextConfig;

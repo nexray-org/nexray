@@ -1,3 +1,5 @@
+// Copied from standalone next.js build - only `dir` is changed
+
 const NextServer = require('next/dist/server/next-server').default;
 const http = require('http');
 const path = require('path');
@@ -32,7 +34,7 @@ server.listen(currentPort, (err) => {
     const nextServer = new NextServer({
         hostname: 'localhost',
         port: currentPort,
-        dir: path.join(__dirname),
+        dir: path.join(__dirname, '../', 'node_modules/@nexray/app'),
         dev: false,
         customServer: false,
         conf: {

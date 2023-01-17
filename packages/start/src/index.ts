@@ -22,7 +22,7 @@ async function main() {
     if (process.env['IS_DEV']) {
         console.log('Running nexray in dev mode');
     } else {
-        await import('./app/server');
+        await import('./server');
     }
 
     startServer('local');

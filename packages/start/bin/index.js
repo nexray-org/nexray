@@ -74,6 +74,7 @@ if (+major < 14) {
     process.exit(1);
 }
 // Based on devtools: https://github.com/facebook/react/blob/main/packages/react-devtools/bin.js
+process.env.PORT = process.env.PORT || "4295";
 function main() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
@@ -82,13 +83,13 @@ function main() {
                     if (!process.env['IS_DEV']) return [3 /*break*/, 1];
                     console.log('Running nexray in dev mode');
                     return [3 /*break*/, 3];
-                case 1: return [4 /*yield*/, Promise.resolve().then(function () { return __importStar(require('./app/server')); })];
+                case 1: return [4 /*yield*/, Promise.resolve().then(function () { return __importStar(require('./server')); })];
                 case 2:
                     _a.sent();
                     _a.label = 3;
                 case 3:
                     (0, server_1.default)('local');
-                    (0, open_1.default)("http://localhost:".concat(parseInt(process.env.PORT || '', 10) || 3000));
+                    (0, open_1.default)("http://localhost:".concat(parseInt(process.env.PORT, 10)));
                     return [2 /*return*/];
             }
         });
