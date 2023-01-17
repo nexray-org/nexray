@@ -16,6 +16,7 @@ if (+major < 14) {
 }
 
 // Based on devtools: https://github.com/facebook/react/blob/main/packages/react-devtools/bin.js
+process.env.PORT = process.env.PORT || "4295";
 
 async function main() {
     if (process.env['IS_DEV']) {
@@ -25,7 +26,7 @@ async function main() {
     }
 
     startServer('local');
-    open(`http://localhost:${parseInt(process.env.PORT || '', 10) || 3000}`);
+    open(`http://localhost:${parseInt(process.env.PORT!, 10)}`);
 }
 
 main();
