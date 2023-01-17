@@ -1,5 +1,17 @@
 # @nexray/app
 
+## 0.1.0-alpha.3
+
+### Minor Changes
+
+-   Trying new method to detect the node_modules/ folder in start that will host the app package
+
+### Patch Changes
+
+-   Updated dependencies
+    -   @nexray/api-client@0.1.0-alpha.3
+    -   @nexray/json-finder@0.1.0-alpha.3
+
 ## 0.1.0-alpha.2
 
 ### Minor Changes

@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 // Copied from standalone next.js build - only `dir` is changed
 
 const NextServer = require('next/dist/server/next-server').default;
 const http = require('http');
 const path = require('path');
+const fs = require('fs');
 process.env.NODE_ENV = 'production';
 process.chdir(__dirname);
 
@@ -24,7 +26,28 @@ const server = http.createServer(async (req, res) => {
         res.end('internal server error');
     }
 });
+
 const currentPort = parseInt(process.env.PORT, 10) || 3000;
+
+function findNMFolder() {
+    const rootProjectDirname = path.join(__dirname, "../")
+    if (process.env.VERBOSE) {
+        console.log("start findNMFolder __dirname", __dirname, " and rootProjectDirname ", rootProjectDirname);
+    }
+    const pathPostfix = 'node_modules/@nexray/app/';
+    const possiblePaths = [
+        path.join(rootProjectDirname, pathPostfix),
+        path.join(rootProjectDirname, '../', pathPostfix),
+        path.join(rootProjectDirname, '../', '../', pathPostfix),
+    ]
+    for (const currentPath of possiblePaths) {
+        if (fs.existsSync(currentPath)) {
+            return currentPath;
+        } else if (process.env.VERBOSE) {
+            console.log("Did not find .next dir in ", currentPath);
+        }
+    }
+}
 
 server.listen(currentPort, (err) => {
     if (err) {
@@ -34,7 +57,7 @@ server.listen(currentPort, (err) => {
     const nextServer = new NextServer({
         hostname: 'localhost',
         port: currentPort,
-        dir: path.join(__dirname, '../', 'node_modules/@nexray/app'),
+        dir: findNMFolder(),
         dev: false,
         customServer: false,
         conf: {

@@ -1,4 +1,5 @@
 "use strict";
+/* eslint-disable @typescript-eslint/no-var-requires */
 // Copied from standalone next.js build - only `dir` is changed
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -39,6 +40,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var NextServer = require('next/dist/server/next-server').default;
 var http = require('http');
 var path = require('path');
+var fs = require('fs');
 process.env.NODE_ENV = 'production';
 process.chdir(__dirname);
 // Make sure commands gracefully respect termination signals (e.g. from Docker)
@@ -69,6 +71,27 @@ var server = http.createServer(function (req, res) { return __awaiter(void 0, vo
     });
 }); });
 var currentPort = parseInt(process.env.PORT, 10) || 3000;
+function findNMFolder() {
+    var rootProjectDirname = path.join(__dirname, "../");
+    if (process.env.VERBOSE) {
+        console.log("start findNMFolder __dirname", __dirname, " and rootProjectDirname ", rootProjectDirname);
+    }
+    var pathPostfix = 'node_modules/@nexray/app/';
+    var possiblePaths = [
+        path.join(rootProjectDirname, pathPostfix),
+        path.join(rootProjectDirname, '../', pathPostfix),
+        path.join(rootProjectDirname, '../', '../', pathPostfix),
+    ];
+    for (var _i = 0, possiblePaths_1 = possiblePaths; _i < possiblePaths_1.length; _i++) {
+        var currentPath = possiblePaths_1[_i];
+        if (fs.existsSync(currentPath)) {
+            return currentPath;
+        }
+        else if (process.env.VERBOSE) {
+            console.log("Did not find .next dir in ", currentPath);
+        }
+    }
+}
 server.listen(currentPort, function (err) {
     if (err) {
         console.error('Failed to start server', err);
@@ -77,7 +100,7 @@ server.listen(currentPort, function (err) {
     var nextServer = new NextServer({
         hostname: 'localhost',
         port: currentPort,
-        dir: path.join(__dirname, '../', 'node_modules/@nexray/app'),
+        dir: findNMFolder(),
         dev: false,
         customServer: false,
         conf: {

@@ -1,6 +1,6 @@
 {
   "name": "@nexray/app-playground",
-  "version": "0.1.0-alpha.2",
+  "version": "0.1.0-alpha.3",
   "scripts": {
     "build": "echo \"Skip Next.js build\"",
     "deploy": "next build",

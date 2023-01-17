@@ -1,14 +1,14 @@
 {
   "name": "nexray",
-  "version": "0.1.0-alpha.2",
+  "version": "0.1.0-alpha.3",
   "main": "build/index.js",
   "scripts": {
     "test": "ts-mocha --paths test/**/*.spec.ts --timeout 50000",
     "prebuild": "shx rm -f tsconfig.package.tsbuildinfo",
     "build": "tsc -p ./tsconfig.json",
     "clean": "shx rm -rf build pnpm-lock.yaml node_modules tsconfig.package.tsbuildinfo",
-    "env:start": "IS_DEV=1 node bin/index.js",
-    "start": "node bin/index.js"
+    "env:start": "IS_DEV=1 VERBOSE=1 node bin/index.js",
+    "start": "VERBOSE=1 node bin/index.js"
   },
   "devDependencies": {
     "@types/node": "^18.7.11",
