@@ -25,9 +25,11 @@ export function ApiProvider({ children }: { children: React.ReactNode | JSX.Elem
     async function _start(endpoint: string, refreshInterval: number) {
         apiClientRef.current = new APIClient(fetchWrapper, endpoint);
 
-        const apiUp = await apiClientRef.current.testEndpoint();
-        if (!apiUp) {
-            // TODO: alert user of dead api
+        let apiUp = await apiClientRef.current.testEndpoint();
+        while (!apiUp) {
+            console.error("No API output has been detected")
+            await new Promise(resolve => setTimeout(resolve, refreshInterval));
+            apiUp = await apiClientRef.current.testEndpoint();
         }
 
         let _lastTimeCache: number | undefined = undefined;
