@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 // Copied from standalone next.js build - only `dir` is changed
+// Source here: https://github.com/vercel/next.js/blob/cefb30b32bc05fcb46058a6e8b1ff545fb9ddf1d/packages/next/src/build/utils.ts#L1732
 
 const NextServer = require('next/dist/server/next-server').default;
 const http = require('http');
@@ -149,5 +150,5 @@ server.listen(currentPort, (err) => {
     });
     handler = nextServer.getRequestHandler();
 
-    console.log('Listening on port', currentPort, 'url: http://localhost:' + currentPort);
+    console.log(`If Nexray did not automatically open, head to http://localhost:${currentPort} in your preferred web browser`);
 });

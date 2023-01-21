@@ -7,6 +7,7 @@ import OutputSearch from '../Output/OutputSearch';
 import ControlSnippet from '../ControlSnippet';
 import { MainContentContext } from '../../../context/MainContentContext';
 import numbro from 'numbro';
+import TabChin from '../TabChin';
 
 export default function Insights() {
     const { config } = useContext(UiContext);
@@ -25,7 +26,7 @@ export default function Insights() {
     return (
         <div className='relative group monaco-json-view'>
             <ControlSnippet copyText={insightFilter || JSON.stringify(discoveredObjs[selectedDiscoveredIndex][2], null, 2)} top={56} />
-            <div className='h-[43px] border-b border-b-gray-700 w-full flex items-center space-x-3 pl-3 pb-0.5'>
+            <TabChin>
                 <Button icon={<BsChevronLeft />} auto h='30px' type='default' pr={'7px'} pl={'6px'} className='!flex' onClick={() => setActiveTab('output')}>
                     <span className='text-[10px] tracking-tight'>BACK</span>
                 </Button>
@@ -69,7 +70,7 @@ export default function Insights() {
                         </span>
                     </>
                 )}
-            </div>
+            </TabChin>
             <MonacoWrapper
                 // Full screen - header - find bar - json path bar
                 height={`calc(100vh - 58px - 43px - 33px)`}

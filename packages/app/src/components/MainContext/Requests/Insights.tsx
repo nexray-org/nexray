@@ -9,6 +9,7 @@ import OutputSearch from './OutputSearch';
 import { formatBytes } from './utils';
 import Headers from './Headers';
 import ControlSnippet from '../ControlSnippet';
+import TabChin from '../TabChin';
 
 export default function Insights() {
     const { activeItem, config } = useContext(UiContext);
@@ -42,7 +43,7 @@ export default function Insights() {
                 !responseJSON && !isShowingHeaders && 'monaco-request-log-view',
             )}
         >
-            <div className='h-[43px] border-b border-b-gray-700 w-full flex items-center space-x-3 px-3 pb-0.5'>
+            <TabChin>
                 <Button
                     icon={<BsChevronLeft />}
                     auto
@@ -107,7 +108,7 @@ export default function Insights() {
                 ) : (
                     <span className={clsx(statBadgeClassName, statBadgeErrorClassName)}>Request Failed</span>
                 )}
-            </div>
+            </TabChin>
             {isShowingHeaders ? (
                 <Headers
                     request={

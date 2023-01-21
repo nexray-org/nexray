@@ -8,9 +8,7 @@ import cloneDeep from 'lodash.clonedeep';
 import { Child } from '@nexray/types';
 import clsx from 'clsx';
 import useDeviceSize from '../../../hooks/useDeviceSize';
-import KeyValue from './KeyValue';
-import { Button } from '@geist-ui/core';
-import { AiOutlineClose } from 'react-icons/ai';
+import SideMenu from './SideMenu';
 
 export default function Tree() {
     const { activeItem } = useContext(UiContext);
@@ -57,7 +55,7 @@ export default function Tree() {
             }
         };
 
-        const flattenTopLevel = (treeData: Child[]) => {
+        const flattenTopLevel = (treeData: Child[]): FlatChildrenWithInitData[] => {
             const result: FlatChildrenWithInitData[] = [];
             const path: string[] = [];
             for (const node of treeData) {
@@ -66,7 +64,26 @@ export default function Tree() {
             return result;
         };
 
-        return flattenTopLevel(activeItem?.children || []);
+        const addRootServerComponent = (treeData: FlatChildrenWithInitData[]): FlatChildrenWithInitData[] => {
+            treeData.forEach(flatChildWithInitData => {
+                flatChildWithInitData.depth += 1;
+                flatChildWithInitData.path = ["root", ...flatChildWithInitData.path];
+            })
+            return [
+                {
+                    depth: 1,
+                    hasChildren: treeData.length > 0,
+                    id: "root",
+                    is: "component",
+                    path: [],
+                    propsWithoutChildren: activeItem?.props,
+                    type: "Page",
+                },
+                ...treeData
+            ]
+        }
+
+        return addRootServerComponent(flattenTopLevel(activeItem?.children || []));
     }, []);
 
     const flatDataWithState = useMemo(() => {
@@ -92,9 +109,9 @@ export default function Tree() {
 
     return (
         <div className='flex border-t border-t-g-primary-700 mt-[4px]'>
-            <div className={clsx('pt-[4px] flex w-full', selectedNodeId && 'basis-1/2')}>
+            <div className={clsx('flex w-full', selectedNodeId && 'basis-1/2')}>
                 <QuickList<FlatChildrenWithInitData[]>
-                    height={height - 46 - 4 - 4 - 11}
+                    height={height - 46 - 11}
                     itemCount={flatDataWithState.length}
                     itemSize={rowHeight}
                     itemKey={(index) => flatDataWithState[index].id}
@@ -102,22 +119,24 @@ export default function Tree() {
                     className='flex'
                 />
             </div>
-            {selectedNodeId && (
-                <div className={clsx('flex basis-1/2 border-l border-l-g-primary-700 py-2')}>
-                    <div className='w-full'>
-                        <div className='border-b border-b-g-primary-700 px-4 pt-2'>
-                            <div className='flex justify-between'>
-                                <div>
-                                    <p className='text-lg font-bold leading-none m-0'>Component Props</p>
-                                    <p className='text-[12px] text-g-primary-400 leading-none mt-2 mb-4'>*children prop is omitted</p>
-                                </div>
-                                <Button icon={<AiOutlineClose />} width={0.25} px={0} scale={1} onClick={() => setSelectedNodeId('')} />
-                            </div>
+            {(selectedNodeId) && (
+                <SideMenu
+                    itemProps={flatDataWithState.find((ele) => ele.id === selectedNodeId)?.propsWithoutChildren}
+                    onClose={() => setSelectedNodeId('')}
+                    title={selectedNodeId === "root" ? (
+                        <div>
+                            <p className='text-lg font-bold leading-none m-0'>Server Page Props</p>
+                            <p className='text-[12px] text-g-primary-400 leading-none mt-2 mb-4'>These props are injected by Next</p>
                         </div>
-                        <KeyValue itemProps={flatDataWithState.find((ele) => ele.id === selectedNodeId)?.propsWithoutChildren} />
-                    </div>
-                </div>
+                    ) : (
+                        <div>
+                            <p className='text-lg font-bold leading-none m-0'>Component Props</p>
+                            <p className='text-[12px] text-g-primary-400 leading-none mt-2 mb-4'>*children prop is omitted</p>
+                        </div>
+                    )
+                    }
+                />
             )}
-        </div>
+        </div >
     );
 }
