@@ -9,6 +9,7 @@ export interface Config {
     insightsFontSize: number;
     insightsIndexesEnabled: boolean;
     parseFindJsonEnabled: boolean;
+    groupShowMS: boolean;
 }
 
 const defaultConfig: Config = {
@@ -19,6 +20,7 @@ const defaultConfig: Config = {
     insightsFontSize: 12,
     insightsIndexesEnabled: false,
     parseFindJsonEnabled: true,
+    groupShowMS: false,
 };
 
 let _configCache: Config | Record<string, any> = {};

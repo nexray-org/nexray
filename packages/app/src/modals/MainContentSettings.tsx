@@ -114,7 +114,7 @@ export default function MainContentSettings() {
                                 />
                                 <span className='text-sm ml-2.5'>Font size</span>
                             </div>
-                            <div className='items-center flex '>
+                            <div className='items-center flex'>
                                 <Toggle
                                     checked={config.get('insightsIndexesEnabled')}
                                     onChange={(e) => config.set('insightsIndexesEnabled', !config.get('insightsIndexesEnabled'))}
@@ -165,6 +165,13 @@ export default function MainContentSettings() {
                                         Are you sure?
                                     </Button>
                                 </Transition>
+                            </div>
+                            <div className='items-center flex'>
+                                <Toggle
+                                    checked={config.get('groupShowMS')}
+                                    onChange={(e) => config.set('groupShowMS', !config.get('groupShowMS'))}
+                                />
+                                <span className='text-sm ml-2.5 -mb-1.5'>Show group request time</span>
                             </div>
                         </div>
                     </Tabs.Item>

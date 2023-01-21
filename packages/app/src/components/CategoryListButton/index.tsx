@@ -10,7 +10,14 @@ import styles from './selection.module.css';
 export const itemSize = 140;
 
 export const CategoryListButton: FixedSizeListProps<ServerComponentRequest[]>['children'] = ({ index, style }) => {
-    const { selectedCategoryId, setSelectedCategoryId, data, filteredData, dataSearchVal } = useContext(UiContext);
+    const {
+        selectedCategoryId,
+        setSelectedCategoryId,
+        data,
+        filteredData,
+        dataSearchVal,
+        config
+    } = useContext(UiContext);
     const item = dataSearchVal ? filteredData[index] : data[index];
 
     if (!item) {
@@ -67,7 +74,11 @@ export const CategoryListButton: FixedSizeListProps<ServerComponentRequest[]>['c
             </div>
             <div className='flex items-center justify-between tracking-tight'>
                 <span className='text-xs font-semibold text-g-primary-200'>{dayjs(item.time).format('MM/DD/YYYY h:mm:ss A')}</span>
-                <span className='flex items-center font-mono text-[10px]'>{numbro(item.durationMs).format({ thousandSeparated: true })} MS</span>
+                {config.get("groupShowMS") ?
+                    <span className='flex items-center font-mono text-[10px]'>{numbro(item.durationMs).format({ thousandSeparated: true })} MS</span>
+                    :
+                    <span />
+                }
             </div>
         </div>
     );
