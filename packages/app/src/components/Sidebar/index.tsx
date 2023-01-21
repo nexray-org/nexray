@@ -1,5 +1,4 @@
 import { BsGithub, BsTerminalFill } from 'react-icons/bs';
-import { AiOutlineLink } from 'react-icons/ai';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
@@ -17,11 +16,11 @@ export default function Sidebar() {
                 </div>
             </Link>
 
-            <Link href={'/permalinks'}>
+            {/* <Link href={'/permalinks'}>
                 <div className={clsx(asPath === '/permalinks' && activeClassName, unactiveClassName)}>
                     <AiOutlineLink size={'22px'} className='text-inherit' />
                 </div>
-            </Link>
+            </Link> */}
 
             <a href='https://github.com/nexray-org/nexray' target={'_blank'} className='text-inherit'>
                 <div className={clsx(unactiveClassName)}>
