@@ -30,12 +30,11 @@ export const CategoryListButton: FixedSizeListProps<ServerComponentRequest[]>['c
         const searchRegex = new RegExp(escapedSearchString, 'i'); // Cannot use g because global match doesn't return indexes
 
         const match = itemRoute.match(searchRegex);
-        if (match && match[0]) {
+        if (match && match[0] && match.index !== undefined) {
             return [
                 itemRoute.slice(0, match.index),
-                // <mark>{itemRoute.slice(match.index, match[0].length)}</mark>,
-                <span className={clsx(styles['with-selection'])}>{itemRoute.slice(match.index, match[0].length)}</span>,
-                itemRoute.slice(match.index! + match[0].length),
+                <span className={clsx(styles['with-selection'])}>{itemRoute.slice(match.index, match.index + match[0].length)}</span>,
+                itemRoute.slice(match.index + match[0].length),
             ];
         } else {
             return itemRoute;
