@@ -1,6 +1,6 @@
 {
   "name": "@nexray/api-client",
-  "version": "0.1.0-alpha.3",
+  "version": "0.1.0-alpha.4",
   "main": "build/index.js",
   "scripts": {
     "test": "ts-mocha --paths test/**/*.spec.ts --timeout 50000",

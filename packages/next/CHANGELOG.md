@@ -1,5 +1,16 @@
 # @nexray/next
 
+## 0.1.0-alpha.4
+
+### Minor Changes
+
+-   Added config option to middleware and page to manually enable/disable nexray. Cleaned up package.json for beta release
+
+### Patch Changes
+
+-   Updated dependencies
+    -   @nexray/api-client@0.1.0-alpha.4
+
 ## 0.1.0-alpha.3
 
 ### Minor Changes
