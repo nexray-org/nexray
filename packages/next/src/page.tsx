@@ -8,23 +8,17 @@ import * as reactIs from 'react-is';
 import serializeResponse from './serializeResponse';
 import { NexrayComponentReturnType, NexrayComponentReturnTypePromise } from './jsxTypes';
 import { nanoid } from 'nanoid';
+import { IConfig, deriveConfig } from './config';
 
-let endpoint = process.env['NEXRAY_ENDPOINT'] || '';
-
-if (process && process.env.NODE_ENV === 'development') {
-    if (!endpoint) {
-        // check dev endpoint
-        endpoint = 'http://localhost:4296';
-    }
-} else {
-    // Check for remote db config with process.env.NEXRAY_KEY;
-}
-
+const endpoint = process.env['NEXRAY_ENDPOINT'] || 'http://localhost:4296';
 const ops = new NexrayAPIClient(_fetch, endpoint);
 
-export default function page<T extends NextAppServerComponentProps | undefined>(componentGenerator: (props: T) => NexrayComponentReturnType) {
-    if (process.env.NODE_ENV !== 'development') {
-        // TODO: optional prod
+export default function page<T extends NextAppServerComponentProps | undefined>(
+    componentGenerator: (props: T) => NexrayComponentReturnType,
+    config?: Partial<IConfig>
+) {
+    const safeConfig = deriveConfig(config);
+    if (!safeConfig.enabled) {
         return componentGenerator;
     }
 

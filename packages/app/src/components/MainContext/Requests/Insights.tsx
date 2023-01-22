@@ -16,10 +16,10 @@ export default function Insights() {
     const { setSelectedRequestForInsightId, selectedRequestForInsightId, setSelectedRequestsTab, requestInsightFilter } = useContext(MainContentContext);
     const [isShowingHeaders, setIsShowingHeaders] = useState<boolean>(false);
 
-    const activeRequest = useMemo(() => activeItem!.fetches[selectedRequestForInsightId], [selectedRequestForInsightId, activeItem]);
+    const activeRequest = useMemo(() => activeItem?.fetches[selectedRequestForInsightId], [selectedRequestForInsightId, activeItem]);
 
     const responseJSON = useMemo<false | Record<any, any> | any[]>(() => {
-        if (!activeRequest.response) {
+        if (!activeRequest?.response) {
             return false;
         }
 
@@ -35,6 +35,9 @@ export default function Insights() {
     const statBadgeSuccessClassName = 'bg-g-primary-700';
     const statBadgeErrorClassName = 'bg-g-error-300';
 
+    if (activeRequest === undefined) {
+        return <></>;
+    }
     return (
         <div
             className={clsx(
@@ -43,7 +46,7 @@ export default function Insights() {
                 !responseJSON && !isShowingHeaders && 'monaco-request-log-view',
             )}
         >
-            <TabChin>
+            <TabChin className='pr-3'>
                 <Button
                     icon={<BsChevronLeft />}
                     auto

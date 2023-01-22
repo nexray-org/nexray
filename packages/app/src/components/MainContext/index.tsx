@@ -13,17 +13,19 @@ import MainControls from './MainControls';
 
 function MainContent() {
     const { selectedCategoryId, activeItem, config, itemContentStrings } = useContext(UiContext);
-    const { setActiveTab, setDiscoveredObjs, tabsBindings, discoveredObjs, enabledTimelineTypes, selectedContentString } = useContext(MainContentContext);
+    const { setActiveTab, setDiscoveredObjs, tabsBindings, discoveredObjs, enabledTimelineTypes, selectedContentString, setSelectedRequestsTab } = useContext(MainContentContext);
     const workerRef = useRef<Worker>();
 
     useEffect(() => {
         setDiscoveredObjs(false);
+        setSelectedRequestsTab('table');
         if (activeItem && config.get('parseFindJsonEnabled') && selectedContentString && itemContentStrings) {
             workerRef.current = new Worker(new URL('./Insights/finder.worker.js', import.meta.url));
             workerRef.current.postMessage(itemContentStrings[selectedContentString]);
             workerRef.current.onmessage = (event: MessageEvent<DiscoveredObject[]>) => {
                 if (event.data.length > 0) {
                     setDiscoveredObjs(event.data);
+                    setActiveTab(prev => prev === "insights" ? "insights" : "output");
                 } else {
                     setDiscoveredObjs([]);
                     setActiveTab('output');

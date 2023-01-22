@@ -52,8 +52,6 @@ export default function Table() {
                                 >
                                     <td colSpan={6} className={clsx(rowClassName, 'text-left whitespace-nowrap overflow-ellipsis overflow-hidden')}>
                                         {ele.url}
-                                        {ele.url}
-                                        {ele.url}
                                     </td>
                                     <td colSpan={2} className={clsx(rowClassName, 'text-center')}>
                                         {<DisplayCheck checked={ele.response?.ok || false} className='mx-auto' />}
