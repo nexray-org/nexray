@@ -5,6 +5,11 @@
   "workspaces": [
     "packages/*"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nexray-org/nexray"
+  },
+  "license": "MIT",
   "scripts": {
     "clean": "pnpm --filter \"*\" clean && shx rm -rf pnpm-lock.yaml node_modules",
     "prettier-format": "prettier --config prettier.config.js 'packages/*/src/**/*{.ts,.tsx,.js,.jsx}' --write",
